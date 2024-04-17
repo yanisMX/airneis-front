@@ -1,0 +1,13 @@
+@import "@fortawesome/fontawesome-free/css/all.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    background: white;
+}
+
+.content-below-navbar {
+    padding-top: 100px; 
+  }

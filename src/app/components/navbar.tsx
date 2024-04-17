@@ -1,0 +1,81 @@
+import Link from 'next/link';
+
+const Navbar = () => {
+  // TODO: Implement authentication
+  const isLoggedIn = true;
+
+  return (
+    <>
+      <div className="fixed w-full z-10">
+        <div className="navbar bg-base-100 shadow rounded-2xl mt-8 w-5/6 md:w-4/6 lg:w-3/5 mx-auto">
+          <div className="flex-1">
+            <Link href="/" className="btn btn-ghost text-xl">
+            
+                <img src="/favicon.ico" alt="Airneis" className="w-10 h-10 me-2"/>
+                Airneis
+              
+            </Link>
+            <div className="dropdown dropdown-bottom">
+              <div tabIndex={0} role="button" className="btn btn-ghost">
+                Catégories
+              </div>
+              <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                <li><a>Meubles</a></li>
+                <li><a>Décoration</a></li>
+                <li><a>Luminaires</a></li>
+                <li><a>Textiles</a></li>
+              </ul>
+            </div>
+            <a role="button" className="btn btn-ghost" href="#">
+              Produits
+            </a>
+
+          </div>
+          <div className="flex-none">
+            <a role="button" className="btn btn-ghost rounded-full" href="#">
+              Rechercher<i className="fa-solid fa-magnifying-glass text-xl ms-1"></i>
+            </a>
+            <div className="dropdown dropdown-end">
+              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle flex flex-col justify-center">
+                <div className="indicator">
+                  <i className="fa-solid fa-cart-shopping text-xl"></i>
+                  <span className="badge badge-sm indicator-item">8</span>
+                </div>
+              </div>
+              <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">
+                <div className="card-body">
+                  <span className="font-bold text-lg">8 Items</span>
+                  <span className="text-info">Subtotal: $999</span>
+                  <div className="card-actions">
+                    <button className="btn btn-primary btn-block">View cart</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="dropdown dropdown-end">
+              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar flex flex-col justify-center">
+                <i className="fas fa-circle-user text-2xl"></i>
+              </div>
+              <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                {isLoggedIn ? (
+                  <>
+                    <li><a>Mon compte</a></li>
+                    <li><a>Commandes</a></li>
+                    <li><a>Se déconnecter</a></li>
+                  </>
+                ) : (
+                  <>
+                    <li><a>Connexion</a></li>
+                    <li><a>Inscription</a></li>
+                  </>
+                )}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default Navbar;
