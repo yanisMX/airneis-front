@@ -1,7 +1,7 @@
 "use client";
 
 
-const rechercher = () => {
+const SearchPage = () => {
     return(
         <section className="content-below-navbar">
             <div>Test</div>
@@ -9,4 +9,4 @@ const rechercher = () => {
     )
 }
 
-export default rechercher;
+export default SearchPage;

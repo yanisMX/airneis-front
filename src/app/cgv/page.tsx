@@ -2,7 +2,7 @@
 import React from "react";
 import NavBar from "../components/navbar";
 
-const CGV = () => {
+const ConditionsPage = () => {
     return (
         <>
         <NavBar />
@@ -35,4 +35,4 @@ const CGV = () => {
             </div>
             </>)}
 
-export default CGV;
+export default ConditionsPage;

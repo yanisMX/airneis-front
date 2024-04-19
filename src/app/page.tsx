@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Footer from "./components/footer";
 
-export default function Home() {
+export default function HomePage() {
   const products = [
     {
       id: 1,
@@ -94,3 +94,4 @@ export default function Home() {
     </>
   );
 }
+

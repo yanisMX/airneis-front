@@ -3,7 +3,7 @@ import { response } from "express";
 import {use, useState} from "react";
 import {useEffect} from "react";
 
-const Produits = () => {  
+const ProductsPage = () => {  
         
   const [products, setProducts] = useState<any[] | null>(null);
 
@@ -42,4 +42,4 @@ const Produits = () => {
     );
 }
 
-export default Produits;
+export default ProductsPage;

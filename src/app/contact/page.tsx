@@ -1,4 +1,4 @@
-const Contact = () => {
+const ContactPage = () => {
     return (
  
         <section className="bg-white dark:bg-gray-900 min-h-screen w-full content-below-navbar">
@@ -25,4 +25,4 @@ const Contact = () => {
     );
     }
 
-export default Contact;
+export default ContactPage;

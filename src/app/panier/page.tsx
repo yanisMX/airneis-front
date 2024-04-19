@@ -1,6 +1,6 @@
 "use client";
 
-const panier = () => {
+const CartPage = () => {
     return (
         <section>
             <h1>Panier</h1>
@@ -8,4 +8,4 @@ const panier = () => {
     )
 }
 
-export default panier;
+export default CartPage;

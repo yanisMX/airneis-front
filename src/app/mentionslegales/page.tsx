@@ -2,7 +2,7 @@
 import React from "react";
 import NavBar from "../components/navbar";
 
-const MentionsLegales = () => {
+const LegalMentionsPage = () => {
     return (
         <>
         <NavBar/>
@@ -38,4 +38,4 @@ const MentionsLegales = () => {
     );
 }
 
-export default MentionsLegales;
+export default LegalMentionsPage;
