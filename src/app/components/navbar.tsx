@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+
 const Navbar = () => {
   // TODO: Implement authentication
   const isLoggedIn = true;
@@ -17,24 +18,28 @@ const Navbar = () => {
             </Link>
             <div className="dropdown dropdown-bottom">
               <div tabIndex={0} role="button" className="btn btn-ghost">
+                
                 Catégories
               </div>
               <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                {/*<Link href="/cgv" className="link link-hover">Conditions générales de vente</Link>*/}
                 <li><a>Meubles</a></li>
                 <li><a>Décoration</a></li>
                 <li><a>Luminaires</a></li>
                 <li><a>Textiles</a></li>
               </ul>
             </div>
-            <a role="button" className="btn btn-ghost" href="#">
+            <Link role="button" className="btn btn-ghost" href="/produits">
               Produits
-            </a>
+            </Link>
 
           </div>
+          
           <div className="flex-none">
-            <a role="button" className="btn btn-ghost rounded-full" href="#">
+            <Link role="button" className="btn btn-ghost rounded-full" href="/rechercher">
               Rechercher<i className="fa-solid fa-magnifying-glass text-xl ms-1"></i>
-            </a>
+            </Link>
+
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle flex flex-col justify-center">
                 <div className="indicator">
@@ -47,7 +52,7 @@ const Navbar = () => {
                   <span className="font-bold text-lg">8 Items</span>
                   <span className="text-info">Subtotal: $999</span>
                   <div className="card-actions">
-                    <button className="btn btn-primary btn-block">View cart</button>
+                    <button className="btn btn-primary btn-block"><Link href="/panier">View cart</Link></button>
                   </div>
                 </div>
               </div>
