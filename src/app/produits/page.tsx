@@ -90,7 +90,7 @@ const products = [
                   <div className="card-actions space-between pt-4">
                   <p className="mt-auto pb-2.5">{product.price} €</p>
                     <button className="btn btn-primary">
-                      <a href="/produitDetails">Buy Now</a>
+                      <a href="/produitdetails">Buy Now</a>
                     </button>
                   </div>
                 </div>
