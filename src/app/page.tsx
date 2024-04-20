@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Footer from "./components/footer";
+import Image from "next/image";
 
 export default function HomePage() {
   const products = [
@@ -70,12 +71,12 @@ export default function HomePage() {
         </div>
         
         <div className="container m-3">
-          <h1 className="text-4xl font-bold text-center">Venant des hautes terres d'Ecosse, <br/> nos meubles sont immortels</h1>
+          <h1 className="text-4xl font-bold text-center">Venant des hautes terres d&apos;Ecosse, <br/> nos meubles sont immortels</h1>
           <div className="container flex justify-between">
             {products ? (
               products.map((product, i) => (
                 <div id={`category-Card${i}`} className="card w-80 bg-base-100 shadow-xl image-full pt-5" key={i}>
-                  <figure><img src={product.background} alt="Canapés" /></figure>
+                  <figure><img src={product.background} alt="Canapés" className="w-full h-full" /></figure>
                   <div className="card-body">
                     <h2 className="card-title">{product.name}</h2>
                     <p>{product.description}</p>
@@ -85,7 +86,9 @@ export default function HomePage() {
                   </div>
                 </div>
               ))
-            ) : (<p>Erreur de chargement</p>)}
+            ) : (<section className="h-full w-full p-20 flex justify-center ">
+            <progress className="progress w-56 flex"></progress>
+          </section>)}
           </div>
         </div>
       </div>

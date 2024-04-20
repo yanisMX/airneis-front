@@ -1,6 +1,6 @@
 "use client";
 
-const ProductPage = () => {
+const ProductDetailsPage = () => {
     return (
         <section>
             <h1>Product</h1>
@@ -8,4 +8,4 @@ const ProductPage = () => {
     )
 }
 
-export default ProductPage;
+export default ProductDetailsPage;
