@@ -31,7 +31,7 @@ useEffect(() => {
 });
     
   return (
-    <section className="content-below-navbar flex-1">
+    <section className="content-below-navbar flex-1 min-h-screen">
     <div className="flex flex-row flex-wrap gap-3">
       {products ? (
         products.map((product, i) => (
@@ -44,7 +44,7 @@ useEffect(() => {
                 <h2 className="card-title">{product.name}</h2>
                 <p className="text-ellipsis overflow-hidden" style={{ maxHeight: '4.5em', overflow: 'hidden' }}>{product.description}</p>
                 
-                <div className="card-actions space-between pt-4 flex-grow"> {/* Utilisation de flex-grow pour pousser les actions en bas */}
+                <div className="card-actions space-between pt-4 flex-grow"> 
                   <p className="mt-auto pb-2.5">{product.price} €</p>
                   <button className="btn btn-primary mt-auto" onClick={() => router.push(`/produitdetails/${product.slug}`)}>
                     Buy Now
