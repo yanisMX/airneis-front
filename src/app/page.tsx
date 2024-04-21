@@ -49,8 +49,8 @@ export default function HomePage() {
         <meta name="description" content="Airneis est un fournisseur de meubles de qualité et style pour votre intérieur. Découvrez notre sélection de meubles uniques et élégants. " />
       </Head>
 
-      <div className="h-screen pb-8 ">
-        <div className="carousel w-full h-3/5">
+      <div className="pb-8">
+        <div className="carousel w-full " style={{ height: '500px' }}>
           {products.map((product, i) => (
             <div id={`slide${i}`} key={i} className="carousel-item relative w-full">
               <img src={product.background} alt={product.name} className="w-full object-cover brightness-75" />
@@ -70,9 +70,9 @@ export default function HomePage() {
           ))}
         </div>
         
-        <div className="container m-3">
+        <div className="container m-3 mb-12">
           <h1 className="text-4xl font-bold text-center">Venant des hautes terres d&apos;Ecosse, <br/> nos meubles sont immortels</h1>
-          <div className="container flex justify-between">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {products ? (
               products.map((product, i) => (
                 <div id={`category-Card${i}`} className="card w-80 bg-base-100 shadow-xl image-full pt-5" key={i}>
@@ -92,7 +92,6 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      
     
     </>
   );

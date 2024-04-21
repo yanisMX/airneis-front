@@ -22,7 +22,6 @@ const Navbar = () => {
                 Catégories
               </div>
               <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                {/*<Link href="/cgv" className="link link-hover">Conditions générales de vente</Link>*/}
                 <li><a>Meubles</a></li>
                 <li><a>Décoration</a></li>
                 <li><a>Luminaires</a></li>
@@ -37,7 +36,7 @@ const Navbar = () => {
           
           <div className="flex-none">
             <Link role="button" className="btn btn-ghost rounded-full" href="/rechercher">
-              Rechercher<i className="fa-solid fa-magnifying-glass text-xl ms-1"></i>
+              <i className="fa-solid fa-magnifying-glass text-xl ms-1"></i>
             </Link>
 
             <div className="dropdown dropdown-end">
@@ -52,7 +51,7 @@ const Navbar = () => {
                   <span className="font-bold text-lg">8 Items</span>
                   <span className="text-info">Subtotal: $999</span>
                   <div className="card-actions">
-                    <button className="btn btn-primary btn-block"><Link href="/panier">View cart</Link></button>
+                  <Link href="/panier"> <button className="btn btn-primary btn-block">View cart</button></Link>
                   </div>
                 </div>
               </div>

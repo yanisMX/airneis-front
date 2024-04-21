@@ -31,34 +31,37 @@ useEffect(() => {
 });
     
   return (
-    <section className="content-below-navbar">
-      <div className="flex flex-row flex-wrap space-between gap-3">
-        {products ? (
-          products.map((product, i) => (
-            <article className="p-6" key={i}>
-              <div className="card w-60 bg-base-100 shadow-xl flex flex-col justify-between">
-                <figure className="w-60 h-20">
-                  <img src={"https://c1bb0d8a5f1d.airneis.net/medias/serve/" + product.images[0].filename} alt={product.name}/>
-                </figure>
-                <div className="card-body flex flex-col">
-                  <h2 className="card-title">{product.name}</h2>
-                  <p className="text-ellipsis overflow-hidden" style={{ maxHeight: '4.5em' }}>{product.description}</p>
-                  
-                  <div className="card-actions space-between pt-4">
+    <section className="content-below-navbar flex-1">
+    <div className="flex flex-row flex-wrap gap-3">
+      {products ? (
+        products.map((product, i) => (
+          <article className="p-6" key={i}>
+            <div className="card w-60 h-96 bg-base-100 shadow-xl flex flex-col "> {/* Hauteur fixe ajoutée ici */}
+              <figure className="w-60 h-20">
+                <img src={"https://c1bb0d8a5f1d.airneis.net/medias/serve/" + product.images[0].filename} alt={product.name}/>
+              </figure>
+              <div className="card-body flex flex-col">
+                <h2 className="card-title">{product.name}</h2>
+                <p className="text-ellipsis overflow-hidden" style={{ maxHeight: '4.5em', overflow: 'hidden' }}>{product.description}</p>
+                
+                <div className="card-actions space-between pt-4 flex-grow"> {/* Utilisation de flex-grow pour pousser les actions en bas */}
                   <p className="mt-auto pb-2.5">{product.price} €</p>
-                    <button className="btn btn-primary" onClick={() => router.push(`/produitdetails/${product.slug}`)}>
-                     Buy Now
-                    </button>
-                  </div>
+                  <button className="btn btn-primary mt-auto" onClick={() => router.push(`/produitdetails/${product.slug}`)}>
+                    Buy Now
+                  </button>
                 </div>
               </div>
-            </article>
-          ))
-        ):(<section className="h-full w-full p-20 flex justify-center ">
+            </div>
+          </article>
+        ))
+      ) : (
+        <section className="h-full w-full p-20 flex justify-center">
           <progress className="progress w-56 flex"></progress>
-        </section>)}
-           </div>
         </section>
+      )}
+    </div>
+  </section>
+  
     );
 }
 

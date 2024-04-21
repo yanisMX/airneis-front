@@ -4,9 +4,10 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className="bg-base-200">
+    
+    <div className="bg-base-200" >
       <div className="container mx-auto">
-        <footer className="footer p-10 text-base-content">
+        <footer className="footer p-10 text-base-content" >
           <nav>
             <h6 className="footer-title">Catégories</h6>
             <a className="link link-hover">Meubles</a>
@@ -16,8 +17,9 @@ const Footer = () => {
           </nav>
           <nav>
             <h6 className="footer-title">Entreprise</h6>
-            <a className="link link-hover">À propos</a>
+            <Link href="/presentation" className="link link-hover">Qui sommes-nous ?</Link>
             <Link href="/contact" className="link link-hover">Contact</Link>
+            <Link href="/apropos" className="link link-hover">À propos</Link>
           </nav>
           <nav>
             <h6 className="footer-title">Légal</h6>
