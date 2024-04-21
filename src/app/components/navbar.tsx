@@ -1,12 +1,42 @@
 "use client";
 import Link from 'next/link';
 import { useState } from 'react'; 
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation'
+
 
 
 const Navbar = () => {
   // TODO: Implement authentication
   const isLoggedIn = true;
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [categories, setCategories] = useState<any[] | null>(null);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch(`https://c1bb0d8a5f1d.airneis.net/api/products/?categories=`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const responseData = await response.json();
+      setCategories(responseData.categories);
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  });
+
+
+
 
   const handleClick = () => {
     setIsOpen(!isOpen);
@@ -65,10 +95,11 @@ const Navbar = () => {
                 Catégories
               </div>
               <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                <li><a>Meubles</a></li>
-                <li><a>Décoration</a></li>
-                <li><a>Luminaires</a></li>
-                <li><a>Textiles</a></li>
+                <li><button onClick={() => router.push(`/produits/}`)}>Meubles</button></li>
+                <li><button onClick={() => router.push(`/produits/`)}>Décoration</button></li>
+                <li><button onClick={() => router.push(`/produits/`)}>Luminaires</button></li>
+                <li><button onClick={() => router.push(`/produits/`)}>Textiles</button></li>
+               
               </ul>
             </div>
             <Link role="button" className="btn btn-ghost" href="/produits">
@@ -108,7 +139,7 @@ const Navbar = () => {
                   <>
                     <li><a>Mon compte</a></li>
                     <li><a>Commandes</a></li>
-                    <li><a>Se connecter</a></li>
+                    <li><a>Se déconnecter</a></li>
                   </>
                 ) : (
                   <>

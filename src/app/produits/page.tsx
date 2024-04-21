@@ -33,6 +33,9 @@ useEffect(() => {
   return (
     <section className="content-below-navbar flex-1 min-h-screen">
     <div className="flex flex-row flex-wrap gap-3">
+      <aside className="card w-60 h-96 bg-base-100 shadow-xl flex flex-col ">
+        <div>test</div>
+      </aside>
       {products ? (
         products.map((product, i) => (
           <article className="p-6" key={i}>
