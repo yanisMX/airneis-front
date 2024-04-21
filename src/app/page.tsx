@@ -54,7 +54,7 @@ export default function HomePage() {
       </Head>
 
       <div className="pb-8">
-        <div className="carousel w-full " style={{ height: '500px' }}>
+        <div className="carousel w-full h-[500px]" >
           {products.map((product, i) => (
             <div id={`slide${i}`} key={i} className="carousel-item relative w-full">
               <img src={product.background} alt={product.name} className="w-full object-cover brightness-75" />

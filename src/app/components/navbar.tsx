@@ -1,9 +1,16 @@
+"use client";
 import Link from 'next/link';
+import { useState } from 'react'; 
 
 
 const Navbar = () => {
   // TODO: Implement authentication
   const isLoggedIn = true;
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClick = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <>
@@ -16,7 +23,43 @@ const Navbar = () => {
                 Airneis
               
             </Link>
-            <div className="dropdown dropdown-bottom">
+            
+
+
+               <button className="sm:hidden btn btn-ghost text-xl" onClick={handleClick}>
+              <i className="fa-solid fa-bars"></i>
+            </button>
+            
+             {isOpen && (
+              <div className="flex flex-col items-start sm:hidden">
+                <Link href="/categories" className="hover:text-gray-400">Catégories</Link>
+                <Link href="/produits" className="hover:text-gray-400">Produits</Link>
+                <Link href="/rechercher" className="hover:text-gray-400">Rechercher</Link>
+                <Link href="/panier" className="hover:text-gray-400">Panier</Link>
+                {isLoggedIn ? (
+                  <>
+                    <Link href="/mon-compte" className="hover:text-gray-400">Mon compte</Link>
+                    <Link href="/commandes" className="hover:text-gray-400">Commandes</Link>
+                    <Link href="/deconnexion" className="hover:text-gray-400">Déconnexion</Link>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/connexion" className="hover:text-gray-400">Connexion</Link>
+                    <Link href="/inscription" className="hover:text-gray-400">Inscription</Link>
+                  </>
+                )}
+              </div>
+            )}
+            
+
+
+
+
+
+
+
+            
+            <div className="dropdown dropdown-bottom ">
               <div tabIndex={0} role="button" className="btn btn-ghost">
                 
                 Catégories
@@ -65,7 +108,7 @@ const Navbar = () => {
                   <>
                     <li><a>Mon compte</a></li>
                     <li><a>Commandes</a></li>
-                    <li><a>Se déconnecter</a></li>
+                    <li><a>Se connecter</a></li>
                   </>
                 ) : (
                   <>
@@ -76,8 +119,9 @@ const Navbar = () => {
               </ul>
             </div>
           </div>
+          </div>
         </div>
-      </div>
+      
     </>
   );
 }

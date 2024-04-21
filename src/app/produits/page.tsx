@@ -55,9 +55,16 @@ useEffect(() => {
           </article>
         ))
       ) : (
-        <section className="h-full w-full p-20 flex justify-center">
-          <progress className="progress w-56 flex"></progress>
-        </section>
+        <section className="content-below-navbar flex-1 min-h-screen">
+        
+        <div className="flex flex-col gap-4 w-52 ">
+  <div className="skeleton h-32 w-full"></div>
+  <div className="skeleton h-4 w-28"></div>
+  <div className="skeleton h-4 w-full"></div>
+  <div className="skeleton h-4 w-full"></div>
+
+</div>
+</section>
       )}
     </div>
   </section>
