@@ -4,7 +4,7 @@ const PresentationPage = () => {
     return (
         <div className="content-below-navbar min-h-screen flex flex-row justify-around" >
 
-        <section className="card w-96 h-80 hover:bg-logo-color hover:text-white text-danger-content">
+        <section className="card w-96 h-auto hover:bg-logo-color hover:text-white text-danger-content">
         <div className="card-body">
             <h2 className="card-title">Kenny Yu Tsuen <span><Link href="https://www.linkedin.com/in/yutsuenkenny/" target="_blank"><i className="fa-brands fa-linkedin text-2xl"/></Link></span></h2>
             <p className="text-white">J&apos;ai développé le back-end avec NestJs <br/>NestJS est un framework backend pour Node.js qui utilise TypeScript par défaut </p>
@@ -14,7 +14,7 @@ const PresentationPage = () => {
         </div>
         </section>  
 
-        <section className="card w-96 h-80 hover:bg-logo-color hover:text-white text-danger-content">
+        <section className="card w-96 h-auto hover:bg-logo-color hover:text-white text-danger-content">
         <div className="card-body">
             <h2 className="card-title">Florian Pescot Jourdan <span><Link href="https://www.linkedin.com/in/florian-pescot-1850b0239/" target="_blank"><i className="fa-brands fa-linkedin text-2xl"/></Link></span></h2>
             <p className="text-white">J&apos;ai développé le back-end avec NestJs <br/>NestJS est un framework backend pour Node.js qui utilise TypeScript par défaut </p>

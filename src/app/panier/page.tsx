@@ -3,7 +3,7 @@ import React from 'react';
 const CartPage = () => {
     return (
         // Flex container to center the child div
-        <div className="flex items-center justify-center min-h-screen"> 
+        <div className="flex items-center justify-center "> 
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-4/6">
                 <table className="w-full text-xs text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

@@ -75,7 +75,7 @@ export default function HomePage() {
         </div>
         
         <div className="container m-3 mb-12">
-          <h1 className="text-4xl font-bold text-center">Venant des hautes terres d&apos;Ecosse, <br/> nos meubles sont immortels 🛋️</h1>
+          <h1 className="text-4xl font-bold text-center pb-3">Venant des hautes terres d&apos;Ecosse, <br/> nos meubles sont immortels 🛋️</h1>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {products ? (
               products.map((product, i) => (
