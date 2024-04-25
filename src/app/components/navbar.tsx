@@ -11,9 +11,9 @@ const Navbar = () => {
   const isLoggedIn = true;
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const [categories, setCategories] = useState<any[] | null>(null);
+  const [category, setCategory] = useState<any[] | null>(null);
 
-  const fetchCategories = async () => {
+  const fetchCategory = async () => {
     try {
       const response = await fetch(`https://c1bb0d8a5f1d.airneis.net/api/products/?categories=`, {
         method: "GET",
@@ -25,14 +25,14 @@ const Navbar = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const responseData = await response.json();
-      setCategories(responseData.categories);
+      setCategory(responseData.categories);
     } catch (error) {
       console.error("Failed to fetch data:", error);
     }
   };
 
   useEffect(() => {
-    fetchCategories();
+    fetchCategory();
   });
 
 
@@ -82,25 +82,11 @@ const Navbar = () => {
             )}
             
 
-
-
-
-
-
-
-            
             <div className="dropdown dropdown-bottom ">
-              <div tabIndex={0} role="button" className="btn btn-ghost">
+              <button tabIndex={0} role="button" className="btn btn-ghost" onClick={() => router.push(`/categorie`)}>
                 
                 Catégories
-              </div>
-              <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                <li><button onClick={() => router.push(`/produits/`)}>Meubles</button></li>
-                <li><button onClick={() => router.push(`/produits/`)}>Décoration</button></li>
-                <li><button onClick={() => router.push(`/produits/`)}>Luminaires</button></li>
-                <li><button onClick={() => router.push(`/produits/`)}>Textiles</button></li>
-               
-              </ul>
+              </button>
             </div>
             <Link role="button" className="btn btn-ghost" href="/produits">
               Produits
