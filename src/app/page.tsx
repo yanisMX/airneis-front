@@ -94,7 +94,7 @@ export default function HomePage() {
                     <h2 className="card-title">{category.name}</h2>
                     <p>{category.description}</p>
                     <div className="card-actions justify-end pt-5">
-                      <button className="btn btn-primary ">Voir nos {category.name}</button>
+                      <Link href={`/categorie/`+ category.name}><button className="btn btn-primary ">Voir nos {category.name}</button></Link>
                     </div>
                   </div>
                 </div>
