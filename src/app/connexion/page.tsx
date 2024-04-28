@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const ConnexionPage = () => {
   return (
     <div className="content-below-navbar min-h-screen">
@@ -38,7 +40,7 @@ const ConnexionPage = () => {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Tu n&apos;es pas encore inscrit?
-            <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 pl-3">Inscris-toi ici !</a>
+            <Link href="/inscription" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 pl-3">Inscris-toi ici !</Link>
           </p>
         </div>
       </div>

@@ -1,8 +1,41 @@
+"use client"
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
+import { useEffect } from "react";
 
 const Footer = () => {
+
+const [category, setCategory] = useState<any[]>([]);
+
+const fetchCategory = async () => {
+  try {
+    const response = await fetch(`https://c1bb0d8a5f1d.airneis.net/api/products/?categories=`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const responseData = await response.json();
+    setCategory(responseData.categories);
+  } catch (error) {
+    console.error("Failed to fetch data:", error);
+  }
+};
+
+useEffect(() => {
+  fetchCategory();
+});
+
+
+
+
+
+
+
   return (
 
     <div className="bg-base-200" >
@@ -10,10 +43,17 @@ const Footer = () => {
         <footer className="footer p-10 text-base-content" >
           <nav>
             <h6 className="footer-title">Catégories</h6>
-            <a className="link link-hover">Meubles</a>
-            <a className="link link-hover">Décorations</a>
-            <a className="link link-hover">Luminaires</a>
-            <a className="link link-hover">Textiles</a>
+            <a className="link link-hover">Meubles multifonctions</a>
+            {category ?
+            category.map((cat,i) => {
+              return(
+                <a key={i} className="link link-hover">{cat[0].name}</a>
+              )
+            }):(<p>Erreur</p>)
+          
+          
+          }
+            <a className="link link-hover">Chaises</a>
           </nav>
           <nav>
             <h6 className="footer-title">Entreprise</h6>
