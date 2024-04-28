@@ -7,6 +7,10 @@ const SignupFormPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('')
+
+
 
   
   const handleSubmit = async (event : any) => {
@@ -29,12 +33,19 @@ const SignupFormPage = () => {
   
         if (response.ok) {
           console.log('Inscription réussie :', data);
+          setErrorMessage('');
           // Traitement après inscription réussie, comme redirection ou affichage d'un message
-        } else {
+        } 
+        if(!response.ok){
+
+            setErrorMessage("Une erreur inconnue est survenue.");
+        }
+        else {
           console.error('Erreur d\'inscription', data.message);
         }
       } catch (error) {
-        console.error('Erreur lors de la connexion au serveur', error);
+        console.error('Erreur d\'inscription :',error);
+        setErrorMessage('Problème de connexion au serveur, veuillez réessayer plus tard.');
       }
     };
 
@@ -61,14 +72,6 @@ const SignupFormPage = () => {
             <input type="text" className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:text-gray-800 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-500 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Username" value={name} onChange={(e) => setName(e.target.value)}/>
           </div>
 
-          <label htmlFor="dropzone-file" className="flex items-center px-3 py-3 mx-auto mt-6 text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 ">
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-800 " fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-            </svg>
-
-            <h2 className="mx-3 text-gray-400">Profile Photo</h2>
-            <input id="dropzone-file" type="file" className="hidden" />
-          </label>
 
           <div className="relative flex items-center mt-6">
             <span className="absolute">
@@ -87,7 +90,20 @@ const SignupFormPage = () => {
               </svg>
             </span>
 
-            <input type="password" className="block w-full px-10 py-3 text-gray-800 bg-white border rounded-lg dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <input type={showPassword ? "text" : "password"} className="block w-full px-10 py-3 text-gray-800 bg-white border rounded-lg dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <span className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onClick={() => setShowPassword(!showPassword)}>
+              {showPassword ?  (
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              ): (
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              )}
+            </span>
           </div>
 
           <div className="mt-6">
@@ -100,6 +116,12 @@ const SignupFormPage = () => {
                 Tu as déjà un compte ? Connecte-toi !
               </a>
             </div>
+            
+          {errorMessage && (
+  <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+    {errorMessage}
+  </div>
+)}
           </div>
         </form>
       </div>
