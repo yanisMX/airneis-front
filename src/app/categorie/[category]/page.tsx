@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import Link from "next/link";
+import getCallAPI from '@/API/getCallAPI';
 
 
 
@@ -11,27 +12,8 @@ const CategorieProductsPage = ({ params }: { params: { category : any } }) => {
     const CATEGORY_PRODUCTS_URL = `https://c1bb0d8a5f1d.airneis.net/api/products?category=${params.category.id}`;
 
     const fetchData = async (url: string) => {
-        try {
-            const response = await fetch(url, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            });
-            
-            
-            if (!response.ok)
-                throw new Error(`HTTP error! status: ${response.status}`);
-
-            const responseData = await response.json();
-            if(responseData){
-                setCategoryProducts(responseData.products)
-            }
-
-        } catch (error) {
-            console.error("Failed to fetch data:", error);
-        }
-
+        const response = await getCallAPI(url);
+        setCategoryProducts(response.products);
     }
 
 

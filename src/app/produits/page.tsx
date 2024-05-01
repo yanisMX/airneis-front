@@ -3,32 +3,20 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import getCallAPI from "@/API/getCallAPI";
 
 
 const ProductsPage = () => {
 
   const [products, setProducts] = useState<any[] | null>(null);
   const router = useRouter();
-  const fetchDataProducts = async () => {
-    try {
-      const response = await fetch('https://c1bb0d8a5f1d.airneis.net/api/products', {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const responseData = await response.json();
-      setProducts(responseData.products);
-    } catch (error) {
-      console.error("Failed to fetch data:", error);
-    }
-  };
-
-
-
+  const API_FOR_ALL_PRODUCTS = 'https://c1bb0d8a5f1d.airneis.net/api/products';
+  
+  const fetchDataProducts = async() => {
+    const response = await getCallAPI(API_FOR_ALL_PRODUCTS);
+    setProducts(response.products);
+  }
+  ;
 
   useEffect(() => {
     fetchDataProducts();

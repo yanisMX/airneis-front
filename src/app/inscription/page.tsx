@@ -11,7 +11,8 @@ const SignupPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('');
+  const API_FOR_REGISTER = 'https://c1bb0d8a5f1d.airneis.net/api/auth/register';
 
 
   interface UserData {
@@ -36,7 +37,7 @@ const SignupPage = () => {
       email,
       password
     }; 
-    const result = await postCallAPI('https://c1bb0d8a5f1d.airneis.net/api/auth/register', userData)
+    const result = await postCallAPI(API_FOR_REGISTER, userData)
 
     if (result.success) {
       console.log('Inscription réussie :', result);

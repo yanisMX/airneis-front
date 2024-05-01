@@ -8,6 +8,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
+  const API_FOR_LOGIN = 'https://c1bb0d8a5f1d.airneis.net/api/auth/login';
 
   interface UserData {
     email: string;
@@ -31,7 +32,7 @@ const LoginPage = () => {
     };
     
 
-    const result = await postCallAPI('https://c1bb0d8a5f1d.airneis.net/api/auth/login', userData)
+    const result = await postCallAPI(API_FOR_LOGIN, userData)
     
 
     if (result.success) {

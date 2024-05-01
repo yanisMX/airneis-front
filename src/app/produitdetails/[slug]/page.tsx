@@ -1,27 +1,16 @@
 "use client";
 import { useEffect, useState } from 'react';
 import Link from "next/link";
+import getCallAPI from '@/API/getCallAPI';
 
 const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
     const [product, setProduct] = useState<any | null>(null);
+    const API_FOR_PRODUCT = `https://c1bb0d8a5f1d.airneis.net/api/products/slug/${params.slug}`;
 
     useEffect(() => {
         const fetchDataProduct = async () => {
-            try {
-                const response = await fetch(`https://c1bb0d8a5f1d.airneis.net/api/products/slug/${params.slug}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                });
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                const responseData = await response.json();
-                setProduct(responseData.product);
-            } catch (error) {
-                console.error("Failed to fetch data:", error);
-            }
+            const response = await getCallAPI(API_FOR_PRODUCT);
+            setProduct(response.product);
         };
 
         fetchDataProduct();
