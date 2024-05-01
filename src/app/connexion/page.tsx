@@ -1,36 +1,45 @@
 "use client"
 import Link from "next/link";
 import React, { useState } from "react";
+import postCallAPI from "@/API/postCallAPI";
 
-const ConnexionPage = () => {
+
+const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('')
 
-  const handleSubmit = async(event : any) => {
+  interface UserData {
+    email: string;
+    password: string;
+  }
+
+  interface ApiResponse {
+    success : boolean;
+    token : {
+      accessToken : string,
+      refreshToken : string;
+    }
+  }
+
+  const handleSubmit = async(event : React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Construction de la requête à l'API
-    const userData = {
+
+    const userData : UserData = {
       email,
       password
     };
-    try {
-      const response = await fetch('https://c1bb0d8a5f1d.airneis.net/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(userData)
-      });
-      const data = await response.json();
-      
-      if (response.ok) {
-        console.log('Connexion réussie :', data);
-        // Traitement après inscription réussie, comme redirection ou affichage d'un message
-      } else {
-        console.error('Erreur de connexion', data.message);
-      }
-    } catch (error) {
-      console.error('Erreur lors de la connexion au serveur', error);
+    
+
+    const result = await postCallAPI('https://c1bb0d8a5f1d.airneis.net/api/auth/login', userData)
+    
+
+    if (result.success) {
+      console.log('Connexion réussie :', result);
+      setErrorMessage('');
+    } else {
+      console.error('Erreur de connexion', result.message);
+      setErrorMessage("Une erreur inconnue est survenue.");
     }
   };
 
@@ -50,7 +59,7 @@ const ConnexionPage = () => {
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Adresse e-mail </label>
               <div className="mt-2">
-                <input id="email" name="email" type="email" autoComplete="email" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                <input id="email" name="email" type="email" autoComplete="email" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3" value={email} onChange={(e) => setEmail(e.target.value)}/>
               </div>
             </div>
 
@@ -62,7 +71,7 @@ const ConnexionPage = () => {
                 </div>
               </div>
               <div className="mt-2">
-                <input id="password" name="password" type="password" autoComplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                <input id="password" name="password" type="password" autoComplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3" value={password} onChange={(e) => setPassword(e.target.value)}/>
               </div>
             </div>
 
@@ -77,9 +86,14 @@ const ConnexionPage = () => {
             Tu n&apos;es pas encore inscrit?
             <Link href="/inscription" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 pl-3">Inscris-toi ici !</Link>
           </p>
+          {errorMessage && (
+  <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+    {errorMessage}
+  </div>
+)}
         </div>
       </div>
-
+      
 
 
 
@@ -90,4 +104,4 @@ const ConnexionPage = () => {
   );
 }
 
-export default ConnexionPage;
+export default LoginPage;

@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import { useEffect } from "react";
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 
 const ProductsPage = () => {
@@ -35,7 +36,9 @@ const ProductsPage = () => {
 
   return (
     <>
+   
       <main className="flex content-below-navbar">
+        
       <div className="w-80 p-3">
         {/* Availability Details */}
         <div className="space-y-2">

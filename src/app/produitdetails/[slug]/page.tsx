@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from 'react';
+import Link from "next/link";
 
 const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
     const [product, setProduct] = useState<any | null>(null);
@@ -34,9 +35,9 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
                         <div className="container mx-auto px-4">
                             <nav className="flex mb-4">
                                 <ol role="list" className="flex items-center space-x-2 text-sm font-medium text-gray-600">
-                                    <li><a href="/" className="hover:text-gray-800">Home</a></li>
+                                    <li><Link href="/" className="hover:text-gray-800">Home</Link></li>
                                     <li>/</li>
-                                    <li><a href="/products" className="hover:text-gray-800">Products</a></li>
+                                    <li><Link href="/produits" className="hover:text-gray-800">Products</Link></li>
                                     <li>/</li>
                                     <li className="text-gray-900">{product.name}</li>
                                 </ol>

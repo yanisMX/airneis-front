@@ -12,6 +12,7 @@ const Navbar = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [category, setCategory] = useState<any[] | null>(null);
+  const [ isLogged, setIsLogged ] = useState(null)
 
   const fetchCategory = async () => {
     try {

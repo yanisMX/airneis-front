@@ -1,7 +1,10 @@
 "use client"
 import React, { useState } from "react";
+import Link from "next/link";
+import postCallAPI from "@/API/postCallAPI";
 
-const SignupFormPage = () => {
+
+const SignupPage = () => {
 
     
   const [name, setName] = useState('');
@@ -11,45 +14,38 @@ const SignupFormPage = () => {
   const [errorMessage, setErrorMessage] = useState('')
 
 
-
+  interface UserData {
+    name: string;
+    email: string;
+    password: string;
+  }
   
-  const handleSubmit = async (event : any) => {
+  interface ApiResponse {
+    success : boolean;
+    token : {
+      accessToken : string,
+      refreshToken : string;
+    }
+  }
+  
+  const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Construction de la requête à l'API
-    const userData = {
+  
+    const userData : UserData = {
       name,
       email,
       password
-    };
-    try {
-        const response = await fetch('https://c1bb0d8a5f1d.airneis.net/api/auth/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(userData)
-        });
-        const data = await response.json();
-  
-        if (response.ok) {
-          console.log('Inscription réussie :', data);
-          setErrorMessage('');
-          // Traitement après inscription réussie, comme redirection ou affichage d'un message
-        } 
-        if(!response.ok){
+    }; 
+    const result = await postCallAPI('https://c1bb0d8a5f1d.airneis.net/api/auth/register', userData)
 
-            setErrorMessage("Une erreur inconnue est survenue.");
-        }
-        else {
-          console.error('Erreur d\'inscription', data.message);
-        }
-      } catch (error) {
-        console.error('Erreur d\'inscription :',error);
-        setErrorMessage('Problème de connexion au serveur, veuillez réessayer plus tard.');
-      }
-    };
-
-
+    if (result.success) {
+      console.log('Inscription réussie :', result);
+      setErrorMessage('');
+    } else {
+      console.error('Erreur d\'inscription', result.message);
+      setErrorMessage("Une erreur inconnue est survenue.");
+    }
+  };
 
   return (
     <section className="bg-white ">
@@ -112,9 +108,9 @@ const SignupFormPage = () => {
             </button>
 
             <div className="mt-6 text-center">
-              <a href="/connexion" className="font-semibold text-indigo-600 hover:text-indigo-500">
+              <Link href="/connexion" className="font-semibold text-indigo-600 hover:text-indigo-500">
                 Tu as déjà un compte ? Connecte-toi !
-              </a>
+              </Link>
             </div>
             
           {errorMessage && (
@@ -129,4 +125,4 @@ const SignupFormPage = () => {
   );
 };
 
-export default SignupFormPage;
+export default SignupPage;
