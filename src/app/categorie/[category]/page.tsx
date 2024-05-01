@@ -13,19 +13,14 @@ const CategorieProductsPage = ({ params }: { params: { category : any } }) => {
 
     const fetchData = async (url: string) => {
         const response = await getCallAPI(url);
-        setCategoryProducts(response.products);
-    }
-
-
-
+        if(!response) return console.error('Erreur de chargement des produits de la catégorie');
+        else {
+          setCategoryProducts(response.products);
+        }
+    };
     useEffect(() => {
         fetchData(CATEGORY_PRODUCTS_URL);
     }, [params.category]);
-
-
-
-
-
 
     return (
         <>
