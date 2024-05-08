@@ -1,6 +1,6 @@
 const apropos = () => {
     return(
-        <div>Test</div>
+        <div className="content-below-navbar">Test</div>
     )
 }
 

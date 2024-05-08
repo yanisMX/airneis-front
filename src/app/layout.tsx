@@ -6,6 +6,8 @@ import Footer from "@/app/components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
+
+
 export const metadata: Metadata = {
   title: "Airneis",
   description: "Fournisseur de meubles de qualité",
