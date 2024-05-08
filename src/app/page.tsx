@@ -4,12 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { use, useState } from "react";
 import { useEffect } from "react";
+import meubles from "../../public/meubles.jpg";
 
 
 export default function HomePage() {
 
   const [categories, setCategories] = useState<any[]>([]);
   const [products, setProducts] = useState<any[]>([]);
+
 
   const HIGHLANDERS_PRODUCTS_URL = 'https://c1bb0d8a5f1d.airneis.net/api/products';
   const CATEGORIES_URL = 'https://c1bb0d8a5f1d.airneis.net/api/categories';
@@ -72,7 +74,7 @@ export default function HomePage() {
                 <h1 className="text-5xl font-bold text-white mb-6">{product.name}</h1>
                 <p className="text-white w-4/6">{product.description}</p>
                 <div className="mt-16">
-                  <Link href={`/produitdetails/${product.slug}`}><button className="btn btn-primary">Voir le produit</button></Link>
+                  <Link href={`/pages/produitdetails/${product.slug}`}><button className="btn btn-primary">Voir le produit</button></Link>
                 </div>
               </div>
               <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
@@ -89,12 +91,14 @@ export default function HomePage() {
             {categories ? (
               categories.map((category, i) => (
                 <div id={`category-Card${i}`} className="card w-80 bg-base-100 shadow-xl image-full pt-5" key={i}>
-                  {/*<figure><img src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${category.thumbnail[0].filename}`} alt="Canapés" className="w-full h-full" /></figure>*/}
+                 {category.thumbnail && 
+                 <figure><img src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${category.thumbnail.filename}`}  alt="Canapés" className="w-full h-full" width={25} height={25}/></figure>
+                 }
                   <div className="card-body">
                     <h2 className="card-title">{category.name}</h2>
                     <p>{category.description}</p>
                     <div className="card-actions justify-end pt-5">
-                      <Link href={`/categorie/`+ category.name}><button className="btn btn-primary ">Voir nos {category.name}</button></Link>
+                      <Link href={`/pages/categorie/`+ category.name}><button className="btn btn-primary ">Voir nos {category.name}</button></Link>
                     </div>
                   </div>
                 </div>

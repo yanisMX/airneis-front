@@ -1,5 +1,5 @@
 "use client";
-import Footer from "../components/footer";
+import Footer from "../../components/footer";
 
 const SearchPage = () => {
   return (

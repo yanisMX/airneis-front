@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   description: "Fournisseur de meubles de qualité",
 };
 
+
 export default function RootLayout({
   children,
 }: Readonly<{

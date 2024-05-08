@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link";
 import React, { useState } from "react";
-import postCallAPI from "@/API/postCallAPI";
+import postCallAPI from "@/app/API/postCallAPI";
 
 
 const LoginPage = () => {
@@ -26,7 +26,7 @@ const LoginPage = () => {
   const handleSubmit = async(event : React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const userData : UserData = {
+  const userData : UserData = {
       email,
       password
     };
@@ -34,7 +34,6 @@ const LoginPage = () => {
 
     const result = await postCallAPI(API_FOR_LOGIN, userData)
     
-
     if (result.success) {
       console.log('Connexion réussie :', result);
       setErrorMessage('');
@@ -85,7 +84,7 @@ const LoginPage = () => {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Tu n&apos;es pas encore inscrit?
-            <Link href="/inscription" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 pl-3">Inscris-toi ici !</Link>
+            <Link href="pages/inscription" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 pl-3">Inscris-toi ici !</Link>
           </p>
           {errorMessage && (
   <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">

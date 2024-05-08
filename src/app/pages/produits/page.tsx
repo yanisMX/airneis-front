@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import getCallAPI from "@/API/getCallAPI";
+import getCallAPI from "@/app/API/getCallAPI";
 
 
 const ProductsPage = () => {
@@ -17,7 +17,6 @@ const ProductsPage = () => {
     setProducts(response.products);
   }
   ;
-
   useEffect(() => {
     fetchDataProducts();
   });
@@ -157,7 +156,7 @@ const ProductsPage = () => {
             <article className="p-6 sm:flex-row-reverse" key={i}>
               <div className="card w-60 h-96 bg-base-100 shadow-xl flex flex-col "> {/* Hauteur fixe ajoutée ici */}
                 <figure className="w-60 h-20">
-                  <img src={"https://c1bb0d8a5f1d.airneis.net/medias/serve/" + product.images[0].filename} alt={product.name} />
+                  <img src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${product.images[0].filename}`} alt={product.name} />
                 </figure>
                 <div className="card-body flex flex-col">
                   <h2 className="card-title">{product.name}</h2>
@@ -165,7 +164,7 @@ const ProductsPage = () => {
 
                   <div className="card-actions space-between pt-4 flex-grow">
                     <p className="mt-auto pb-2.5">{product.price} €</p>
-                    <button className="btn btn-primary mt-auto" onClick={() => router.push(`/produitdetails/${product.slug}`)}>
+                    <button className="btn btn-primary mt-auto" onClick={() => router.push(`/pages/produitdetails/${product.slug}`)}>
                       Buy Now
                     </button>
                   </div>

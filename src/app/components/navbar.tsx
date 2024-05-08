@@ -1,42 +1,18 @@
 "use client";
 import Link from 'next/link';
-import { useState } from 'react'; 
+import { useState } from 'react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { createContext, useContext } from 'react';
 
 
 
-const Navbar = () => {
+
+function Navbar(){
   // TODO: Implement authentication
   const isLoggedIn = true;
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const [category, setCategory] = useState<any[] | null>(null);
-  const [ isLogged, setIsLogged ] = useState(null)
-
-  const fetchCategory = async () => {
-    try {
-      const response = await fetch(`https://c1bb0d8a5f1d.airneis.net/api/products/?categories=`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const responseData = await response.json();
-      setCategory(responseData.categories);
-    } catch (error) {
-      console.error("Failed to fetch data:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchCategory();
-  });
-
-
 
 
   const handleClick = () => {
@@ -49,52 +25,40 @@ const Navbar = () => {
         <div className="navbar bg-base-100 shadow rounded-2xl mt-8 w-5/6 md:w-4/6 lg:w-3/5 mx-auto">
           <div className="flex-1">
             <Link href="/" className="btn btn-ghost text-xl">
-            
-                <img src="/favicon.ico" alt="Airneis" className="w-10 h-10 me-2"/>
-                Airneis
-              
+               <img src="/favicon.ico" alt="Airneis" className="w-10 h-10 me-2" />
+              Airneis
             </Link>
-            
-
-
-               <button className="sm:hidden btn btn-ghost text-xl" onClick={handleClick}>
+            <button className="sm:hidden btn btn-ghost text-xl" onClick={handleClick}>
               <i className="fa-solid fa-bars"></i>
             </button>
-            
-             {isOpen && (
+            {isOpen && (
               <div className="flex flex-col items-start sm:hidden">
-                <Link href="/categories" className="hover:text-gray-400">Catégories</Link>
-                <Link href="/produits" className="hover:text-gray-400">Produits</Link>
-                <Link href="/rechercher" className="hover:text-gray-400">Rechercher</Link>
-                <Link href="/panier" className="hover:text-gray-400">Panier</Link>
+                <Link href="/pages/produits" className="hover:text-gray-400">Produits</Link>
+                <Link href="/pages/rechercher" className="hover:text-gray-400">Rechercher</Link>
+                <Link href="/pages/panier" className="hover:text-gray-400">Panier</Link>
                 {isLoggedIn ? (
                   <>
-                    <Link href="/mon-compte" className="hover:text-gray-400">Mon compte</Link>
-                    <Link href="/commandes" className="hover:text-gray-400">Commandes</Link>
-                    <Link href="/deconnexion" className="hover:text-gray-400">Déconnexion</Link>
+                    <Link href="/pages/mon-compte" className="hover:text-gray-400">Mon compte</Link>
+                    <Link href="/pages/commandes" className="hover:text-gray-400">Commandes</Link>
+                    <Link href="/pages/deconnexion" className="hover:text-gray-400">Déconnexion</Link>
                   </>
                 ) : (
                   <>
-                    <Link href="/connexion" className="hover:text-gray-400">Connexion</Link>
-                    <Link href="/inscription" className="hover:text-gray-400">Inscription</Link>
+                    <Link href="/pages/connexion" className="hover:text-gray-400">Connexion</Link>
+                    <Link href="/pages/inscription" className="hover:text-gray-400">Inscription</Link>
                   </>
                 )}
               </div>
             )}
-            
 
-            <div className="dropdown dropdown-bottom ">
-              <button tabIndex={0} role="button" className="btn btn-ghost" onClick={() => router.push(`/categorie`)}>
-                
-                Catégories
-              </button>
-            </div>
-            <Link role="button" className="btn btn-ghost" href="/produits">
+
+            
+            <Link role="button" className="btn btn-ghost" href="/pages/produits">
               Produits
             </Link>
 
           </div>
-          
+
           <div className="flex-none">
             <Link role="button" className="btn btn-ghost rounded-full" href="/rechercher">
               <i className="fa-solid fa-magnifying-glass text-xl ms-1"></i>
@@ -112,7 +76,7 @@ const Navbar = () => {
                   <span className="font-bold text-lg">8 Items</span>
                   <span className="text-info">Subtotal: $999</span>
                   <div className="card-actions">
-                  <Link href="/panier"> <button className="btn btn-primary btn-block">View cart</button></Link>
+                    <Link href="/pages/panier"> <button className="btn btn-primary btn-block">View cart</button></Link>
                   </div>
                 </div>
               </div>
@@ -137,9 +101,9 @@ const Navbar = () => {
               </ul>
             </div>
           </div>
-          </div>
         </div>
-      
+      </div>
+
     </>
   );
 }

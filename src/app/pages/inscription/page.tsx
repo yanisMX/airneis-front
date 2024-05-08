@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
 import Link from "next/link";
-import postCallAPI from "@/API/postCallAPI";
+import postCallAPI from "@/app/API/postCallAPI";
 
 
 const SignupPage = () => {
@@ -109,7 +109,7 @@ const SignupPage = () => {
             </button>
 
             <div className="mt-6 text-center">
-              <Link href="/connexion" className="font-semibold text-indigo-600 hover:text-indigo-500">
+              <Link href="pages/connexion" className="font-semibold text-indigo-600 hover:text-indigo-500">
                 Tu as déjà un compte ? Connecte-toi !
               </Link>
             </div>
