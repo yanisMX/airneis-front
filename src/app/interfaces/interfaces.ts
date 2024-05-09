@@ -57,3 +57,11 @@ export interface ApiResponse {
     createdAt: string;
     updatedAt: string;
   }
+
+  export interface ShoppingCart {
+    products : Product[];
+    quantity : number;
+
+  }
+
+

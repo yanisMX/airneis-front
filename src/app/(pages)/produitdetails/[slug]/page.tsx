@@ -2,11 +2,18 @@
 import { useEffect, useState } from 'react';
 import Link from "next/link";
 import getCallAPI from '@/app/API/getCallAPI';
-import { Product } from '@/app/interfaces/interfaces';
+import { Product, ShoppingCart } from '@/app/interfaces/interfaces';
+import { handleAddToCart } from '@/app/utils/utils';
 
-const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
+const ProductDetailsPage = ({ params, productCart }: { params: { slug: string }, productCart : Product }) => {
     const [product, setProduct] = useState<Product | null>(null);
+    const [cart, setCart] = useState<ShoppingCart[]>([]);
     const API_FOR_PRODUCT = `https://c1bb0d8a5f1d.airneis.net/api/products/slug/${params.slug}`;
+
+    const handleAddToCartClick = (product: Product) => {
+        const updatedCart = handleAddToCart(cart, productCart);
+        setCart(updatedCart);
+      };
 
     useEffect(() => {
         const fetchDataProduct = async () => {
@@ -60,8 +67,8 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
                                     <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">{product.name}</h1>
                                     <p className="mt-4 text-gray-700">{product.description}</p>
                                     <p className="mt-4 text-lg font-semibold">{product.price} €</p>
-                                    <button className="mt-8 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
-                                        Add to Cart
+                                    <button className="mt-8 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded" onClick={() => handleAddToCartClick(product)}>
+                                        Ajouter au panier
                                     </button>
                                 </div>
                             </div>
