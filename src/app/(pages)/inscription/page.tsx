@@ -95,7 +95,7 @@ const SignupPage = () => {
             </button>
 
             <div className="mt-6 text-center">
-              <Link href="pages/connexion" className="font-semibold text-indigo-600 hover:text-indigo-500">
+              <Link href="/connexion" className="font-semibold text-indigo-600 hover:text-indigo-500">
                 Tu as déjà un compte ? Connecte-toi !
               </Link>
             </div>

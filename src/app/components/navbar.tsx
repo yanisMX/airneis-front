@@ -33,19 +33,19 @@ function Navbar(){
             </button>
             {isOpen && (
               <div className="flex flex-col items-start sm:hidden">
-                <Link href="/pages/produits" className="hover:text-gray-400">Produits</Link>
-                <Link href="/pages/rechercher" className="hover:text-gray-400">Rechercher</Link>
-                <Link href="/pages/panier" className="hover:text-gray-400">Panier</Link>
+                <Link href="/produits" className="hover:text-gray-400">Produits</Link>
+                <Link href="/rechercher" className="hover:text-gray-400">Rechercher</Link>
+                <Link href="/panier" className="hover:text-gray-400">Panier</Link>
                 {isLoggedIn ? (
                   <>
-                    <Link href="/pages/mon-compte" className="hover:text-gray-400">Mon compte</Link>
-                    <Link href="/pages/commandes" className="hover:text-gray-400">Commandes</Link>
-                    <Link href="/pages/deconnexion" className="hover:text-gray-400">Déconnexion</Link>
+                    <Link href="/mon-compte" className="hover:text-gray-400">Mon compte</Link>
+                    <Link href="/commandes" className="hover:text-gray-400">Commandes</Link>
+                    <Link href="/deconnexion" className="hover:text-gray-400">Déconnexion</Link>
                   </>
                 ) : (
                   <>
-                    <Link href="/pages/connexion" className="hover:text-gray-400">Connexion</Link>
-                    <Link href="/pages/inscription" className="hover:text-gray-400">Inscription</Link>
+                    <Link href="/connexion" className="hover:text-gray-400">Connexion</Link>
+                    <Link href="/inscription" className="hover:text-gray-400">Inscription</Link>
                   </>
                 )}
               </div>
@@ -53,14 +53,14 @@ function Navbar(){
 
 
             
-            <Link role="button" className="btn btn-ghost" href="/pages/produits">
+            <Link role="button" className="btn btn-ghost" href="/produits">
               Produits
             </Link>
 
           </div>
 
           <div className="flex-none">
-            <Link role="button" className="btn btn-ghost rounded-full" href="/pages/rechercher">
+            <Link role="button" className="btn btn-ghost rounded-full" href="/rechercher">
               <i className="fa-solid fa-magnifying-glass text-xl ms-1"></i>
             </Link>
 
@@ -76,7 +76,7 @@ function Navbar(){
                   <span className="font-bold text-lg">8 Items</span>
                   <span className="text-info">Subtotal: $999</span>
                   <div className="card-actions">
-                    <Link href="/pages/panier"> <button className="btn btn-primary btn-block">View cart</button></Link>
+                    <Link href="/panier"> <button className="btn btn-primary btn-block">View cart</button></Link>
                   </div>
                 </div>
               </div>

@@ -2,14 +2,14 @@
 import { useState, useEffect } from 'react';
 import Link from "next/link";
 import getCallAPI from '@/app/API/getCallAPI';
-import { Product } from '@/app/interfaces/interfaces';
+import { Image, Product } from '@/app/interfaces/interfaces';
 
 
 
 const CategorieProductsPage = ({ params }: { params: { category : any } }) => {
 
     const [CategoryProducts, setCategoryProducts] = useState<Product[] | null>(null);
-    const [CategoryProductImage, setCategoryProductImage] = useState<typeof Image | null>(null);
+    const [CategoryProductImage, setCategoryProductImage] = useState<any| null>(null);
     const CATEGORY_PRODUCTS_URL = `https://c1bb0d8a5f1d.airneis.net/api/products?category=${params.category.id}`;
 
     useEffect(() => {
@@ -57,7 +57,7 @@ const CategorieProductsPage = ({ params }: { params: { category : any } }) => {
                     <h2 className="card-title">{product.name}</h2>
                     <p>{product.description}</p>
                     <div className="card-actions justify-end pt-5">
-                      <Link href={`/pages/produitdetails/${product.slug}`}><button className="btn btn-primary ">Voir nos {product.name}</button></Link>
+                      <Link href={`/produitdetails/${product.slug}`}><button className="btn btn-primary ">Voir nos {product.name}</button></Link>
                     </div>
                   </div>
                 </div>

@@ -73,7 +73,7 @@ const LoginPage = () => {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Tu n&apos;es pas encore inscrit?
-            <Link href="pages/inscription" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 pl-3">Inscris-toi ici !</Link>
+            <Link href="/inscription" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 pl-3">Inscris-toi ici !</Link>
           </p>
           {errorMessage && (
   <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">

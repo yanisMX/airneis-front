@@ -27,7 +27,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
                                 <ol role="list" className="flex items-center space-x-2 text-sm font-medium text-gray-600">
                                     <li><Link href="/" className="hover:text-gray-800">Home</Link></li>
                                     <li>/</li>
-                                    <li><Link href="/pages/produits" className="hover:text-gray-800">Products</Link></li>
+                                    <li><Link href="/produits" className="hover:text-gray-800">Products</Link></li>
                                     <li>/</li>
                                     <li className="text-gray-900">{product.name}</li>
                                 </ol>
