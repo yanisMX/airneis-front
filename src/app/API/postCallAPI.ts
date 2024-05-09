@@ -1,3 +1,5 @@
+import { ApiResponse } from "../interfaces/interfaces";
+
 const postCallAPI = async (url: string, data: any) => {
     try {
         const response = await fetch(url, {

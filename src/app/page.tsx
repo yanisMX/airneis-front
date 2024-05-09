@@ -54,7 +54,7 @@ export default function HomePage() {
   useEffect(() => {
     fetchAllData();
 
-  });
+  },[]);
 
   return (
     <>

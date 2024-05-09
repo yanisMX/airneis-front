@@ -2,9 +2,10 @@
 import { useEffect, useState } from 'react';
 import Link from "next/link";
 import getCallAPI from '@/app/API/getCallAPI';
+import { Product } from '@/app/interfaces/interfaces';
 
 const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
-    const [product, setProduct] = useState<any | null>(null);
+    const [product, setProduct] = useState<Product | null>(null);
     const API_FOR_PRODUCT = `https://c1bb0d8a5f1d.airneis.net/api/products/slug/${params.slug}`;
 
     useEffect(() => {
@@ -14,7 +15,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
         };
 
         fetchDataProduct();
-    }, [params.slug]); // Ensuring that the useEffect is correctly dependent on params.slug
+    }, [params.slug]); 
 
     return (
         <main className='pt-[40px]'>

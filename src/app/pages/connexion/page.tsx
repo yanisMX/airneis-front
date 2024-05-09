@@ -2,6 +2,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import postCallAPI from "@/app/API/postCallAPI";
+import { UserDataSignIn } from "../../interfaces/interfaces"
 
 
 
@@ -11,27 +12,14 @@ const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const API_FOR_LOGIN = 'https://c1bb0d8a5f1d.airneis.net/api/auth/login';
 
-  interface UserData {
-    email: string;
-    password: string;
-  }
-
-  interface ApiResponse {
-    success : boolean;
-    token : {
-      accessToken : string,
-      refreshToken : string;
-    }
-  }
 
   const handleSubmit = async(event : React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-  const userData : UserData = {
+  const userData : UserDataSignIn = {
       email,
       password
     };
-    
 
     const result = await postCallAPI(API_FOR_LOGIN, userData)
     

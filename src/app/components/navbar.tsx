@@ -60,7 +60,7 @@ function Navbar(){
           </div>
 
           <div className="flex-none">
-            <Link role="button" className="btn btn-ghost rounded-full" href="/rechercher">
+            <Link role="button" className="btn btn-ghost rounded-full" href="/pages/rechercher">
               <i className="fa-solid fa-magnifying-glass text-xl ms-1"></i>
             </Link>
 

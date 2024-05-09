@@ -2,13 +2,14 @@
 import { useState, useEffect } from 'react';
 import Link from "next/link";
 import getCallAPI from '@/app/API/getCallAPI';
+import { Product } from '@/app/interfaces/interfaces';
 
 
 
 const CategorieProductsPage = ({ params }: { params: { category : any } }) => {
 
-    const [CategoryProducts, setCategoryProducts] = useState<any | null>(null);
-    const [CategoryProductImage, setCategoryProductImage] = useState<any | null>(null);
+    const [CategoryProducts, setCategoryProducts] = useState<Product[] | null>(null);
+    const [CategoryProductImage, setCategoryProductImage] = useState<typeof Image | null>(null);
     const CATEGORY_PRODUCTS_URL = `https://c1bb0d8a5f1d.airneis.net/api/products?category=${params.category.id}`;
 
     useEffect(() => {

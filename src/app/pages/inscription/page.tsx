@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import postCallAPI from "@/app/API/postCallAPI";
-
+import { UserDataSignUp } from "@/app/interfaces/interfaces";
 
 const SignupPage = () => {
 
@@ -13,30 +13,16 @@ const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const API_FOR_REGISTER = 'https://c1bb0d8a5f1d.airneis.net/api/auth/register';
-
-
-  interface UserData {
-    name: string;
-    email: string;
-    password: string;
-  }
-  
-  interface ApiResponse {
-    success : boolean;
-    token : {
-      accessToken : string,
-      refreshToken : string;
-    }
-  }
   
   const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   
-    const userData : UserData = {
+    const userData : UserDataSignUp = {
       name,
       email,
       password
     }; 
+
     const result = await postCallAPI(API_FOR_REGISTER, userData)
 
     if (result.success) {
