@@ -35,16 +35,18 @@ const SignupPage = () => {
   };
 
   return (
-    <section className="bg-white ">
-      <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
+    <div className="content-below-navbar min-h-screen">
+
+
+      <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+          <h2 className="mt-10 text-center text-4xl font-bold leading-9 tracking-tight text-gray-900 tracking-wide">Inscris-toi</h2>
+        </div>
+
+        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="w-full max-w-md" onSubmit={handleSubmit}>
           <div className="flex justify-center mx-auto">
           </div>
-
-          <div className="mt-10 text-center text-4xl font-bold leading-9 tracking-tight text-gray-900 tracking-wide">
-           Inscris-toi
-          </div>
-
           <div className="relative flex items-center mt-8">
             <span className="absolute">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 mx-3 text-dark-300 dark:text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -90,15 +92,14 @@ const SignupPage = () => {
           </div>
 
           <div className="mt-6">
-            <button type="submit" className="w-full px-6 py-3 text-sm font-medium tracking-wide text-white transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
-             Je m&apos;inscris
-            </button>
+            <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            Je m&apos;inscris
+              </button>
 
-            <div className="mt-6 text-center">
-              <Link href="/connexion" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                Tu as déjà un compte ? Connecte-toi !
-              </Link>
-            </div>
+              <p className="mt-10 text-center text-sm text-gray-500">
+            Tu n&apos;es pas encore inscrit?
+            <Link href="/connexion" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 pl-3">Connecte-toi ici !</Link>
+          </p>
             
           {errorMessage && (
   <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
@@ -107,8 +108,9 @@ const SignupPage = () => {
 )}
           </div>
         </form>
+        </div>
+        </div>
       </div>
-    </section>
   );
 };
 

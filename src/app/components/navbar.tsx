@@ -1,4 +1,5 @@
 "use client";
+import React from 'react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -8,12 +9,13 @@ import { createContext, useContext } from 'react';
 
 
 
+
 function Navbar(){
   // TODO: Implement authentication
-  const isLoggedIn = true;
+  const isLoggedIn = false;
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-
+  const connexionPage = `../pages/connexion/page`;
 
   const handleClick = () => {
     setIsOpen(!isOpen);
@@ -44,7 +46,7 @@ function Navbar(){
                   </>
                 ) : (
                   <>
-                    <Link href="/connexion" className="hover:text-gray-400">Connexion</Link>
+                    <Link href="/connexion" className="hover:text-gray-400" onClick={() => {router.push(connexionPage)}}>Connexion</Link>
                     <Link href="/inscription" className="hover:text-gray-400">Inscription</Link>
                   </>
                 )}
@@ -94,8 +96,8 @@ function Navbar(){
                   </>
                 ) : (
                   <>
-                    <li><a>Connexion</a></li>
-                    <li><a>Inscription</a></li>
+                    <Link href="/connexion" className="hover:text-gray-400">Connexion</Link>
+                    <Link href="/inscription" className="hover:text-gray-400">Inscription</Link>
                   </>
                 )}
               </ul>

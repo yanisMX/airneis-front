@@ -6,7 +6,7 @@ import { UserDataSignIn } from "../../interfaces/interfaces"
 
 
 
-const LoginPage = () => {
+const SignInPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
@@ -82,15 +82,8 @@ const LoginPage = () => {
 )}
         </div>
       </div>
-      
-
-
-
-
-
-
     </div>
   );
 }
 
-export default LoginPage;
+export default SignInPage;
