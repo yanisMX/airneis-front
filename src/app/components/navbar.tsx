@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { createContext, useContext } from 'react';
 
 
@@ -18,6 +18,8 @@ function Navbar(){
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
+
+  if (usePathname().startsWith("/dashboard")) return;
 
   return (
     <>

@@ -3,8 +3,10 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Link from "next/link";
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 const Footer = () => {
+  if (usePathname().startsWith("/dashboard")) return;
 
   return (
 
