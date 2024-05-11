@@ -2,20 +2,31 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import postCallAPI from "@/app/API/postCallAPI";
-import { UserDataSignIn } from "../../interfaces/interfaces"
+import { UserDataSignIn } from "../../interfaces/interfaces";
+import { useAuth } from '@/app/context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 
 
 const SignInPage = () => {
+  const router = useRouter()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('');
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
+
   const API_FOR_LOGIN = 'https://c1bb0d8a5f1d.airneis.net/api/auth/login';
 
+  const resetForm = () => {
+    setEmail('');
+    setPassword('');
+    setErrorMessage('');
+  }
 
-  const handleSubmit = async(event : React.FormEvent<HTMLFormElement>) => {
+
+  const handleSubmitForLogin = async(event : React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    
   const userData : UserDataSignIn = {
       email,
       password
@@ -24,8 +35,9 @@ const SignInPage = () => {
     const result = await postCallAPI(API_FOR_LOGIN, userData)
     
     if (result.success) {
-      console.log('Connexion réussie :', result);
-      setErrorMessage('');
+      setIsLoggedIn(true);
+      resetForm()
+      router.push("/")
     } else {
       console.error('Erreur de connexion', result.message);
       setErrorMessage("Une erreur inconnue est survenue.");
@@ -44,7 +56,7 @@ const SignInPage = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" onSubmit={handleSubmit} method="POST">
+          <form className="space-y-6" onSubmit={handleSubmitForLogin} method="POST" id="LoginForm">
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Adresse e-mail </label>
               <div className="mt-2">

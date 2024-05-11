@@ -2,24 +2,36 @@
 import React from 'react';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { createContext, useContext } from 'react';
+import { useAuth } from '@/app/context/AuthContext';
+import postCallAPILogout from '../API/postCallAPILogout';
 
 
 
 
 
-function Navbar(){
+
+const Navbar = () => {
   // TODO: Implement authentication
-  const isLoggedIn = false;
   const router = useRouter();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const connexionPage = `../pages/connexion/page`;
+  const API_FOR_LOGOUT = 'https://c1bb0d8a5f1d.airneis.net/api/auth/logout'
 
-  const handleClick = () => {
+
+  const handleClickForLogout = async() => {
+
+    const result = await postCallAPILogout(API_FOR_LOGOUT);
+    if(result.success){
+      setIsLoggedIn(false)
+    }
+  }
+
+    const handleClick = () => {
     setIsOpen(!isOpen);
   };
+
+  
 
   return (
     <>
@@ -46,7 +58,7 @@ function Navbar(){
                   </>
                 ) : (
                   <>
-                    <Link href="/connexion" className="hover:text-gray-400" onClick={() => {router.push(connexionPage)}}>Connexion</Link>
+                    <Link href="/connexion" className="hover:text-gray-400">Connexion</Link>
                     <Link href="/inscription" className="hover:text-gray-400">Inscription</Link>
                   </>
                 )}
@@ -90,14 +102,14 @@ function Navbar(){
               <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                 {isLoggedIn ? (
                   <>
-                    <li><a>Mon compte</a></li>
-                    <li><a>Commandes</a></li>
-                    <li><a>Se déconnecter</a></li>
+                    <li><Link href="/">Mon compte</Link></li>
+                    <li><Link href="/">Commandes</Link></li>
+                    <li><button onClick={handleClickForLogout}><Link href="/">Se déconnecter</Link></button></li>
                   </>
                 ) : (
                   <>
-                    <Link href="/connexion" className="hover:text-gray-400">Connexion</Link>
-                    <Link href="/inscription" className="hover:text-gray-400">Inscription</Link>
+                    <li><Link href="/connexion" className="hover:text-gray-400">Connexion</Link></li>
+                    <li><Link href="/inscription" className="hover:text-gray-400">Inscription</Link></li>
                   </>
                 )}
               </ul>
