@@ -1,3 +1,30 @@
+import { ReactNode } from "react";
+
+export interface AuthContextType {
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+
+ export interface Cart {
+    products : Product[];
+    quantity : number;
+    subtotal : undefined;
+    total : undefined;
+
+  }
+
+
+  export interface ShoppingCart {
+    shoppingCart :  Cart[],
+    setShoppingCart : React.Dispatch<React.SetStateAction<Cart[]>>;
+  }
+
+
+export interface RootLayoutProps {
+    children: ReactNode;
+  }
+
 export interface UserDataSignIn {
     email: string;
     password: string;
@@ -58,11 +85,10 @@ export interface ApiResponse {
     updatedAt: string;
   }
 
-  export interface ShoppingCart {
-    products : Product[];
-    quantity : number;
+ 
 
-  }
+
+  
 
 
 

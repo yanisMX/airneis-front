@@ -1,15 +1,7 @@
 "use client";
-import React, { createContext, useState, ReactNode } from 'react';
-import { UserDataSignIn } from '../interfaces/interfaces';
+import React, { createContext, useState } from 'react';
+import {AuthContextType, RootLayoutProps} from '@/app/interfaces/interfaces'
 
-interface AuthContextType {
-  isLoggedIn: boolean;
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-interface RootLayoutProps {
-    children: ReactNode;
-  }
 
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

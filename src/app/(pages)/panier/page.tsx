@@ -1,15 +1,15 @@
 "use client";
 import { Product, ShoppingCart } from '@/app/interfaces/interfaces';
 import React, { useState } from 'react';
-import { handleAddToCart }from '@/app/utils/utils';
+import { handleAddToCart }from '@/app/utils/cartUtils';
+import { useCart } from '@/app/context/CartContext'
 
-const CartPage = ({}) => {
-  const [cart, setCart] = useState<ShoppingCart[]>([]);
+const CartPage = () => {
 
-  const addToCart = (product: Product) => {
-    const updatedCart = handleAddToCart(cart, product);
-    setCart(updatedCart);
-  };
+  const { shoppingCart, setShoppingCart} = useCart();
+
+
+
   
 /*
   const productsCard = {
@@ -133,7 +133,7 @@ const CartPage = ({}) => {
 
           <div className="mt-8">
           <div className="mt-8">
-  {cart.map((cartItem, index) => (
+  {shoppingCart.map((cartItem, index) => (
     <div key={index}>
       {cartItem.products.map((product, productIndex) => (
         <ul className="space-y-4 mb-3" key={productIndex}>

@@ -2,18 +2,27 @@
 import { useEffect, useState } from 'react';
 import Link from "next/link";
 import getCallAPI from '@/app/API/getCallAPI';
-import { Product, ShoppingCart } from '@/app/interfaces/interfaces';
-import { handleAddToCart } from '@/app/utils/utils';
+import { Product, Cart, ShoppingCart} from '@/app/interfaces/interfaces';
+import { handleAddToCart } from '@/app/utils/cartUtils';
+import {useCart} from '@/app/context/CartContext';
 
-const ProductDetailsPage = ({ params, productCart }: { params: { slug: string }, productCart : Product }) => {
+
+
+const ProductDetailsPage = ({ params }: { params: { slug: string }}) => {
     const [product, setProduct] = useState<Product | null>(null);
-    const [cart, setCart] = useState<ShoppingCart[]>([]);
     const API_FOR_PRODUCT = `https://c1bb0d8a5f1d.airneis.net/api/products/slug/${params.slug}`;
+    const { shoppingCart, setShoppingCart} = useCart();
 
-    const handleAddToCartClick = (product: Product) => {
-        const updatedCart = handleAddToCart(cart, productCart);
-        setCart(updatedCart);
+    const addToCart = () => {
+        if (product) {
+          const updatedCart = handleAddToCart(product, shoppingCart);
+          setShoppingCart(updatedCart); // Mettre à jour le panier dans le contexte
+        } else {
+          console.error("Le produit est null, impossible de l'ajouter au panier.");
+        }
       };
+    
+      
 
     useEffect(() => {
         const fetchDataProduct = async () => {
@@ -67,7 +76,7 @@ const ProductDetailsPage = ({ params, productCart }: { params: { slug: string },
                                     <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">{product.name}</h1>
                                     <p className="mt-4 text-gray-700">{product.description}</p>
                                     <p className="mt-4 text-lg font-semibold">{product.price} €</p>
-                                    <button className="mt-8 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded" onClick={() => handleAddToCartClick(product)}>
+                                    <button className="mt-8 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded" onClick={() => addToCart()}>
                                         Ajouter au panier
                                     </button>
                                 </div>
