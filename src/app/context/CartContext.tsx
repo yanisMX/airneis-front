@@ -23,7 +23,7 @@ export const CartProvider: React.FC<RootLayoutProps> = ({ children}) => {
   export const useCart = () : ShoppingCart => {
     const context = React.useContext(CartContext);
     if (!context) {
-      throw new Error('useCart must be used within an CartProvider');
+      throw Error('useCart must be used within an CartProvider');
     }
     return context;
   }

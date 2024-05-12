@@ -9,9 +9,8 @@ export interface AuthContextType {
  export interface Cart {
     products : Product[];
     quantity : number;
-    subtotal : undefined;
-    total : undefined;
-
+    subtotal : number;
+    total : string;
   }
 
 
@@ -21,6 +20,8 @@ export interface AuthContextType {
   }
 
 
+
+
 export interface RootLayoutProps {
     children: ReactNode;
   }
@@ -28,6 +29,7 @@ export interface RootLayoutProps {
 export interface UserDataSignIn {
     email: string;
     password: string;
+    cookies: boolean;
   }
 
 export interface UserDataSignUp {
@@ -84,6 +86,36 @@ export interface ApiResponse {
     createdAt: string;
     updatedAt: string;
   }
+
+  export interface userDetail {
+    id : number;
+    name : string;
+    email : string;
+    role : string;
+    createdAt : string;
+    updatedAt : string;
+    defaultBillingAddress : number;
+    defaultShippingAddress : number;
+  }
+
+  export interface Address {
+          id: number;
+          label: string;
+          firstName: string;
+          lastName: string;
+          address1: string;
+          address2: string;
+          city: string;
+          region: string;
+          postalCode: string;
+          country: string;
+          phone: string;
+          type: "billing" | "shipping";
+          createdAt: string;
+          updatedAt: string;
+  }
+
+  
 
  
 

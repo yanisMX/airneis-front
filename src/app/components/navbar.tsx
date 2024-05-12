@@ -102,8 +102,8 @@ const Navbar = () => {
               <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                 {isLoggedIn ? (
                   <>
-                    <li><Link href="/">Mon compte</Link></li>
-                    <li><Link href="/">Commandes</Link></li>
+                    <li><Link href="/moncompte">Mon compte</Link></li>
+                    <li><Link href="/mescommandes">Commandes</Link></li>
                     <li><button onClick={handleClickForLogout}><Link href="/">Se déconnecter</Link></button></li>
                   </>
                 ) : (

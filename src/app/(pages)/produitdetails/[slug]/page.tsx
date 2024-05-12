@@ -5,6 +5,9 @@ import getCallAPI from '@/app/API/getCallAPI';
 import { Product, Cart, ShoppingCart} from '@/app/interfaces/interfaces';
 import { handleAddToCart } from '@/app/utils/cartUtils';
 import {useCart} from '@/app/context/CartContext';
+import {useAuth} from '@/app/context/AuthContext';
+import postCallAPI from '@/app/API/postCallAPI';
+import { set } from 'mongoose';
 
 
 
@@ -12,14 +15,18 @@ const ProductDetailsPage = ({ params }: { params: { slug: string }}) => {
     const [product, setProduct] = useState<Product | null>(null);
     const API_FOR_PRODUCT = `https://c1bb0d8a5f1d.airneis.net/api/products/slug/${params.slug}`;
     const { shoppingCart, setShoppingCart} = useCart();
+    const { isLoggedIn } = useAuth();
+
 
     const addToCart = () => {
-        if (product) {
-          const updatedCart = handleAddToCart(product, shoppingCart);
-          setShoppingCart(updatedCart); // Mettre à jour le panier dans le contexte
-        } else {
-          console.error("Le produit est null, impossible de l'ajouter au panier.");
-        }
+       
+            if (product) {
+                const updatedCart = handleAddToCart(product, shoppingCart);
+                setShoppingCart(updatedCart); // Mettre à jour le panier dans le contexte
+              } else {
+                console.error("Le produit est null, impossible de l'ajouter au panier.");
+              }
+        
       };
     
       

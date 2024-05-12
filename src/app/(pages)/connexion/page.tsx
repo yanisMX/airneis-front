@@ -29,7 +29,8 @@ const SignInPage = () => {
     
   const userData : UserDataSignIn = {
       email,
-      password
+      password,
+      cookies: true
     };
 
     const result = await postCallAPI(API_FOR_LOGIN, userData)
@@ -37,7 +38,9 @@ const SignInPage = () => {
     if (result.success) {
       setIsLoggedIn(true);
       resetForm()
+      console.log('Connexion réussie', result);
       router.push("/")
+      
     } else {
       console.error('Erreur de connexion', result.message);
       setErrorMessage("Une erreur inconnue est survenue.");

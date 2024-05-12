@@ -10,6 +10,8 @@ export const AuthProvider: React.FC<RootLayoutProps>  = ({ children}) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 
+
+
   return (
     <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
       {children}

@@ -1,125 +1,19 @@
 "use client";
 import { Product, ShoppingCart } from '@/app/interfaces/interfaces';
 import React, { useState } from 'react';
-import { handleAddToCart }from '@/app/utils/cartUtils';
+import { handleAddToCart, handleRemoveFromCart }from '@/app/utils/cartUtils';
 import { useCart } from '@/app/context/CartContext'
+import { useAuth } from '@/app/context/AuthContext';
 
 const CartPage = () => {
 
   const { shoppingCart, setShoppingCart} = useCart();
-
-
+  const [productsCard, setProductsCard] = useState<Product[]>([]);
+  
 
   
-/*
-  const productsCard = {
-   
-    "success": true,
-    "products": [
-        {
-            "priority": 0,
-            "id": 1,
-            "name": "Table basse",
-            "description": "Une incroyable table basse pour votre salon ou votre jardin qui vous coupera le soufle !",
-            "slug": "f0bc0a5f-table-basse",
-            "price": "20.50",
-            "stock": 10,
-            "createdAt": "2024-04-19T15:16:49.492Z",
-            "updatedAt": "2024-04-25T07:30:43.000Z",
-            "category": {
-                "id": 1,
-                "name": "Meubles multifonctions",
-                "description": "Des meubles tout usages !",
-                "createdAt": "2024-04-19T15:17:25.189Z",
-                "updatedAt": "2024-04-19T15:17:25.189Z"
-            },
-            "materials": [
-                {
-                    "id": 1,
-                    "name": "Acier inoxydable",
-                    "createdAt": "2024-04-19T15:17:18.242Z",
-                    "updatedAt": "2024-04-19T15:17:18.242Z"
-                },
-                {
-                    "id": 2,
-                    "name": "plastique",
-                    "createdAt": "2024-04-19T15:17:47.422Z",
-                    "updatedAt": "2024-04-19T15:17:47.422Z"
-                }
-            ],
-            "images": [
-                {
-                    "id": 4,
-                    "name": "logo_airneis.png",
-                    "filename": "4f335202c246741fde0455b57dfe9e21",
-                    "type": "image/png",
-                    "size": 13172,
-                    "createdAt": "2024-04-21T16:01:24.720Z",
-                    "updatedAt": "2024-04-21T16:01:24.720Z"
-                }
-            ],
-            "backgroundImage": {
-                "id": 1,
-                "name": "logo_airneis.png",
-                "filename": "faf0f5419a279825d7cc91f2e34cc65f",
-                "type": "image/png",
-                "size": 13172,
-                "createdAt": "2024-04-20T15:04:35.276Z",
-                "updatedAt": "2024-04-20T15:04:35.276Z"
-            }
-        },
-        {
-            "priority": 0,
-            "id": 2,
-            "name": "Chaise",
-            "description": "flemme de mettre une desc",
-            "slug": "89caa6b9-chaise",
-            "price": "12.00",
-            "stock": 42,
-            "createdAt": "2024-04-19T15:17:10.745Z",
-            "updatedAt": "2024-04-25T07:30:32.000Z",
-            "category": {
-                "id": 2,
-                "name": "Chaises",
-                "description": "chaises !",
-                "createdAt": "2024-04-19T15:17:34.174Z",
-                "updatedAt": "2024-04-22T18:43:51.000Z"
-            },
-            "materials": [
-                {
-                    "id": 2,
-                    "name": "plastique",
-                    "createdAt": "2024-04-19T15:17:47.422Z",
-                    "updatedAt": "2024-04-19T15:17:47.422Z"
-                }
-            ],
-            "images": [
-                {
-                    "id": 4,
-                    "name": "logo_airneis.png",
-                    "filename": "4f335202c246741fde0455b57dfe9e21",
-                    "type": "image/png",
-                    "size": 13172,
-                    "createdAt": "2024-04-21T16:01:24.720Z",
-                    "updatedAt": "2024-04-21T16:01:24.720Z"
-                }
-            ],
-            "backgroundImage": {
-                "id": 1,
-                "name": "logo_airneis.png",
-                "filename": "faf0f5419a279825d7cc91f2e34cc65f",
-                "type": "image/png",
-                "size": 13172,
-                "createdAt": "2024-04-20T15:04:35.276Z",
-                "updatedAt": "2024-04-20T15:04:35.276Z"
-      
-}
-        }
-    ]};
-  */
 
-
-
+ 
   return (
     <section className='content-below-navbar'>
       <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
@@ -139,7 +33,7 @@ const CartPage = () => {
         <ul className="space-y-4 mb-3" key={productIndex}>
           <li className="flex items-center gap-4">
             <img
-              src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=830&q=80"
+              src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${product.images[0].filename}`}
               alt=""
               className="size-16 rounded object-cover"
             />
@@ -161,7 +55,7 @@ const CartPage = () => {
                 />
               </form>
 
-              <button className="text-gray-600 transition hover:text-red-600">
+              <button className="text-gray-600 transition hover:text-red-600" >
                 <span className="sr-only">Remove item</span>
 
                 <svg
@@ -183,24 +77,17 @@ const CartPage = () => {
           </li>
         </ul>
       ))}
-      <p>Sous-total : €</p>
     </div>
   ))}
-  <p>Total :  €</p>
 </div>
-           
-
             <div className="mt-8 flex justify-end border-t border-gray-100 pt-8">
               <div className="w-screen max-w-lg space-y-4">
                 <dl className="space-y-0.5 text-sm text-gray-700">
-                  <div className="flex justify-between">
-                    <dt>Sous total :</dt>
-                    <dd>250 €</dd>
-                  </div>
+                
 
                   <div className="flex justify-between !text-base font-medium">
                     <dt>Total</dt>
-                    <dd>200 €</dd>
+                    <dd> €</dd>
                   </div>
                 </dl>
 
