@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/app/context/AuthContext';
+import { useCart } from '@/app/context/CartContext';
 import postCallAPILogout from '../API/postCallAPILogout';
 
 
@@ -17,7 +18,10 @@ const Navbar = () => {
   const { isLoggedIn, setIsLoggedIn } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const API_FOR_LOGOUT = 'https://c1bb0d8a5f1d.airneis.net/api/auth/logout'
+  const { shoppingCart } = useCart();
+  
 
+  
 
   const handleClickForLogout = async() => {
 
@@ -82,7 +86,17 @@ const Navbar = () => {
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle flex flex-col justify-center">
                 <div className="indicator">
                   <i className="fa-solid fa-cart-shopping text-xl"></i>
-                  <span className="badge badge-sm indicator-item">8</span>
+                  <span className="badge badge-sm indicator-item">
+                  { 
+                  
+                  shoppingCart.map((cartItem) => {
+                    if(cartItem.quantity > 0){
+                   
+                      return cartItem.quantity;
+                    }
+                    
+                  }) }
+                   </span>
                 </div>
               </div>
               <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">

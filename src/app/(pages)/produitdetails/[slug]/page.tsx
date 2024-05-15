@@ -2,12 +2,10 @@
 import { useEffect, useState } from 'react';
 import Link from "next/link";
 import getCallAPI from '@/app/API/getCallAPI';
-import { Product, Cart, ShoppingCart} from '@/app/interfaces/interfaces';
+import { Product} from '@/app/interfaces/interfaces';
 import { handleAddToCart } from '@/app/utils/cartUtils';
 import {useCart} from '@/app/context/CartContext';
 import {useAuth} from '@/app/context/AuthContext';
-import postCallAPI from '@/app/API/postCallAPI';
-import { set } from 'mongoose';
 
 
 
@@ -15,10 +13,9 @@ const ProductDetailsPage = ({ params }: { params: { slug: string }}) => {
     const [product, setProduct] = useState<Product | null>(null);
     const API_FOR_PRODUCT = `https://c1bb0d8a5f1d.airneis.net/api/products/slug/${params.slug}`;
     const { shoppingCart, setShoppingCart} = useCart();
-    const { isLoggedIn } = useAuth();
 
 
-    const addToCart = () => {
+    const addToCart = () : void => {
        
             if (product) {
                 const updatedCart = handleAddToCart(product, shoppingCart);
@@ -31,10 +28,15 @@ const ProductDetailsPage = ({ params }: { params: { slug: string }}) => {
     
       
 
-    useEffect(() => {
+    useEffect(() : void => {
         const fetchDataProduct = async () => {
             const response = await getCallAPI(API_FOR_PRODUCT);
-            setProduct(response.product);
+            if(response.success){
+                setProduct(response.product);
+            } else {
+                console.error("Impossible de récupérer le produit");
+            }
+            
         };
 
         fetchDataProduct();

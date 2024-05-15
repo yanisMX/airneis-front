@@ -54,7 +54,7 @@ const SignupPage = () => {
               </svg>
             </span>
 
-            <input type="text" className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:text-gray-800 dark:border-gray-600 focus:ring-2 dark:focus:border-blue-500 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Username" value={name} onChange={(e) => setName(e.target.value)}/>
+            <input type="text" className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:text-gray-800 dark:border-gray-600 focus:ring-2 dark:focus:border-blue-500 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Nom complet" value={name} onChange={(e) => setName(e.target.value)}/>
           </div>
 
 
@@ -65,7 +65,7 @@ const SignupPage = () => {
               </svg>
             </span>
 
-            <input type="email" className="block w-full py-3 text-gray-800 bg-white border rounded-lg px-11   dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Email address" value={email} onChange={(e) => setEmail(e.target.value)}/>
+            <input type="email" className="block w-full py-3 text-gray-800 bg-white border rounded-lg px-11   dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Adresse mail" value={email} onChange={(e) => setEmail(e.target.value)}/>
           </div>
 
           <div className="relative flex items-center mt-4 ">
@@ -75,7 +75,7 @@ const SignupPage = () => {
               </svg>
             </span>
 
-            <input type={showPassword ? "text" : "password"} className="block w-full px-10 py-3 text-gray-800 bg-white border rounded-lg dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <input type={showPassword ? "text" : "password"} className="block w-full px-10 py-3 text-gray-800 bg-white border rounded-lg dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} />
             <span className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onClick={() => setShowPassword(!showPassword)}>
               {showPassword ?  (
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
