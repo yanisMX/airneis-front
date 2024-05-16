@@ -26,8 +26,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       <div className="w-full">
         <div className="drawer lg:drawer-open">
-          <div className="drawer-content flex flex-col py-10 px-6 md:px-12">
-            <label htmlFor="navigation-drawer" className="btn btn-primary drawer-button lg:hidden">Open drawer</label>
+          <div className="drawer-content h-screen flex flex-col pt-5 md:py-10 md:px-12 overflow-auto">
+            <div className="mb-4 ps-5 md:mb-0 md:ps-0">
+              <label htmlFor="navigation-drawer" className="btn btn-sm border border-gray-200 drawer-button lg:hidden">
+                <i className="fa-solid fa-bars"></i>Navigation
+              </label>
+            </div>
             {children}
           </div>
 
