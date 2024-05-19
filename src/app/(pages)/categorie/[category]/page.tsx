@@ -21,7 +21,6 @@ const CategorieProductsPage = ({ params }: { params: { category : any } }) => {
             setCategoryProductImage(`https://c1bb0d8a5f1d.airneis.net/medias/serve/${firstProduct.images[0].filename}`);
         } 
           setCategoryProducts(response.products)
-          
         };
 
         fetchData();
