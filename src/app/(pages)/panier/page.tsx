@@ -4,15 +4,12 @@ import React, { useState } from 'react';
 import { handleAddToCart, handleRemoveFromCart }from '@/app/utils/cartUtils';
 import { useCart } from '@/app/context/CartContext'
 import { useAuth } from '@/app/context/AuthContext';
+import Image from 'next/image';
 
 const CartPage = () => {
 
   const { shoppingCart, setShoppingCart} = useCart();
-  const [productsCard, setProductsCard] = useState<Product[]>([]);
   
-
-  
-
  
   return (
     <section className='content-below-navbar'>
@@ -32,10 +29,12 @@ const CartPage = () => {
       {cartItem.products.map((product, productIndex) => (
         <ul className="space-y-4 mb-3" key={productIndex}>
           <li className="flex items-center gap-4">
-            <img
+            <Image
               src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${product.images[0].filename}`}
               alt=""
               className="size-16 rounded object-cover"
+              width={40}
+              height={40}
             />
             <div className="flex-1">
               <h3 className="text-sm text-gray-900">{product.name}</h3>

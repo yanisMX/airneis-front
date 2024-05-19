@@ -2,45 +2,44 @@
 import { useEffect, useState } from 'react';
 import Link from "next/link";
 import getCallAPI from '@/app/API/getCallAPI';
-import { Product} from '@/app/interfaces/interfaces';
+import { Product } from '@/app/interfaces/interfaces';
 import { handleAddToCart } from '@/app/utils/cartUtils';
-import {useCart} from '@/app/context/CartContext';
-import {useAuth} from '@/app/context/AuthContext';
+import { useCart } from '@/app/context/CartContext';
+import Image from 'next/image';
 
 
-
-const ProductDetailsPage = ({ params }: { params: { slug: string }}) => {
+const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
     const [product, setProduct] = useState<Product | null>(null);
     const API_FOR_PRODUCT = `https://c1bb0d8a5f1d.airneis.net/api/products/slug/${params.slug}`;
-    const { shoppingCart, setShoppingCart} = useCart();
+    const { shoppingCart, setShoppingCart } = useCart();
 
 
-    const addToCart = () : void => {
-       
-            if (product) {
-                const updatedCart = handleAddToCart(product, shoppingCart);
-                setShoppingCart(updatedCart); // Mettre à jour le panier dans le contexte
-              } else {
-                console.error("Le produit est null, impossible de l'ajouter au panier.");
-              }
-        
-      };
-    
-      
+    const addToCart = (): void => {
 
-    useEffect(() : void => {
+        if (product) {
+            const updatedCart = handleAddToCart(product, shoppingCart);
+            setShoppingCart(updatedCart); // Mettre à jour le panier dans le contexte
+        } else {
+            console.error("Le produit est null, impossible de l'ajouter au panier.");
+        }
+
+    };
+
+
+
+    useEffect((): void => {
         const fetchDataProduct = async () => {
             const response = await getCallAPI(API_FOR_PRODUCT);
-            if(response.success){
+            if (response.success) {
                 setProduct(response.product);
             } else {
                 console.error("Impossible de récupérer le produit");
             }
-            
+
         };
 
         fetchDataProduct();
-    }, [params.slug]); 
+    }, [params.slug]);
 
     return (
         <main className='pt-[40px]'>
@@ -61,10 +60,11 @@ const ProductDetailsPage = ({ params }: { params: { slug: string }}) => {
                                 <div className="lg:col-span-3">
                                     <div className="aspect-w-3 aspect-h-2">
                                         <a className="relative flex h-96 w-96 overflow-hidden rounded-lg shadow-lg" href="#">
-                                            <img 
-                                                className="absolute top-0 right-0 h-full w-full object-cover" 
-                                                src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${product.images[0].filename}`} 
-                                                alt={product.name} 
+                                            <Image
+                                                className="absolute top-0 right-0 h-full w-full object-cover"
+                                                src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${product.images[0].filename}`}
+                                                alt={product.name}
+                                                layout='fill'
                                             />
                                             <div className="absolute bottom-0 mb-4 flex w-full justify-center space-x-4">
                                                 <div className="h-3 w-3 rounded-full border-2 border-white bg-white"></div>
@@ -96,7 +96,10 @@ const ProductDetailsPage = ({ params }: { params: { slug: string }}) => {
                         <h2 className="text-xl font-bold text-gray-900">Related Products</h2>
                         <div className="my-10 flex w-full max-w-xs flex-col overflow-hidden bg-white">
                             <a className="relative flex h-80 w-72 overflow-hidden" href="#">
-                                <img className="absolute top-0 right-0 h-full w-full object-cover" src="https://images.unsplash.com/photo-1578996953841-b187dbe4bc8a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzl8fGJsYXplcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="product image" />
+                                <Image className="absolute top-0 right-0 h-full w-full object-cover"
+                                    src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${product.images[0].filename}`}
+                                    alt="product image"
+                                    layout="fill" />
                                 <div className="absolute bottom-0 mb-4 flex w-full justify-center space-x-4">
                                     <div className="h-3 w-3 rounded-full border-2 border-white bg-white"></div>
                                     <div className="h-3 w-3 rounded-full border-2 border-white bg-transparent"></div>

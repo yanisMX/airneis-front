@@ -4,9 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    background: white;
-}
+
 
 .content-below-navbar {
     padding-top: 120px; 

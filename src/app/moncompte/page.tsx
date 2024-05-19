@@ -17,7 +17,7 @@ const MyAccountPage = () => {
         <div className="flex flex-col md:flex-row">
           <div className="md:w-1/2 md:pr-8">
             <div className="sm:w-full sm:max-w-sm">
-              <h2 className="mt-10 text-2xl font-semi-bold leading-9 tracking-tight text-gray-900 tracking-wide text-left">
+              <h2 className="mt-10 text-2xl font-semi-bold leading-9 text-gray-900 tracking-wide text-left">
                 Mes informations personnelles
               </h2>
             </div>
@@ -67,10 +67,11 @@ const MyAccountPage = () => {
           </div>
           <div className="md:w-1/2 md:pl-9">
             <div className="sm:w-full sm:max-w-sm">
-              <h2 className="mt-10 text-2xl font-semi-bold leading-9 tracking-tight text-gray-900 tracking-wide text-left">
+              <h2 className="mt-10 text-2xl font-semi-bold leading-9 text-gray-900 tracking-wide text-left">
                 Mes adresses
               </h2>
             </div>
+            
 
             <div className="mt-10 sm:w-full sm:max-w-sm">
               <div className="space-y-6">

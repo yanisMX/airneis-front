@@ -40,7 +40,7 @@ const SignupPage = () => {
 
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="mt-10 text-center text-4xl font-bold leading-9 tracking-tight text-gray-900 tracking-wide">Inscris-toi</h2>
+          <h2 className="mt-10 text-center text-4xl font-bold leading-9  text-gray-900 tracking-wide">Inscris-toi</h2>
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -54,7 +54,7 @@ const SignupPage = () => {
               </svg>
             </span>
 
-            <input type="text" className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:text-gray-800 dark:border-gray-600 focus:ring-2 dark:focus:border-blue-500 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Nom complet" value={name} onChange={(e) => setName(e.target.value)}/>
+            <input type="text" className="block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:text-gray-800 dark:border-gray-600  dark:focus:border-blue-500 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40" placeholder="Nom complet" value={name} onChange={(e) => setName(e.target.value)}/>
           </div>
 
 

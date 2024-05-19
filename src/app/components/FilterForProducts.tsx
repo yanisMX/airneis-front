@@ -1,13 +1,13 @@
 const FilterForProducts = () => {
     return (
-        <div className="space-y-2">
+        <div className="space-y-2 pr-4 ml-3">
         <details
-            className="overflow-hidden rounded border border-gray-300 [&_summary::-webkit-details-marker]:hidden"
+            className="overflow-hidden rounded border border-gray-300 [&_summary::-webkit-details-marker]:hidden "
           >
             <summary
               className="flex cursor-pointer items-center justify-between gap-2 bg-white p-4 text-gray-900 transition"
             >
-              <span className="text-sm font-medium"> Catégories </span>
+              <span className="text-sm font-medium pr-9"> Catégories </span>
 
               <span className="transition group-open:-rotate-180">
                 <svg

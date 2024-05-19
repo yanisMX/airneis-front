@@ -49,12 +49,12 @@ export default function HomePage() {
       console.error("No categories found");
     }
   }
-  
+
 
   useEffect(() => {
     fetchAllData();
 
-  },[]);
+  }, []);
 
   return (
     <>
@@ -65,40 +65,49 @@ export default function HomePage() {
 
       <div className="pb-8">
         <div className="carousel w-full h-[500px]" >
-          { products ? (
-          products.map((product, i) => (
-            <div id={`slide${i}`} key={i} className="carousel-item relative w-full">
-              <img src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${product.images[0].filename}`} alt={product.name} className="w-full object-cover brightness-75" />
-              <div className="absolute bottom-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent bg-opacity-40"></div>
-              <div className="absolute flex flex-col justify-end pb-16 h-full mx-40">
-                <h1 className="text-5xl font-bold text-white mb-6">{product.name}</h1>
-                <p className="text-white w-4/6">{product.description}</p>
-                <div className="mt-16">
-                  <Link href={`/produitdetails/${product.slug}`}><button className="btn btn-primary">Voir le produit</button></Link>
+          {products ? (
+            products.map((product, i) => (
+              <div id={`slide${i}`} key={i} className="carousel-item relative w-full">
+                <Image src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${product.images[0].filename}`}
+                  alt={product.name}
+                  className="w-full object-cover brightness-75"
+                  layout="fill" />
+                <div className="absolute bottom-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent bg-opacity-40"></div>
+                <div className="absolute flex flex-col justify-end pb-16 h-full mx-40">
+                  <h1 className="text-5xl font-bold text-white mb-6">{product.name}</h1>
+                  <p className="text-white w-4/6">{product.description}</p>
+                  <div className="mt-16">
+                    <Link href={`/produitdetails/${product.slug}`}><button className="btn btn-primary">Voir le produit</button></Link>
+                  </div>
+                </div>
+                <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                  <a href={`#slide${i === 0 ? products.length - 1 : i - 1}`} className="btn btn-circle bg-black hover:bg-white bg-opacity-50 hover:bg-opacity-25 backdrop-filter backdrop-blur border-none text-white ms-4">❮</a>
+                  <a href={`#slide${i === products.length - 1 ? 0 : i + 1}`} className="btn btn-circle bg-black hover:bg-white bg-opacity-50 hover:bg-opacity-25 backdrop-filter backdrop-blur border-none text-white me-4">❯</a>
                 </div>
               </div>
-              <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                <a href={`#slide${i === 0 ? products.length - 1 : i - 1}`} className="btn btn-circle bg-black hover:bg-white bg-opacity-50 hover:bg-opacity-25 backdrop-filter backdrop-blur border-none text-white ms-4">❮</a>
-                <a href={`#slide${i === products.length - 1 ? 0 : i + 1}`} className="btn btn-circle bg-black hover:bg-white bg-opacity-50 hover:bg-opacity-25 backdrop-filter backdrop-blur border-none text-white me-4">❯</a>
-              </div>
-            </div>
-          ))):( <section className="h-full w-full p-20 flex justify-center ">ddsf</section>)}
+            ))) : (<section className="h-full w-full p-20 flex justify-center ">ddsf</section>)}
         </div>
 
         <div className="container m-3 mb-12">
           <h1 className="text-4xl font-bold text-center pb-3">Venant des hautes terres d&apos;Ecosse, <br /> nos meubles sont immortels 🛋️</h1>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
             {categories ? (
               categories.map((category, i) => (
-                <div id={`category-Card${i}`} className="card w-80 bg-base-100 shadow-xl image-full pt-5" key={i}>
-                 {category.thumbnail && 
-                 <figure><img src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${category.thumbnail.filename}`}  alt="Canapés" className="w-full h-full" width={25} height={25}/></figure>
-                 }
+                <div id={`category-Card${i}`} className="card w-80 bg-base-100 shadow-xl image-full" key={i}>
+                  {category.thumbnail &&
+                    <figure>
+                      <Image src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${category.thumbnail.filename}`}
+                        alt="Canapés"
+                        className="w-full h-full"
+                        layout="fill" />
+                    </figure>
+                  }
                   <div className="card-body">
                     <h2 className="card-title">{category.name}</h2>
                     <p>{category.description}</p>
                     <div className="card-actions justify-end pt-5">
-                      <Link href={`/categorie/`+ category.name}><button className="btn btn-primary ">Voir nos {category.name}</button></Link>
+                      <Link href={`/categorie/` + category.name}><button className="btn btn-primary ">Voir nos {category.name}</button></Link>
                     </div>
                   </div>
                 </div>

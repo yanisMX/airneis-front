@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/app/context/AuthContext';
 import { useCart } from '@/app/context/CartContext';
 import postCallAPILogout from '../API/postCallAPILogout';
+import Image from 'next/image';
 
 
 
@@ -19,32 +20,38 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const API_FOR_LOGOUT = 'https://c1bb0d8a5f1d.airneis.net/api/auth/logout'
   const { shoppingCart } = useCart();
-  
 
-  
 
-  const handleClickForLogout = async() => {
+
+
+  const handleClickForLogout = async () => {
 
     const result = await postCallAPILogout(API_FOR_LOGOUT);
-    if(result.success){
+    if (result.success) {
       setIsLoggedIn(false)
     }
   }
 
-    const handleClick = () => {
+  const handleClick = () => {
     setIsOpen(!isOpen);
   };
 
-  
+
 
   return (
     <>
       <div className="fixed w-full z-10">
         <div className="navbar bg-base-100 shadow rounded-2xl mt-8 w-5/6 md:w-4/6 lg:w-3/5 mx-auto">
           <div className="flex-1">
-            <Link href="/" className="btn btn-ghost text-xl">
-               <img src="/favicon.ico" alt="Airneis" className="w-10 h-10 me-2" />
-              Airneis
+            <Link href="/" className="btn btn-ghost text-xl flex items-center">
+              <Image
+                src="/favicon.ico"
+                alt="Airneis"
+                width={40}
+                height={40}
+                className="me-2"
+              />
+              <span>Airneis</span>
             </Link>
             <button className="sm:hidden btn btn-ghost text-xl" onClick={handleClick}>
               <i className="fa-solid fa-bars"></i>
@@ -70,7 +77,7 @@ const Navbar = () => {
             )}
 
 
-            
+
             <Link role="button" className="btn btn-ghost" href="/produits">
               Produits
             </Link>
@@ -87,16 +94,16 @@ const Navbar = () => {
                 <div className="indicator">
                   <i className="fa-solid fa-cart-shopping text-xl"></i>
                   <span className="badge badge-sm indicator-item">
-                  { 
-                  
-                  shoppingCart.map((cartItem) => {
-                    if(cartItem.quantity > 0){
-                   
-                      return cartItem.quantity;
-                    }
-                    
-                  }) }
-                   </span>
+                    {
+
+                      shoppingCart.map((cartItem) => {
+                        if (cartItem.quantity > 0) {
+
+                          return cartItem.quantity;
+                        }
+
+                      })}
+                  </span>
                 </div>
               </div>
               <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow">

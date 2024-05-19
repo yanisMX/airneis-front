@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react';
 import Link from "next/link";
 import getCallAPI from '@/app/API/getCallAPI';
-import { Image, Product } from '@/app/interfaces/interfaces';
+import { Product } from '@/app/interfaces/interfaces';
+import Image from 'next/image';
 
 
 
@@ -25,7 +26,7 @@ const CategorieProductsPage = ({ params }: { params: { category : any } }) => {
 
         fetchData();
         
-    }, [params.category.id]);
+    }, [CATEGORY_PRODUCTS_URL, params.category.id]);
 
     return (
         <>
@@ -33,7 +34,7 @@ const CategorieProductsPage = ({ params }: { params: { category : any } }) => {
                 <div className='carousel h-[500px] w-full'>
                 {CategoryProductImage ? (
                     <figure className='carousel-item relative w-full'>
-                        <img src={CategoryProductImage} alt={CategoryProductImage.name} className='w-full object-cover brightness-75'/>
+                        <Image src={CategoryProductImage} alt={CategoryProductImage.name} className='w-full object-cover brightness-75' layout='fill'/>
                     </figure>
                 ) : (
                     <section className="h-full w-full p-20 flex justify-center ">
@@ -44,12 +45,6 @@ const CategorieProductsPage = ({ params }: { params: { category : any } }) => {
                 <div className="container m-3 mb-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 content-below-navbar">
             {CategoryProducts ? (
-
-
-
-
-
-
               CategoryProducts.map((product :any, i) => (
                 <div id={`category-Card${i}`} className="card w-80 bg-base-100 shadow-xl image-full pt-5" key={i}>
                   {/*<figure><img src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${product.images.filename}`} alt="Canapés" className="w-full h-full" /></figure>*/}
