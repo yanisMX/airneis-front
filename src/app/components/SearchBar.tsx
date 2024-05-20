@@ -10,6 +10,7 @@ const SearchBar = () => {
     const [search, setSearch] = useState("");
     const [products, setProducts] = useState<Product[] | null>(null);
     const API_FOR_SEARCH = 'https://c1bb0d8a5f1d.airneis.net/api/products?search=';
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.preventDefault();
@@ -17,11 +18,12 @@ const SearchBar = () => {
     };
 
     const fetchDataProducts = async () => {
-        if(search.length > 3){
+        if(search.length >= 3){
             const response = await getCallAPI(API_FOR_SEARCH + search);
             setProducts(response.products);
         } else {
             setProducts(null);
+            setErrorMessage("Veuillez saisir au moins 3 caractères");
         }
     }
 
@@ -54,7 +56,7 @@ const SearchBar = () => {
             <ul className="sm:flex flex flex-wrap ml-8">
                 {products ? (products.map((product, i) => (
                     <ProductComponent product={product} i={i} key={i} />
-                ))) : (<p></p>)}
+                ))) : (<p className="mt-7 p-3 bg-blue-100 border border-blue-400 text-blue-700 rounded">{errorMessage}</p>)}
             </ul>
         </section>)
 }
