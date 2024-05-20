@@ -25,10 +25,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Toaster position="top-right" toastOptions={{ duration: 5000 }} />
 
       <div className="w-full">
-        <div className="drawer lg:drawer-open">
-          <div className="drawer-content h-screen flex flex-col pt-5 md:py-10 md:px-12 overflow-auto">
-            <div className="mb-4 ps-5 md:mb-0 md:ps-0">
-              <label htmlFor="navigation-drawer" className="btn btn-sm border border-gray-200 drawer-button lg:hidden">
+        <div className="drawer xl:drawer-open">
+          <div className="drawer-content h-screen flex flex-col pt-5 lg:px-10 xl:py-10 xl:ps-0 xl:pe-10 overflow-auto">
+            <div className="mb-4 ps-5 lg:ps-0 xl:mb-0 xl:ps-0">
+              <label htmlFor="navigation-drawer" className="btn btn-sm border border-gray-200 drawer-button xl:hidden">
                 <i className="fa-solid fa-bars"></i>Navigation
               </label>
             </div>
@@ -37,14 +37,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           <input id="navigation-drawer" type="checkbox" className="drawer-toggle" />
 
-          <div className="drawer-side lg:p-10">
+          <div className="drawer-side xl:p-10">
             <label htmlFor="navigation-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
 
-            <div className="h-full p-4 bg-white lg:rounded-xl lg:shadow-lg border overflow-auto flex flex-col">
+            <div className="h-full p-4 bg-white rounded-e-xl xl:rounded-xl xl:shadow-lg border overflow-auto flex flex-col">
               <div className="mb-4">
                 <Link href="/" className="btn btn-ghost h-auto flex flex-col p-4">
                   <img src="/favicon.ico" alt="Airneis" className="w-28" />
                   <p className="m-0 text-xl">Airneis</p>
+                  <div className="flex items-center justify-center w-12 py-1 bg-slate-700 text-white rounded-lg">
+                    <span className="sm:hidden">XS</span>
+                    <span className="hidden sm:inline md:hidden">SM</span>
+                    <span className="hidden md:inline lg:hidden">MD</span>
+                    <span className="hidden lg:inline xl:hidden">LG</span>
+                    <span className="hidden xl:inline 2xl:hidden">XL</span>
+                    <span className="hidden 2xl:inline">2XL</span>
+                  </div>
                 </Link>
               </div>
 

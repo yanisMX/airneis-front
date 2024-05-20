@@ -36,6 +36,7 @@ export interface ApiResponse {
   export interface Category {
     id: number;
     name: string;
+    slug: string;
     description: string;
     createdAt: string;
     updatedAt: string;
@@ -64,4 +65,22 @@ export interface ApiResponse {
 
   }
 
+export interface ProductQuery {
+  search?: string;
+  categories?: number[];
+  materials?: number[];
+  minPrice?: number;
+  maxPrice?: number;
+  stock?: boolean;
+  sort?: "id" | "name" | "price" | "category" | "stock" | "createdAt";
+  order?: "asc" | "desc";
+  limit?: number;
+  page?: number;
+}
 
+export interface ProductPagination {
+  productCount: number;
+  totalPages: number;
+  limit: number;
+  page: number;
+}
