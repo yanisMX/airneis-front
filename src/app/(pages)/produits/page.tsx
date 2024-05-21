@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import getCallAPI from "@/app/api/getCallAPI";
 import { Product, Category, Material } from "@/app/interfaces/interfaces";
 import FilterForProducts from "@/app/components/FilterForProducts";
@@ -11,12 +11,15 @@ const ProductsPage = () => {
   const [materials, setMaterials] = useState<Material[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [selectedMaterials, setSelectedMaterials] = useState<number[]>([]);
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
 
   const API_FOR_ALL_PRODUCTS = 'https://c1bb0d8a5f1d.airneis.net/api/products';
   const API_FOR_CATEGORIES = "https://c1bb0d8a5f1d.airneis.net/api/categories";
   const API_FOR_MATERIALS = "https://c1bb0d8a5f1d.airneis.net/api/materials";
+  const filterDivRef = useRef<HTMLDivElement>(null);
 
-  const fetchDataProducts = async() => {
+
+  const fetchDataProducts = async () => {
     const response = await getCallAPI(API_FOR_ALL_PRODUCTS);
     setProducts(response.products);
   };
@@ -39,6 +42,12 @@ const ProductsPage = () => {
     setProducts(response.products);
   };
 
+
+  const toggleFilterVisibility = () => {
+    setIsFilterVisible(!isFilterVisible);
+  };
+
+
   useEffect(() => {
     fetchDataProducts();
     fetchCategories();
@@ -51,9 +60,16 @@ const ProductsPage = () => {
 
   return (
     <>
-      <main className="flex content-below-navbar">
-        <div className="w-96">
-          
+      <main className="sm:flex content-below-navbar">
+        <div className="sm:hidden flex justify-center w-full">
+          <button className="pb-5 btn btn-ghost text-xl" onClick={toggleFilterVisibility}>
+            <i className="fa-solid fa-filter sm:hidden flex "></i>
+          </button>
+        </div>
+        <div
+          ref={filterDivRef}
+          className={`w-96 ${isFilterVisible ? 'block' : 'hidden'} sm:block`}
+        >
           <FilterForProducts
             categories={categories}
             materials={materials}
@@ -61,10 +77,9 @@ const ProductsPage = () => {
             setSelectedCategories={setSelectedCategories}
             selectedMaterials={selectedMaterials}
             setSelectedMaterials={setSelectedMaterials}
-            className="hidden"
           />
         </div>
-        <div className="sm:flex flex flex-wrap items-center">
+        <div className="sm:flex flex flex-col  sm:flex-row flex-wrap items-center">
           {products ? (
             products.map((product, i) => (
               <ProductComponent product={product} i={i} key={i} />

@@ -30,7 +30,7 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
 
 
   return (
-    <div className="space-y-4 sm:pr-3 sm:ml-3 full-width sm:block hidden">
+    <div className="space-y-4 pr-3 ml-3 ">
       <details
         className="overflow-hidden rounded border border-gray-300 [&_summary::-webkit-details-marker]:hidden "
       >

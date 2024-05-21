@@ -47,17 +47,17 @@ export default function HomePage() {
       <div className="pb-8">
         <div className="carousel w-full h-[500px]" >
           {products ? (
-            products.map((product : Product, i : number) => (
+            products.map((product: Product, i: number) => (
               <div id={`slide${i}`} key={i} className="carousel-item relative w-full">
                 <Image src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${product.images[0].filename}`}
                   alt={product.name}
                   className="w-full object-cover brightness-75"
                   layout="fill" />
                 <div className="absolute bottom-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent bg-opacity-40"></div>
-                <div className="absolute flex flex-col justify-end pb-16 h-full mx-40">
-                  <h1 className="text-5xl font-bold text-white mb-6">{product.name}</h1>
-                  <p className="text-white w-4/6">{product.description}</p>
-                  <div className="mt-16">
+                <div className="absolute flex flex-col justify-end pb-16 h-full sm:mx-40">
+                  <h1 className="mx-16 sm:mx-auto text-5xl font-bold text-white mb-6  sm:block">{product.name}</h1>
+                  <p className="text-white w-4/6 hidden sm:block">{product.description}</p>
+                  <div className=" sm:mx-auto w-full flex justify-center">
                     <Link href={`/produitdetails/${product.slug}`}><button className="btn btn-primary">Voir le produit</button></Link>
                   </div>
                 </div>
@@ -74,7 +74,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
             {categories ? (
-              categories.map((category, id : number) => (
+              categories.map((category, id: number) => (
                 <div id={`category-Card${id}`} className="card w-80 bg-base-100 shadow-xl image-full" key={id}>
                   {category.thumbnail &&
                     <figure>

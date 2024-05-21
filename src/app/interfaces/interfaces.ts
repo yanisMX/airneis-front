@@ -127,7 +127,6 @@ export interface FilterForProductsProps {
   setSelectedCategories: (categories: number[]) => void;
   selectedMaterials: number[];
   setSelectedMaterials: (materials: number[]) => void;
-  className?: string;
 }
   
 
