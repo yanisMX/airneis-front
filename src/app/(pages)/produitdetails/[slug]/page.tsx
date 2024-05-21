@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from 'react';
 import Link from "next/link";
-import getCallAPI from '@/app/API/getCallAPI';
+import getCallAPI from '@/app/api/getCallAPI';
 import { Product } from '@/app/interfaces/interfaces';
 import { handleAddToCart } from '@/app/utils/cartUtils';
 import { useCart } from '@/app/context/CartContext';

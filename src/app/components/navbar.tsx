@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/app/context/AuthContext';
 import { useCart } from '@/app/context/CartContext';
-import postCallAPILogout from '../API/postCallAPILogout';
+import postCallAPILogout from '../api/postCallAPILogout';
 import Image from 'next/image';
 
 
@@ -14,15 +14,15 @@ import Image from 'next/image';
 
 
 const Navbar = () => {
-  // TODO: Implement authentication
-  const router = useRouter();
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
-  const [isOpen, setIsOpen] = useState(false);
+
   const API_FOR_LOGOUT = 'https://c1bb0d8a5f1d.airneis.net/api/auth/logout'
+
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
   const { shoppingCart } = useCart();
 
 
-
+  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const handleClickForLogout = async () => {
 
@@ -32,7 +32,7 @@ const Navbar = () => {
     }
   }
 
-  const handleClick = () => {
+  const handleClick = ()=> {
     setIsOpen(!isOpen);
   };
 
@@ -49,10 +49,6 @@ const Navbar = () => {
     return `${cartItem.quantity} ${articleCountText}`;
 
   })
-
-  
-  
- 
 
   const subtotal = shoppingCart.map((cartItem) => {
     return cartItem.subtotal;
@@ -74,37 +70,38 @@ const Navbar = () => {
               />
               <span>Airneis</span>
             </Link>
-            <button className="sm:hidden btn btn-ghost text-xl" onClick={handleClick}>
+            <button className="sm:hidden btn btn-ghost text-xl flex-1 ml-8" onClick={handleClick}>
               <i className="fa-solid fa-bars"></i>
             </button>
             {isOpen && (
-              <div className="flex flex-col items-start sm:hidden">
-                <Link href="/produits" className="hover:text-gray-400">Produits</Link>
-                <Link href="/rechercher" className="hover:text-gray-400">Rechercher</Link>
-                <Link href="/panier" className="hover:text-gray-400">Panier</Link>
-                {isLoggedIn ? (
+              <div className="absolute top-full right-0 mr-8 bg-white shadow-lg rounded-lg p-4 flex flex-col items-start sm:hidden z-50">                <Link href="/produits" className="hover:text-gray-400">Produits</Link>
+                <Link href="/rechercher" className="hover:text-gray-400 hover:font-bold">Rechercher</Link>
+                <Link href="/panier" className="hover:text-gray-400 hover:font-bold">Panier</Link>
+                {/*TODO : Gérer NAVBAR MOBILE */}
+                {isLoggedIn ? ( 
                   <>
-                    <Link href="/mon-compte" className="hover:text-gray-400">Mon compte</Link>
-                    <Link href="/commandes" className="hover:text-gray-400">Commandes</Link>
-                    <Link href="/deconnexion" className="hover:text-gray-400">Déconnexion</Link>
+                    <Link href="/mon-compte" className="hover:text-gray-400 hover:font-bold">Mon compte</Link>
+                    <Link href="/commandes" className="hover:text-gray-400 hover:font-bold">Commandes</Link>
+                    <Link href="/deconnexion" className="hover:text-gray-400 hover:font-bold">Déconnexion</Link>
                   </>
                 ) : (
                   <>
-                    <Link href="/connexion" className="hover:text-gray-400">Connexion</Link>
-                    <Link href="/inscription" className="hover:text-gray-400">Inscription</Link>
+                    <Link href="/connexion" className="hover:text-gray-400 hover:font-bold">Connexion</Link>
+                    <Link href="/inscription" className="hover:text-gray-400 hover:font-bold">Inscription</Link>
                   </>
                 )}
               </div>
             )}
 
 
-
-            <Link role="button" className="btn btn-ghost" href="/produits">
+            
+            <Link role="button" className="sm:btn sm:btn-ghost hidden sm:hover:font-bold" href="/produits">
               Produits
             </Link>
 
           </div>
 
+            <div className='hidden sm:block'>
           <div className="flex-none">
             <Link role="button" className="btn btn-ghost rounded-full" href="/rechercher">
               <i className="fa-solid fa-magnifying-glass text-xl ms-1"></i>
@@ -149,6 +146,7 @@ const Navbar = () => {
                 )}
               </ul>
             </div>
+          </div>
           </div>
         </div>
       </div>

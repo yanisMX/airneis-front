@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from "react";
-import getCallAPI from "@/app/API/getCallAPI";
+import getCallAPI from "@/app/api/getCallAPI";
 import { Product, Category, Material } from "@/app/interfaces/interfaces";
 import FilterForProducts from "@/app/components/FilterForProducts";
 import ProductComponent from "@/app/components/ProductComponent";
@@ -52,7 +52,8 @@ const ProductsPage = () => {
   return (
     <>
       <main className="flex content-below-navbar">
-        <div className="w-96 p-3">
+        <div className="w-96">
+          
           <FilterForProducts
             categories={categories}
             materials={materials}
@@ -60,9 +61,10 @@ const ProductsPage = () => {
             setSelectedCategories={setSelectedCategories}
             selectedMaterials={selectedMaterials}
             setSelectedMaterials={setSelectedMaterials}
+            className="hidden"
           />
         </div>
-        <div className="sm:flex flex flex-wrap ml-8">
+        <div className="sm:flex flex flex-wrap items-center">
           {products ? (
             products.map((product, i) => (
               <ProductComponent product={product} i={i} key={i} />

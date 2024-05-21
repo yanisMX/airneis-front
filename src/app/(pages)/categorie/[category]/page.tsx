@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from 'react';
 import Link from "next/link";
-import getCallAPI from '@/app/API/getCallAPI';
+import getCallAPI from '@/app/api/getCallAPI';
 import { Product } from '@/app/interfaces/interfaces';
 import Image from 'next/image';
 import ProductComponent from '@/app/components/ProductComponent';

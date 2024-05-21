@@ -1,17 +1,14 @@
 "use client";
 import React, { createContext, useState } from 'react';
-import {AuthContextType, RootLayoutProps} from '@/app/interfaces/interfaces'
+import { AuthContextType, RootLayoutProps } from '@/app/interfaces/interfaces'
 
 
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<RootLayoutProps>  = ({ children}) => {
+export const AuthProvider: React.FC<RootLayoutProps> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-
-
-
+  
   return (
     <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
       {children}

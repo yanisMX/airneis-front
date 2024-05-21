@@ -1,11 +1,8 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Product } from "@/app/interfaces/interfaces";
+import { ProductComponentProps } from "@/app/interfaces/interfaces";
 
-interface ProductComponentProps {
-    product: Product,
-    i: number
-}
+
 
 const ProductComponent = ({ product, i } : ProductComponentProps) => {
     const router = useRouter();

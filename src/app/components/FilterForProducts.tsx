@@ -1,13 +1,7 @@
 "use client"
 import { Category, Material } from "../interfaces/interfaces";
-interface FilterForProductsProps {
-  categories: Category[];
-  materials: Material[];
-  selectedCategories: number[];
-  setSelectedCategories: (categories: number[]) => void;
-  selectedMaterials: number[];
-  setSelectedMaterials: (materials: number[]) => void;
-}
+import { FilterForProductsProps } from "../interfaces/interfaces";
+
 
 const FilterForProducts: React.FC<FilterForProductsProps> = ({ 
   categories,
@@ -36,7 +30,7 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
 
 
   return (
-    <div className="space-y-4 pr-3 ml-3 full-width ">
+    <div className="space-y-4 sm:pr-3 sm:ml-3 full-width sm:block hidden">
       <details
         className="overflow-hidden rounded border border-gray-300 [&_summary::-webkit-details-marker]:hidden "
       >
@@ -200,4 +194,4 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
 }
 
 
-export default FilterForProducts
+export default FilterForProducts;

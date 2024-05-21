@@ -115,11 +115,20 @@ export interface ApiResponse {
           updatedAt: string;
   }
 
-  
+export interface ProductComponentProps {
+    product: Product,
+    i: number
+}
 
- 
-
-
+export interface FilterForProductsProps {
+  categories: Category[];
+  materials: Material[];
+  selectedCategories: number[];
+  setSelectedCategories: (categories: number[]) => void;
+  selectedMaterials: number[];
+  setSelectedMaterials: (materials: number[]) => void;
+  className?: string;
+}
   
 
 

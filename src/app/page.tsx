@@ -2,9 +2,10 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { use, useState } from "react";
+import { useState } from "react";
 import { useEffect } from "react";
-import meubles from "../../public/meubles.jpg";
+import getCallAPI from "./api/getCallAPI";
+import { Category, Product } from "./interfaces/interfaces";
 
 
 export default function HomePage() {
@@ -16,28 +17,9 @@ export default function HomePage() {
   const HIGHLANDERS_PRODUCTS_URL = 'https://c1bb0d8a5f1d.airneis.net/api/products';
   const CATEGORIES_URL = 'https://c1bb0d8a5f1d.airneis.net/api/categories';
 
-  const fetchData = async (url: string) => {
-    try {
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-
-      if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
-
-      return await response.json();
-    } catch (error) {
-      console.error("Failed to fetch data:", error);
-    }
-
-  }
-
   async function fetchAllData() {
-    const fetchedProducts = await fetchData(HIGHLANDERS_PRODUCTS_URL);
-    const fetchedCategories = await fetchData(CATEGORIES_URL);
+    const fetchedProducts = await getCallAPI(HIGHLANDERS_PRODUCTS_URL);
+    const fetchedCategories = await getCallAPI(CATEGORIES_URL);
     if (fetchedProducts && fetchedProducts.products) {
       setProducts(fetchedProducts.products);
     } else {
@@ -53,7 +35,6 @@ export default function HomePage() {
 
   useEffect(() => {
     fetchAllData();
-
   }, []);
 
   return (
@@ -66,7 +47,7 @@ export default function HomePage() {
       <div className="pb-8">
         <div className="carousel w-full h-[500px]" >
           {products ? (
-            products.map((product, i) => (
+            products.map((product : Product, i : number) => (
               <div id={`slide${i}`} key={i} className="carousel-item relative w-full">
                 <Image src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${product.images[0].filename}`}
                   alt={product.name}
@@ -91,10 +72,10 @@ export default function HomePage() {
         <div className="container m-3 mb-12">
           <h1 className="text-4xl font-bold text-center pb-3">Venant des hautes terres d&apos;Ecosse, <br /> nos meubles sont immortels 🛋️</h1>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
+
             {categories ? (
-              categories.map((category, i) => (
-                <div id={`category-Card${i}`} className="card w-80 bg-base-100 shadow-xl image-full" key={i}>
+              categories.map((category, id : number) => (
+                <div id={`category-Card${id}`} className="card w-80 bg-base-100 shadow-xl image-full" key={id}>
                   {category.thumbnail &&
                     <figure>
                       <Image src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${category.thumbnail.filename}`}

@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
 import Link from "next/link";
-import postCallAPI from "@/app/API/postCallAPI";
+import postCallAPI from "@/app/api/postCallAPI";
 import { UserDataSignUp } from "@/app/interfaces/interfaces";
 
 const SignupPage = () => {
