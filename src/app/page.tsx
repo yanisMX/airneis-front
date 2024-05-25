@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useEffect } from "react";
 import getCallAPI from "./api/getCallAPI";
-import { Category, Product } from "./interfaces/interfaces";
+import { Product } from "./interfaces/interfaces";
 
 
 export default function HomePage() {

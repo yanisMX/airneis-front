@@ -17,7 +17,7 @@ const Navbar = () => {
 
   const API_FOR_LOGOUT = 'https://c1bb0d8a5f1d.airneis.net/api/auth/logout'
 
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
   const { shoppingCart } = useCart();
 
 
@@ -28,7 +28,7 @@ const Navbar = () => {
 
     const result = await postCallAPILogout(API_FOR_LOGOUT);
     if (result.success) {
-      setIsLoggedIn(false)
+      logout();
     }
   }
 

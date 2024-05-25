@@ -11,13 +11,12 @@ const ProductsPage = () => {
   const [materials, setMaterials] = useState<Material[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [selectedMaterials, setSelectedMaterials] = useState<number[]>([]);
-  const [isFilterVisible, setIsFilterVisible] = useState(false);
+  const [isFilterVisible, setIsFilterVisible] = useState<boolean>(false);
+
 
   const API_FOR_ALL_PRODUCTS = 'https://c1bb0d8a5f1d.airneis.net/api/products';
   const API_FOR_CATEGORIES = "https://c1bb0d8a5f1d.airneis.net/api/categories";
   const API_FOR_MATERIALS = "https://c1bb0d8a5f1d.airneis.net/api/materials";
-  const filterDivRef = useRef<HTMLDivElement>(null);
-
 
   const fetchDataProducts = async () => {
     const response = await getCallAPI(API_FOR_ALL_PRODUCTS);
@@ -42,7 +41,7 @@ const ProductsPage = () => {
     setProducts(response.products);
   };
 
-
+  const filterDivRef = useRef<HTMLDivElement>(null);
   const toggleFilterVisibility = () => {
     setIsFilterVisible(!isFilterVisible);
   };

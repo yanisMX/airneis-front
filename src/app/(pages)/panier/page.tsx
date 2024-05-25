@@ -1,17 +1,92 @@
 "use client";
 import { Product, ShoppingCart } from '@/app/interfaces/interfaces';
-import React, { useState } from 'react';
-import { handleAddToCart, handleRemoveFromCart } from '@/app/utils/cartUtils';
+import React, { useEffect, useState } from 'react';
 import { useCart } from '@/app/context/CartContext'
 import { useAuth } from '@/app/context/AuthContext';
 import Image from 'next/image';
 
 const CartPage = () => {
 
-  const { shoppingCart } = useCart();
+  const API_TO_UPDATE_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket';
+
+  const { shoppingCart, setShoppingCart } = useCart();
+  const { isLoggedIn } = useAuth();
+
+
+  const seeUserCart = async () => {
+    if (isLoggedIn) {
+      try {
+        const response = await fetch(API_TO_UPDATE_CART);
+        if (!response.ok) {
+          throw new Error('Impossible de récupérer le panier de l\'utilisateur');
+        }
+        const data = await response.json();
+        setShoppingCart(data.basket);
+      } catch (error: any) {
+        console.error(error.message);
+      }
+    }
+  };
+
+  const deleteAllItemsFromCart = async () => {
+    if (isLoggedIn) {
+      try {
+        const response = await fetch(API_TO_UPDATE_CART, {
+          method: 'DELETE',
+        });
+
+        if (!response.ok) {
+          throw new Error('Impossible de supprimer le panier de l\'utilisateur');
+        }
+      } catch (error: any) {
+        console.error(error.message);
+      } 
+    } else {
+      setShoppingCart([]);
+    }
+  }
+
+  const modifyQuantity = async (productId: number, quantity: number) => {
+    if (isLoggedIn) {
+      try {
+        const response = await fetch(API_TO_UPDATE_CART, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ product: productId, quantity }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Impossible de modifier la quantité du produit');
+        }
+      } catch (error: any) {
+        console.error(error.message);
+      }
+    } else {
+      const updatedCart = shoppingCart.map((cartItem) => {
+        if (cartItem.products[0].id === productId) {
+          return { ...cartItem, quantity };
+        }
+        return cartItem;
+      });
+      setShoppingCart(updatedCart);
+    }
+  }
+
+  
+
+
+  
+
+
+  useEffect(() => {
+    seeUserCart();
+  }, []);
+
 
   return (
-    <section className='content-below-navbar'>
+    <section className='content-below-navbar min-h-screen'>
       <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
 
 

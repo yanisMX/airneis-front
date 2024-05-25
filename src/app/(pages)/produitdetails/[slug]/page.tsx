@@ -6,38 +6,68 @@ import { Product } from '@/app/interfaces/interfaces';
 import { handleAddToCart } from '@/app/utils/cartUtils';
 import { useCart } from '@/app/context/CartContext';
 import Image from 'next/image';
+import { useAuth } from '@/app/context/AuthContext';
+import postCallAPI from '@/app/api/postCallAPI';
 
 
 const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
-    const [product, setProduct] = useState<Product | null>(null);
+
     const API_FOR_PRODUCT = `https://c1bb0d8a5f1d.airneis.net/api/products/slug/${params.slug}`;
+    const API_FOR_ADD_TO_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket';
+
+
+    const [product, setProduct] = useState<Product | null>(null);
     const { shoppingCart, setShoppingCart } = useCart();
+    const { isLoggedIn } = useAuth();
+    const [messageDisplay, setMessageDisplay] = useState('');
 
 
-    const addToCart = (): void => {
+    const addToCartForUserConnected = async () => {
+        if (product) {
+            try {
+                const response = await postCallAPI(API_FOR_ADD_TO_CART, { product: product.id, quantity: 1 });
+                if (response.success) {
+                    setMessageDisplay("Produit ajouté au panier.");
+                } else {
+                    setMessageDisplay("Impossible d'ajouter le produit au panier.");
+                }
+            } catch (error: any) {
+                console.error(error.message);
+            }
+        }
+    }
 
+    const addToCartForUserNotConnected = () => {
         if (product) {
             const updatedCart = handleAddToCart(product, shoppingCart);
-            setShoppingCart(updatedCart); // Mettre à jour le panier dans le contexte
+            setShoppingCart(updatedCart);
         } else {
-            console.error("Le produit est null, impossible de l'ajouter au panier.");
+            console.error("Impossible d'ajouter le produit au panier.");
         }
+    }
 
+    const addToCart = (): void => {
+        if (product && isLoggedIn) {
+            addToCartForUserConnected();
+        } else if (product && !isLoggedIn) {
+            addToCartForUserNotConnected();
+        }
     };
 
-
-
-    useEffect((): void => {
-        const fetchDataProduct = async () => {
-            const response = await getCallAPI(API_FOR_PRODUCT);
+    const fetchDataProduct = async () => {
+        const response = await getCallAPI(API_FOR_PRODUCT);
+        try{
             if (response.success) {
                 setProduct(response.product);
             } else {
                 console.error("Impossible de récupérer le produit");
             }
+        } catch (error: any) {
+            console.error(error.message);
+        }
+    };
 
-        };
-
+    useEffect((): void => {
         fetchDataProduct();
     }, [params.slug]);
 

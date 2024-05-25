@@ -2,7 +2,8 @@ import { ReactNode } from "react";
 
 export interface AuthContextType {
   isLoggedIn: boolean;
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  login: () => void;
+  logout: () => void;
 }
 
 
@@ -26,17 +27,13 @@ export interface RootLayoutProps {
     children: ReactNode;
   }
 
-export interface UserDataSignIn {
+export interface UserData {
+    name?: string;
     email: string;
     password: string;
-    cookies: boolean;
+    cookies?: boolean;
   }
 
-export interface UserDataSignUp {
-    name: string;
-    email: string;
-    password: string;
-  }
 
 export interface ApiResponse {
     success : boolean;

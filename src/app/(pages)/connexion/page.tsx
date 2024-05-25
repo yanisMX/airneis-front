@@ -2,18 +2,23 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import postCallAPI from "@/app/api/postCallAPI";
-import { UserDataSignIn } from "../../interfaces/interfaces";
+import { UserData } from "../../interfaces/interfaces";
 import { useAuth } from '@/app/context/AuthContext';
 import { useRouter } from 'next/navigation';
+import { useCart } from "@/app/context/CartContext";
+import { setCookie } from "@/app/utils/cookiesUtils";
+
 
 
 
 const SignInPage = () => {
+
   const router = useRouter()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const { login } = useAuth();
+  const { setShoppingCart } = useCart();
 
   const API_FOR_LOGIN = 'https://c1bb0d8a5f1d.airneis.net/api/auth/login';
 
@@ -23,32 +28,36 @@ const SignInPage = () => {
     setErrorMessage('');
   }
 
+  const userData: UserData = {
+    email,
+    password,
+    cookies: true
+  };
 
-  const handleSubmitForLogin = async(event : React.FormEvent<HTMLFormElement>) => {
+  const loginManagement = (result: any) => {
+    setCookie('accessToken', result.tokens.accessToken, 7);
+    setCookie('refreshToken', result.tokens.refreshToken, 7);
+    login();
+  }
+
+  const handleSubmitForLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
-  const userData : UserDataSignIn = {
-      email,
-      password,
-      cookies: true
-    };
 
     const result = await postCallAPI(API_FOR_LOGIN, userData)
-    
+
     if (result.success) {
-      setIsLoggedIn(true);
-      resetForm()
-      console.log('Connexion réussie', result);
+      loginManagement(result);
       router.push("/")
-      
+      //setShoppingCart(result.basket);
     } else {
       console.error('Erreur de connexion', result.message);
       setErrorMessage("Une erreur inconnue est survenue.");
     }
+    resetForm();
   };
 
-  
- 
+
+
   return (
     <div className="content-below-navbar min-h-screen">
 
@@ -63,7 +72,7 @@ const SignInPage = () => {
             <div>
               <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Adresse e-mail </label>
               <div className="mt-2">
-                <input id="email" name="email" type="email" autoComplete="email" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                <input id="email" name="email" type="email" autoComplete="email" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3" value={email} onChange={(e) => setEmail(e.target.value)} />
               </div>
             </div>
 
@@ -75,7 +84,7 @@ const SignInPage = () => {
                 </div>
               </div>
               <div className="mt-2">
-                <input id="password" name="password" type="password" autoComplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                <input id="password" name="password" type="password" autoComplete="current-password" required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3" value={password} onChange={(e) => setPassword(e.target.value)} />
               </div>
             </div>
 
@@ -91,10 +100,10 @@ const SignInPage = () => {
             <Link href="/inscription" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 pl-3">Inscris-toi ici !</Link>
           </p>
           {errorMessage && (
-  <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-    {errorMessage}
-  </div>
-)}
+            <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {errorMessage}
+            </div>
+          )}
         </div>
       </div>
     </div>
