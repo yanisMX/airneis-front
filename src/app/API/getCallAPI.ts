@@ -20,7 +20,7 @@ export const getCallAPI = async (url: string) => {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Bearer': accessToken
+            'Authorization': `Bearer ${accessToken}`,
         },
         });
         const result = await response.json();

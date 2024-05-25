@@ -23,10 +23,10 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
 
 
     const addToCartForUserConnected = async () => {
-        if (product) {
+        if (product && user && user.accessToken) {
             try {
-      
-                const response = await postCallAPIWithToken(API_FOR_ADD_TO_CART, { product: product.id, quantity: 1 }, user.accessToken);
+                console.log(user.accessToken);
+                const response = await postCallAPIWithToken(API_FOR_ADD_TO_CART, { productId : product.id, quantity: 1 }, user.accessToken);
                 console.log(response);
                 if (response.success) {
                     setMessageDisplay("Produit ajouté au panier.");

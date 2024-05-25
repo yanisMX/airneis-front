@@ -5,20 +5,22 @@ export interface AuthContextType {
   login: () => void;
   logout: () => void;
   user: UserData | null;
+  
+}
+export interface CartItem {
+  product: Product;
+  quantity: number;
 }
 
-
  export interface Cart {
-    products : Product[];
-    quantity : number;
-    subtotal : number;
-    total : string;
+    items : CartItem[];
+    total : number;
   }
 
 
   export interface ShoppingCart {
-    shoppingCart :  Cart[],
-    setShoppingCart : React.Dispatch<React.SetStateAction<Cart[]>>;
+    shoppingCart :  Cart,
+    setShoppingCart : React.Dispatch<React.SetStateAction<Cart>>;
   }
 
 
@@ -36,6 +38,7 @@ export interface UserData {
     role?: string;
     accessToken?: string;
     defaultBillingAddress?: number;
+
 
   }
 

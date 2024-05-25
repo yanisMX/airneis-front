@@ -1,5 +1,5 @@
 "use client";
-import { Product, ShoppingCart } from '@/app/interfaces/interfaces';
+import { Cart, Product, ShoppingCart } from '@/app/interfaces/interfaces';
 import React, { useEffect, useState } from 'react';
 import { useCart } from '@/app/context/CartContext'
 import { useAuth } from '@/app/context/AuthContext';
@@ -14,9 +14,11 @@ const CartPage = () => {
   const { isLoggedIn, user } = useAuth();
 
 
+
     const seeUserCart = async () => {
-      if (isLoggedIn && user) {
-        const result = await getCallApiForUser(API_TO_UPDATE_CART, user.accessToken ?? '');
+      if (isLoggedIn && user?.accessToken) {
+        console.log(user.accessToken)
+        const result = await getCallApiForUser(API_TO_UPDATE_CART, user.accessToken);
         if (result.success) {
           setShoppingCart(result.basket);
         } else {
@@ -25,56 +27,6 @@ const CartPage = () => {
       }
     };
 
-  const deleteAllItemsFromCart = async () => {
-    if (isLoggedIn) {
-      try {
-        const response = await fetch(API_TO_UPDATE_CART, {
-          method: 'DELETE',
-        });
-
-        if (!response.ok) {
-          throw new Error('Impossible de supprimer le panier de l\'utilisateur');
-        }
-      } catch (error: any) {
-        console.error(error.message);
-      } 
-    } else {
-      setShoppingCart([]);
-    }
-  }
-
-  const modifyQuantity = async (productId: number, quantity: number) => {
-    if (isLoggedIn) {
-      try {
-        const response = await fetch(API_TO_UPDATE_CART, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ product: productId, quantity }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Impossible de modifier la quantité du produit');
-        }
-      } catch (error: any) {
-        console.error(error.message);
-      }
-    } else {
-      const updatedCart = shoppingCart.map((cartItem) => {
-        if (cartItem.products[0].id === productId) {
-          return { ...cartItem, quantity };
-        }
-        return cartItem;
-      });
-      setShoppingCart(updatedCart);
-    }
-  }
-
-  
-
-
-  
 
 
   useEffect(() => {
@@ -95,9 +47,9 @@ const CartPage = () => {
 
           <div className="mt-8">
             <div className="mt-8">
-              {shoppingCart.map((cartItem, index) => (
+              {Array.isArray(shoppingCart) && shoppingCart.map((cart : Cart, index : number) => (
                 <div key={index}>
-                  {cartItem.products.map((product, productIndex) => (
+                  {Array.isArray(cart) && cart.map((product, productIndex) => (
                     <ul className="space-y-4 mb-3" key={productIndex}>
                       <li className="flex items-center gap-4">
                         <Image
@@ -119,7 +71,7 @@ const CartPage = () => {
                             <input
                               type="number"
                               min="1"
-                              value={cartItem.quantity}
+                              value={product.quantity}
                               id="Line3Qty"
                               className="h-8 w-12 rounded border-gray-200 bg-gray-50 p-0 text-center text-xs text-gray-600 [-moz-appearance:_textfield] focus:outline-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
                             />

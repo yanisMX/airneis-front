@@ -29,6 +29,7 @@ const Navbar = () => {
     const result = await postCallAPILogout(API_FOR_LOGOUT);
     if (result.success) {
       logout();
+      
     }
   }
 

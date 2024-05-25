@@ -12,18 +12,14 @@ import { useAuth } from "./AuthContext";
 const CartContext = createContext< ShoppingCart|undefined>(undefined);
 
 export const CartProvider: React.FC<RootLayoutProps> = ({ children}) => {
-    const [shoppingCart, setShoppingCart] = useState<Cart[]>([]);
+    const [shoppingCart, setShoppingCart] = useState<Cart>({items : [], total : 0});
     const { user } = useAuth();
   
     useEffect(() => {
-   
-      const localCart = localStorage.getItem("shoppingCart");
-      if (localCart) {
-        setShoppingCart(JSON.parse(localCart));
+      if (user) {
+       // setShoppingCart(user);
       }
-    }, []);
-
-  
+    }, [user]);
 
 
   

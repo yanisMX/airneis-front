@@ -22,7 +22,7 @@ export const AuthProvider: React.FC<RootLayoutProps> = ({ children }) => {
       });
       const userData : UserFetch = await response.json();
       if (userData.success) {
-        setUser(userData.user);
+        setUser({ ...userData.user, accessToken });
 
         console.log('User info fetched:', userData.user);
       } else {
@@ -44,6 +44,8 @@ export const AuthProvider: React.FC<RootLayoutProps> = ({ children }) => {
       setIsLoggedIn(false);
       localStorage.removeItem('isLoggedIn');
       deleteCookie('session');
+      deleteCookie('accessToken')
+      deleteCookie('refreshToken')
       setUser(null);
     };
 
