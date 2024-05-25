@@ -4,6 +4,7 @@ export interface AuthContextType {
   isLoggedIn: boolean;
   login: () => void;
   logout: () => void;
+  user: UserData | null;
 }
 
 
@@ -28,11 +29,21 @@ export interface RootLayoutProps {
   }
 
 export interface UserData {
+    id?: number;
     name?: string;
     email: string;
     password: string;
-    cookies?: boolean;
+    role?: string;
+    accessToken?: string;
+    defaultBillingAddress?: number;
+
   }
+
+export interface UserFetch {
+    success: boolean;
+    user: UserData;
+}
+
 
 
 export interface ApiResponse {

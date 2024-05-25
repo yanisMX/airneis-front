@@ -1,13 +1,12 @@
 "use client";
 import { useEffect, useState } from 'react';
-import Link from "next/link";
-import getCallAPI from '@/app/api/getCallAPI';
+import { getCallAPI} from '@/app/api/getCallAPI';
 import { Product } from '@/app/interfaces/interfaces';
 import { handleAddToCart } from '@/app/utils/cartUtils';
 import { useCart } from '@/app/context/CartContext';
 import Image from 'next/image';
 import { useAuth } from '@/app/context/AuthContext';
-import postCallAPI from '@/app/api/postCallAPI';
+import { postCallAPIWithToken } from '@/app/api/postCallAPI';
 
 
 const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
@@ -20,12 +19,15 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
     const { shoppingCart, setShoppingCart } = useCart();
     const { isLoggedIn } = useAuth();
     const [messageDisplay, setMessageDisplay] = useState('');
+    const { user } = useAuth();
 
 
     const addToCartForUserConnected = async () => {
         if (product) {
             try {
-                const response = await postCallAPI(API_FOR_ADD_TO_CART, { product: product.id, quantity: 1 });
+      
+                const response = await postCallAPIWithToken(API_FOR_ADD_TO_CART, { product: product.id, quantity: 1 }, user.accessToken);
+                console.log(response);
                 if (response.success) {
                     setMessageDisplay("Produit ajouté au panier.");
                 } else {
@@ -72,20 +74,11 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
     }, [params.slug]);
 
     return (
-        <main className='pt-[40px]'>
+        <main className='pt-[40px] content-below-navbar'>
             {product ? (
                 <>
                     <section className="py-12 sm:py-16">
                         <div className="container mx-auto px-4">
-                            <nav className="flex mb-4">
-                                <ol role="list" className="flex items-center space-x-2 text-sm font-medium text-gray-600">
-                                    <li><Link href="/" className="hover:text-gray-800">Home</Link></li>
-                                    <li>/</li>
-                                    <li><Link href="/produits" className="hover:text-gray-800">Products</Link></li>
-                                    <li>/</li>
-                                    <li className="text-gray-900">{product.name}</li>
-                                </ol>
-                            </nav>
                             <div className="grid grid-cols-1 lg:grid-cols-5 gap-16">
                                 <div className="lg:col-span-3">
                                     <div className="aspect-w-3 aspect-h-2">
@@ -122,37 +115,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
                             </div>
                         </div>
                     </section>
-                    <div className="container mx-auto px-4">
-                        <h2 className="text-xl font-bold text-gray-900">Related Products</h2>
-                        <div className="my-10 flex w-full max-w-xs flex-col overflow-hidden bg-white">
-                            <a className="relative flex h-80 w-72 overflow-hidden" href="#">
-                                <Image className="absolute top-0 right-0 h-full w-full object-cover"
-                                    src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${product.images[0].filename}`}
-                                    alt="product image"
-                                    layout="fill" />
-                                <div className="absolute bottom-0 mb-4 flex w-full justify-center space-x-4">
-                                    <div className="h-3 w-3 rounded-full border-2 border-white bg-white"></div>
-                                    <div className="h-3 w-3 rounded-full border-2 border-white bg-transparent"></div>
-                                    <div className="h-3 w-3 rounded-full border-2 border-white bg-transparent"></div>
-                                </div>
-                                <div className="absolute -right-16 bottom-0 mr-2 mb-4 space-y-2 transition-all duration-300 hover:right-0">
-                                    <button className="flex h-10 w-10 items-center justify-center bg-gray-900 text-white transition hover:bg-gray-700">
-                                    </button>
-                                </div>
-                            </a>
-                            <div className="mt-4 pb-5">
-                                <a href="#">
-                                    <h5 className="text-center tracking-tight text-gray-500">Piped Linen Blend Blazer</h5>
-                                </a>
-                                <div className="mb-5 flex justify-center">
-                                    <p>
-                                        <span className="text-sm font-bold text-gray-900">$179</span>
-                                        <span className="text-sm text-gray-400 line-through">$499</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </>
             ) : (
                 <div className="flex justify-center items-center h-screen">

@@ -35,5 +35,3 @@ export const handleRemoveFromCart = (product: Product, shoppingCart: Cart[]): Ca
 
   return updatedCart;
 };
-
-

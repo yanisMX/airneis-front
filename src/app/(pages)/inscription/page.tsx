@@ -1,8 +1,8 @@
 "use client"
 import React, { useState } from "react";
 import Link from "next/link";
-import postCallAPI from "@/app/api/postCallAPI";
-import { UserDataSignUp } from "@/app/interfaces/interfaces";
+import {postCallAPI} from "@/app/api/postCallAPI";
+import { UserData } from "@/app/interfaces/interfaces";
 
 const SignupPage = () => {
 
@@ -17,7 +17,7 @@ const SignupPage = () => {
   const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   
-    const userData : UserDataSignUp = {
+    const userData : UserData = {
       name,
       email,
       password

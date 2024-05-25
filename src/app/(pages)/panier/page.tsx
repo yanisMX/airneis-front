@@ -4,29 +4,26 @@ import React, { useEffect, useState } from 'react';
 import { useCart } from '@/app/context/CartContext'
 import { useAuth } from '@/app/context/AuthContext';
 import Image from 'next/image';
+import { getCallApiForUser } from '@/app/api/getCallAPI';
 
 const CartPage = () => {
 
   const API_TO_UPDATE_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket';
 
   const { shoppingCart, setShoppingCart } = useCart();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
 
 
-  const seeUserCart = async () => {
-    if (isLoggedIn) {
-      try {
-        const response = await fetch(API_TO_UPDATE_CART);
-        if (!response.ok) {
-          throw new Error('Impossible de récupérer le panier de l\'utilisateur');
+    const seeUserCart = async () => {
+      if (isLoggedIn && user) {
+        const result = await getCallApiForUser(API_TO_UPDATE_CART, user.accessToken ?? '');
+        if (result.success) {
+          setShoppingCart(result.basket);
+        } else {
+          console.error('Erreur de connexion', result.message);
         }
-        const data = await response.json();
-        setShoppingCart(data.basket);
-      } catch (error: any) {
-        console.error(error.message);
       }
-    }
-  };
+    };
 
   const deleteAllItemsFromCart = async () => {
     if (isLoggedIn) {
