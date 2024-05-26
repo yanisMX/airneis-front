@@ -24,11 +24,11 @@ body {
  
 /* Handle */
 .dashboard ::-webkit-scrollbar-thumb {
-    background: #888;
+    background: #aaa;
     border-radius: 5px;
 }
  
 /* Handle on hover */
 .dashboard ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: #888;
 }
