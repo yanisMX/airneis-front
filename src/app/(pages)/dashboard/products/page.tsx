@@ -137,7 +137,7 @@ export default function Products() {
       tempFilters.order = "asc";
     }
 
-    setFilters({ ...tempFilters });
+    setFilters({ ...tempFilters, page: undefined });
   }
 
   return (

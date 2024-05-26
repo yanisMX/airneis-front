@@ -32,6 +32,19 @@ export interface ApiResponse {
     images: Image[];
     backgroundImage: Image;
   }
+
+export interface ProductCreation {
+  name: string | null;
+  description?: string;
+  slug?: string;
+  price: number | null;
+  stock: number | null;
+  priority?: number;
+  categoryId: number | null;
+  materialIds: number[];
+  imageIds: number[];
+  backgroundImageId: number | null;
+}
   
   export interface Category {
     id: number;
@@ -80,6 +93,20 @@ export interface ProductQuery {
 
 export interface ProductPagination {
   productCount: number;
+  totalPages: number;
+  limit: number;
+  page: number;
+}
+
+export interface MediaQuery {
+  search?: string;
+  type?: string;
+  limit?: number;
+  page?: number;
+}
+
+export interface MediaPagination {
+  mediaCount: number;
   totalPages: number;
   limit: number;
   page: number;
