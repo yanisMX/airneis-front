@@ -24,7 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <>
       <Toaster position="top-right" toastOptions={{ duration: 5000 }} />
 
-      <div className="w-full">
+      <div className="dashboard w-full">
         <div className="drawer xl:drawer-open">
           <div className="drawer-content h-screen flex flex-col pt-5 lg:px-10 xl:py-10 xl:ps-0 xl:pe-10 overflow-auto">
             <div className="mb-4 ps-5 lg:ps-0 xl:mb-0 xl:ps-0">
