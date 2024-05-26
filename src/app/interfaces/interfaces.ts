@@ -23,9 +23,6 @@ export interface CartItem {
     setShoppingCart : React.Dispatch<React.SetStateAction<Cart>>;
   }
 
-
-
-
 export interface RootLayoutProps {
     children: ReactNode;
   }
@@ -38,6 +35,7 @@ export interface UserData {
     role?: string;
     accessToken?: string;
     defaultBillingAddress?: number;
+    
 
 
   }

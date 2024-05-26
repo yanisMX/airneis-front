@@ -8,11 +8,6 @@ import { useCart } from '@/app/context/CartContext';
 import postCallAPILogout from '../api/postCallAPILogout';
 import Image from 'next/image';
 
-
-
-
-
-
 const Navbar = () => {
 
   const API_FOR_LOGOUT = 'https://c1bb0d8a5f1d.airneis.net/api/auth/logout'
@@ -37,23 +32,19 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
-  const quantity = shoppingCart.map((cartItem) => {
-    return cartItem.quantity;
-  })
+  const quantity = shoppingCart?.items?.reduce((acc, cartItem) => {
+    return acc + cartItem.quantity;
+  }, 0) || 0;
 
-  const getArticleCount = shoppingCart.map((cartItem) => {
+  const getArticleCount = shoppingCart?.items?.map((cartItem) => {
     if (cartItem.quantity === 0) {
       return cartItem.quantity;
     }
     const articleCountText = cartItem.quantity === 1 ? 'article' : 'articles';
-
     return `${cartItem.quantity} ${articleCountText}`;
+  }) || [];
 
-  })
-
-  const subtotal = shoppingCart.map((cartItem) => {
-    return cartItem.subtotal;
-  })
+  const total = shoppingCart.total;
 
 
   return (
@@ -78,7 +69,6 @@ const Navbar = () => {
               <div className="absolute top-full right-0 mr-8 bg-white shadow-lg rounded-lg p-4 flex flex-col items-start sm:hidden z-50">                <Link href="/produits" className="hover:text-gray-400">Produits</Link>
                 <Link href="/rechercher" className="hover:text-gray-400 hover:font-bold">Rechercher</Link>
                 <Link href="/panier" className="hover:text-gray-400 hover:font-bold">Panier</Link>
-                {/*TODO : Gérer NAVBAR MOBILE */}
                 {isLoggedIn ? ( 
                   <>
                     <Link href="/mon-compte" className="hover:text-gray-400 hover:font-bold">Mon compte</Link>
@@ -121,7 +111,7 @@ const Navbar = () => {
                 <div className="card-body">
                   <span className="font-bold text-lg">{getArticleCount}
                    </span>
-                  <span className="font-semibold">{subtotal}</span>
+                  <span className="font-semibold">{total ? (<p>Total : {total} €</p>): (<p></p>)}  </span>
                   <div className="card-actions">
                     <Link href="/panier"> <button className="btn btn-primary btn-block">Voir mon panier</button></Link>
                   </div>

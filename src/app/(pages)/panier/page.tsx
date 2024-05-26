@@ -1,10 +1,12 @@
 "use client";
-import { Cart, Product, ShoppingCart } from '@/app/interfaces/interfaces';
+import { Cart, CartItem, Product, ShoppingCart } from '@/app/interfaces/interfaces';
 import React, { useEffect, useState } from 'react';
 import { useCart } from '@/app/context/CartContext'
 import { useAuth } from '@/app/context/AuthContext';
 import Image from 'next/image';
 import { getCallApiForUser } from '@/app/api/getCallAPI';
+import { handleRemoveFromCart } from '@/app/utils/cartUtils';
+
 
 const CartPage = () => {
 
@@ -12,26 +14,63 @@ const CartPage = () => {
 
   const { shoppingCart, setShoppingCart } = useCart();
   const { isLoggedIn, user } = useAuth();
+  
 
+ 
 
-
-    const seeUserCart = async () => {
-      if (isLoggedIn && user?.accessToken) {
-        console.log(user.accessToken)
-        const result = await getCallApiForUser(API_TO_UPDATE_CART, user.accessToken);
-        if (result.success) {
-          setShoppingCart(result.basket);
-        } else {
-          console.error('Erreur de connexion', result.message);
+  const modifyQuantity = async (productId: number, quantity: number) => {
+    if (isLoggedIn && user?.accessToken) {
+      try {
+        const response = await fetch(API_TO_UPDATE_CART, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${user.accessToken}`
+          },
+          body: JSON.stringify({ productId, quantity }),
+        });
+        if (!response.ok) {
+          throw new Error('Impossible de modifier la quantité du produit');
         }
+      } catch (error: any) {
+        console.error(error.message);
       }
-    };
+    } else {
+      const updatedCart = shoppingCart.items.map(item => {
+        if (item.product.id === productId) {
+          return { ...item, quantity };
+        }
+        return item;
+      });
+      setShoppingCart({ items: updatedCart, total: calculateTotal(updatedCart) });
+    }
+  };
 
-
-
-  useEffect(() => {
-    seeUserCart();
-  }, []);
+  const calculateTotal = (items: CartItem[]): number => {
+    return items.reduce((total, item) => total + item.product.price * item.quantity, 0);
+  };
+  
+  const deleteAllItemsFromCart = async () => {
+    if (isLoggedIn && user?.accessToken) {
+      try {
+        const response = await fetch(API_TO_UPDATE_CART, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${user.accessToken}`
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Impossible de supprimer le panier de l'utilisateur");
+        }
+        setShoppingCart({ items: [], total: 0 });
+      } catch (error: any) {
+        console.error(error.message);
+      }
+    } else {
+      setShoppingCart({ items: [], total: 0 });
+    }
+  };
 
 
   return (
@@ -46,70 +85,68 @@ const CartPage = () => {
           </header>
 
           <div className="mt-8">
-            <div className="mt-8">
-              {Array.isArray(shoppingCart) && shoppingCart.map((cart : Cart, index : number) => (
-                <div key={index}>
-                  {Array.isArray(cart) && cart.map((product, productIndex) => (
-                    <ul className="space-y-4 mb-3" key={productIndex}>
-                      <li className="flex items-center gap-4">
-                        <Image
-                          src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${product.images[0].filename}`}
-                          alt=""
-                          className="size-16 rounded object-cover"
-                          width={40}
-                          height={40}
-                        />
-                        <div className="flex-1">
-                          <h3 className="text-sm text-gray-900">{product.name}</h3>
-                          <p className='text-sm'>{product.price} €</p>
-                        </div>
-
-                        <div className="flex flex-1 items-center justify-end gap-2">
-                          <form>
-                            <label htmlFor="Line3Qty" className="sr-only"> Quantity </label>
-
-                            <input
-                              type="number"
-                              min="1"
-                              value={product.quantity}
-                              id="Line3Qty"
-                              className="h-8 w-12 rounded border-gray-200 bg-gray-50 p-0 text-center text-xs text-gray-600 [-moz-appearance:_textfield] focus:outline-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+          {shoppingCart?.items?.length > 0 ? (
+              <div className="mt-8">
+                {shoppingCart.items.map((item, itemIndex) => (
+                  <ul className="space-y-4 mb-3" key={itemIndex}>
+                    <li className="flex items-center gap-4">
+                      <Image
+                        src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${item.product.images[0].filename}`}
+                        alt=""
+                        className="size-16 rounded object-cover"
+                        width={40}
+                        height={40}
+                      />
+                      <div className="flex-1">
+                        <h3 className="text-sm text-gray-900">{item.product.name}</h3>
+                        <p className='text-sm'>{item.product.price} €</p>
+                      </div>
+                      <div className="flex flex-1 items-center justify-end gap-2">
+                        <form>
+                          <label htmlFor="Line3Qty" className="sr-only"> Quantity </label>
+                          <input
+                            type="number"
+                            min="1"
+                            value={item.quantity}
+                            id="Line3Qty"
+                            className="h-8 w-12 rounded border-gray-200 bg-gray-50 p-0 text-center text-xs text-gray-600 [-moz-appearance:_textfield] focus:outline-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+                            onChange={(e) => modifyQuantity(item.product.id, parseInt(e.target.value))}
+                          />
+                        </form>
+                        <button className="text-gray-600 transition hover:text-red-600" onClick={() => setShoppingCart(handleRemoveFromCart(item.product, shoppingCart))}>
+                          <span className="sr-only">Remove item</span>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="h-4 w-4"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
                             />
-                          </form>
+                          </svg>
+                        </button>
+                      </div>
+                    </li>
+                  </ul>
+                ))}
+              </div>
+            ) : (
+              <p className="mt-7 p-3 bg-blue-100 border border-blue-400 text-blue-700 rounded" >Votre panier est vide</p>
+            )}
 
-                          <button className="text-gray-600 transition hover:text-red-600" >
-                            <span className="sr-only">Remove item</span>
-
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth="1.5"
-                              stroke="currentColor"
-                              className="h-4 w-4"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      </li>
-                    </ul>
-                  ))}
-                </div>
-              ))}
-            </div>
             <div className="mt-8 flex justify-end border-t border-gray-100 pt-8">
               <div className="w-screen max-w-lg space-y-4">
                 <dl className="space-y-0.5 text-sm text-gray-700">
 
 
                   <div className="flex justify-between !text-base font-medium">
-                    <dt>Total</dt>
-                    <dd> €</dd>
+                    <dt className='font-bold'>Total : </dt>
+                    <dd>  €</dd>
                   </div>
                 </dl>
 
@@ -131,3 +168,6 @@ const CartPage = () => {
 }
 
 export default CartPage;
+
+
+
