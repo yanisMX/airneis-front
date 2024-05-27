@@ -1,4 +1,4 @@
-import { Category, Image as Media, Material, Product, ProductCreation } from "@/app/interfaces/interfaces";
+import { Category, Material, Image as Media, Product, ProductCreation } from "@/app/interfaces/interfaces";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -341,12 +341,13 @@ export default function ProductForm({ product }: { product?: Product }) {
                   <div className="form-control w-full">
                     <label className="label label-text">Catégorie</label>
 
-                    <div className="dropdown">
+                    <div className="dropdown md:dropdown-top">
                       <button ref={selectCategoryRef} tabIndex={0} role="button" className="btn btn-xs justify-between w-full border border-gray-300">
                         {selectedCategory?.name || "Aucune"}
-                        <i className="fa-solid fa-chevron-down"></i>
+                        <i className="md:hidden fa-solid fa-chevron-down"></i>
+                        <i className="hidden md:inline-block fa-solid fa-chevron-up"></i>
                       </button>
-                      <ul tabIndex={0} className="dropdown-content z-[1] menu menu-sm p-0 mt-2 border border-gray-300 shadow bg-base-100 rounded-lg w-full">
+                      <ul tabIndex={0} className="dropdown-content z-[1] menu menu-sm p-0 my-1 border border-gray-300 shadow bg-base-100 rounded-lg w-full">
                         <div className="px-4 pt-2 pb-2 border-b border-gray-300">
                           <div className="flex items-center">
                             <span className="flex-1 font-bold">Catégories</span>
@@ -379,13 +380,14 @@ export default function ProductForm({ product }: { product?: Product }) {
                   <div className="form-control w-full">
                     <label className="label label-text">Matériaux</label>
 
-                    <div className="dropdown">
+                    <div className="dropdown md:dropdown-top">
                       <button ref={selectMaterialRef} tabIndex={0} role="button" className="btn btn-xs justify-between w-full border border-gray-300">
                         {selectedMaterials.length == 0 ? "Aucun" : selectedMaterials.length + " matériau" + (selectedMaterials.length > 1 ? "x" : "")}
-                        <i className="fa-solid fa-chevron-down"></i>
+                        <i className="md:hidden fa-solid fa-chevron-down"></i>
+                        <i className="hidden md:inline-block fa-solid fa-chevron-up"></i>
                       </button>
 
-                      <ul tabIndex={0} className="dropdown-content z-[1] menu menu-sm p-0 mt-2 border border-gray-300 shadow bg-base-100 rounded-lg w-full">
+                      <ul tabIndex={0} className="dropdown-content z-[1] menu menu-sm p-0 my-1 border border-gray-300 shadow bg-base-100 rounded-lg w-full">
                         <div className="px-4 pt-2 pb-2 border-b border-gray-300">
                           <div className="flex items-center">
                             <span className="flex-1 font-bold">Matériaux</span>

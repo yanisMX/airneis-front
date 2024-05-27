@@ -51,8 +51,17 @@ export interface ProductCreation {
     name: string;
     slug: string;
     description: string;
+    thumbnail?: Image;
     createdAt: string;
     updatedAt: string;
+  }
+
+  export interface CategoryFilters {
+    search?: string;
+    sort?: "id" | "name" | "createdAt" | "updatedAt";
+    order?: "asc" | "desc";
+    limit: number;
+    page: number;
   }
   
   export interface Material {
