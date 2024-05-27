@@ -47,7 +47,7 @@ const CartPage = () => {
     }
   };
 
- 
+
 
   const deleteAllItemsFromCart = async () => {
     if (isLoggedIn && user?.accessToken) {
@@ -101,18 +101,35 @@ const CartPage = () => {
                         <p className='text-sm'>{item.product.price} €</p>
                       </div>
                       <div className="flex flex-1 items-center justify-end gap-2">
-                        <form>
-                          <label htmlFor="Line3Qty" className="sr-only"> Quantity </label>
+                        <form className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            className="h-8 w-8 flex items-center justify-center rounded border border-gray-300 bg-gray-100 text-gray-700 hover:bg-gray-200"
+                            onClick={() => modifyQuantity(item.product.id, item.quantity - 1)}
+                          >
+                            -
+                          </button>
+                          <label htmlFor="Line3Qty" className="sr-only">Quantity</label>
                           <input
                             type="number"
                             min="1"
                             value={item.quantity}
                             id="Line3Qty"
-                            className="h-8 w-12 rounded border-gray-200 bg-gray-50 p-0 text-center text-xs text-gray-600 [-moz-appearance:_textfield] focus:outline-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+                            className="h-8 w-12 rounded border-gray-200 bg-gray-50 p-0 text-center text-xs text-gray-600 focus:outline-none"
                             onChange={(e) => modifyQuantity(item.product.id, parseInt(e.target.value))}
                           />
+                          <button
+                            type="button"
+                            className="h-8 w-8 flex items-center justify-center rounded border border-gray-300 bg-gray-100 text-gray-700 hover:bg-gray-200"
+                            onClick={() => modifyQuantity(item.product.id, item.quantity + 1)}
+                          >
+                            +
+                          </button>
                         </form>
-                        <button className="text-gray-600 transition hover:text-red-600" onClick={() => setShoppingCart(handleRemoveFromCart(item.product, shoppingCart))}>
+                        <button
+                          className="text-gray-600 transition hover:text-red-600"
+                          onClick={() => setShoppingCart(handleRemoveFromCart(item.product, shoppingCart))}
+                        >
                           <span className="sr-only">Remove item</span>
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -130,6 +147,7 @@ const CartPage = () => {
                           </svg>
                         </button>
                       </div>
+
                     </li>
                   </ul>
                 ))}
@@ -143,12 +161,11 @@ const CartPage = () => {
                 <dl className="space-y-0.5 text-sm text-gray-700">
 
 
-                  <div className="flex justify-between !text-base font-medium">
-                    <dt className='font-bold'>Total : </dt>
-                    <dd>  €</dd>
+                  <div className="flex justify-between !text-base font-bold">
+                    <dt>Total : </dt>
+                    <dd> {shoppingCart.total} €</dd>
                   </div>
                 </dl>
-                <p>{shoppingCart.total}</p>
                 <div className="flex justify-end">
                   <a
                     href="#"

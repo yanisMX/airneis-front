@@ -5,6 +5,7 @@ import { createContext, useState } from "react";
 import { ShoppingCart, RootLayoutProps, Cart, CartItem } from "../interfaces/interfaces";
 import { useAuth } from "./AuthContext";
 import { getCallApiForUser } from "../api/getCallAPI";
+import { calculateTotal } from "../utils/cartUtils";
 
 
 
@@ -32,7 +33,7 @@ export const CartProvider: React.FC<RootLayoutProps> = ({ children }) => {
               product: item.product,
               quantity: item.quantity,
             })),
-            total: 3,
+            total: calculateTotal(newBasket),
           };
           setShoppingCart(mappedBasket);
         } else {
@@ -49,7 +50,6 @@ export const CartProvider: React.FC<RootLayoutProps> = ({ children }) => {
   useEffect(() => {
     if (isLoggedIn && user) {
       restoreUserCart();
-
     }
   }, [user]);
 

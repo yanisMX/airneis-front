@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link";
 import React, { useState } from "react";
-import {postCallAPI} from "@/app/api/postCallAPI";
+import { postCallAPI } from "@/app/api/postCallAPI";
 import { UserData } from "../../interfaces/interfaces";
 import { useAuth } from '@/app/context/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -30,11 +30,10 @@ const SignInPage = () => {
   const userData: UserData = {
     email,
     password,
-   
+
   };
 
   const loginManagement = (result: any) => {
-    
     setCookie('accessToken', result.tokens.accessToken, 7);
     setCookie('refreshToken', result.tokens.refreshToken, 7);
     login();

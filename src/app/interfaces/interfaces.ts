@@ -18,8 +18,6 @@ export interface CartItem {
   }
 
 
-
-
   export interface ShoppingCart {
     shoppingCart :  Cart,
     setShoppingCart : React.Dispatch<React.SetStateAction<Cart>>;
@@ -37,9 +35,6 @@ export interface UserData {
     role?: string;
     accessToken?: string;
     defaultBillingAddress?: number;
-    
-
-
   }
 
 export interface UserFetch {
