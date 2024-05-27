@@ -11,6 +11,7 @@ export const AuthProvider: React.FC<RootLayoutProps> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<UserData | null>(null);
   const API_FOR_USER = 'https://c1bb0d8a5f1d.airneis.net/api/user';
+
   
   const fetchUserInfo = async (accessToken: string) => {
     try {
@@ -47,6 +48,7 @@ export const AuthProvider: React.FC<RootLayoutProps> = ({ children }) => {
       deleteCookie('accessToken')
       deleteCookie('refreshToken')
       setUser(null);
+      
     };
 
   useEffect(() => {

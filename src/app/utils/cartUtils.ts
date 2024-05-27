@@ -1,9 +1,10 @@
+import { set } from "mongoose";
 import { Cart, Product, CartItem } from "../interfaces/interfaces";
 
 
 
 export const handleAddToCart = (product: Product, shoppingCart: Cart): Cart => {
-  const updatedCart : Cart = { ...shoppingCart, items: [...shoppingCart.items]  };
+  const updatedCart : Cart = { ...shoppingCart, items : shoppingCart.items ? [...shoppingCart.items] : [], total: shoppingCart.total || 0 };
   let found = false;
 
   updatedCart.items.forEach(item => {
@@ -23,7 +24,7 @@ export const handleAddToCart = (product: Product, shoppingCart: Cart): Cart => {
     updatedCart.total += parseFloat(product.price);
   }
 
-  return updatedCart;
+return updatedCart;
 };
 
 export const handleRemoveFromCart = (product: Product, shoppingCart: Cart): Cart => {
@@ -40,4 +41,8 @@ export const handleRemoveFromCart = (product: Product, shoppingCart: Cart): Cart
   });
 
   return updatedCart;
+};
+
+export const calculateTotal = (items: CartItem[]): number => {
+  return items.reduce((total, item) => total + item.product.price * item.quantity, 0);
 };

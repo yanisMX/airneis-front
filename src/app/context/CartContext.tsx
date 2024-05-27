@@ -2,7 +2,7 @@
 
 import React, { use, useEffect } from "react";
 import { createContext, useState } from "react";
-import { ShoppingCart, RootLayoutProps, Cart } from "../interfaces/interfaces";
+import { ShoppingCart, RootLayoutProps, Cart, CartItem } from "../interfaces/interfaces";
 import { useAuth } from "./AuthContext";
 import { getCallApiForUser } from "../api/getCallAPI";
 
@@ -18,6 +18,7 @@ export const CartProvider: React.FC<RootLayoutProps> = ({ children }) => {
   const API_TO_UPDATE_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket';
   const [totalCartUser, setTotalCartUser] = useState<number>(0);
 
+ 
 
 
   const restoreUserCart = async () => {
@@ -26,7 +27,14 @@ export const CartProvider: React.FC<RootLayoutProps> = ({ children }) => {
         const result: { success: boolean, basket: any, message: string } = await getCallApiForUser(API_TO_UPDATE_CART, user.accessToken);
         if (result.success) {
           const newBasket = result.basket;
-          setShoppingCart(newBasket);
+          const mappedBasket: Cart = {
+            items: newBasket.map((item: any) => ({
+              product: item.product,
+              quantity: item.quantity,
+            })),
+            total: 3,
+          };
+          setShoppingCart(mappedBasket);
         } else {
           console.error('Erreur de connexion', result.message);
         }
@@ -47,9 +55,9 @@ export const CartProvider: React.FC<RootLayoutProps> = ({ children }) => {
 
   useEffect(() => {
     console.log('Panier mis à jour :', shoppingCart);
-  
+
   }, [shoppingCart]);
-  
+
 
 
   return (

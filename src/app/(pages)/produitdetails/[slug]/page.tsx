@@ -74,7 +74,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
     }, [params.slug]);
 
     return (
-        <main className='pt-[40px] content-below-navbar'>
+        <main className='pt-[40px] content-below-navbar min-h-screen'>
             {product ? (
                 <>
                     <section className="py-12 sm:py-16">

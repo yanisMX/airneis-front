@@ -7,13 +7,15 @@ import { useAuth } from '@/app/context/AuthContext';
 import { useCart } from '@/app/context/CartContext';
 import postCallAPILogout from '../api/postCallAPILogout';
 import Image from 'next/image';
+import { set } from 'mongoose';
 
 const Navbar = () => {
 
   const API_FOR_LOGOUT = 'https://c1bb0d8a5f1d.airneis.net/api/auth/logout'
 
   const { isLoggedIn, logout } = useAuth();
-  const { shoppingCart } = useCart();
+  const { shoppingCart, setShoppingCart } = useCart();
+  const { user } = useAuth();
 
 
   const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +26,7 @@ const Navbar = () => {
     const result = await postCallAPILogout(API_FOR_LOGOUT);
     if (result.success) {
       logout();
-      
+      setShoppingCart({ items: [], total: 0 });
     }
   }
 
@@ -123,7 +125,7 @@ const Navbar = () => {
                 <i className="fas fa-circle-user text-2xl"></i>
               </div>
               <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                {isLoggedIn ? (
+                {isLoggedIn && user ? (
                   <>
                     <li><Link href="/moncompte">Mon compte</Link></li>
                     <li><Link href="/mescommandes">Commandes</Link></li>

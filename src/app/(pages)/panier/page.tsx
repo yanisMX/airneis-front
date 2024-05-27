@@ -6,6 +6,7 @@ import { useAuth } from '@/app/context/AuthContext';
 import Image from 'next/image';
 import { getCallApiForUser } from '@/app/api/getCallAPI';
 import { handleRemoveFromCart } from '@/app/utils/cartUtils';
+import { calculateTotal } from '@/app/utils/cartUtils';
 
 
 const CartPage = () => {
@@ -14,9 +15,9 @@ const CartPage = () => {
 
   const { shoppingCart, setShoppingCart } = useCart();
   const { isLoggedIn, user } = useAuth();
-  
 
- 
+
+
 
   const modifyQuantity = async (productId: number, quantity: number) => {
     if (isLoggedIn && user?.accessToken) {
@@ -46,10 +47,8 @@ const CartPage = () => {
     }
   };
 
-  const calculateTotal = (items: CartItem[]): number => {
-    return items.reduce((total, item) => total + item.product.price * item.quantity, 0);
-  };
-  
+ 
+
   const deleteAllItemsFromCart = async () => {
     if (isLoggedIn && user?.accessToken) {
       try {
@@ -85,7 +84,7 @@ const CartPage = () => {
           </header>
 
           <div className="mt-8">
-          {shoppingCart?.items?.length > 0 ? (
+            {shoppingCart?.items?.length > 0 ? (
               <div className="mt-8">
                 {shoppingCart.items.map((item, itemIndex) => (
                   <ul className="space-y-4 mb-3" key={itemIndex}>
@@ -149,7 +148,7 @@ const CartPage = () => {
                     <dd>  €</dd>
                   </div>
                 </dl>
-
+                <p>{shoppingCart.total}</p>
                 <div className="flex justify-end">
                   <a
                     href="#"
