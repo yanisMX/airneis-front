@@ -8,11 +8,11 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 
 export const AuthProvider: React.FC<RootLayoutProps> = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [user, setUser] = useState<UserData | null>(null);
   const API_FOR_USER = 'https://c1bb0d8a5f1d.airneis.net/api/user';
 
-  
+
   const fetchUserInfo = async (accessToken: string) => {
     try {
       const response = await fetch(API_FOR_USER, {
@@ -21,11 +21,12 @@ export const AuthProvider: React.FC<RootLayoutProps> = ({ children }) => {
           'Authorization': `Bearer ${accessToken}`
         }
       });
-      const userData : UserFetch = await response.json();
+      const userData: UserFetch = await response.json();
       if (userData.success) {
         setUser({ ...userData.user, accessToken });
+        setIsLoggedIn(true);
+        localStorage.setItem('isLoggedIn', 'true');
 
-        console.log('User info fetched:', userData.user);
       } else {
         console.error('Failed to fetch user info');
       }
@@ -41,26 +42,28 @@ export const AuthProvider: React.FC<RootLayoutProps> = ({ children }) => {
     fetchUserInfo(getCookie('accessToken') ?? '');
   };
 
-    const logout = () => {
-      setIsLoggedIn(false);
-      localStorage.removeItem('isLoggedIn');
-      deleteCookie('session');
-      deleteCookie('accessToken')
-      deleteCookie('refreshToken')
-      setUser(null);
-      
-    };
+  const logout = () => {
+    setIsLoggedIn(false);
+    localStorage.removeItem('isLoggedIn');
+    deleteCookie('session');
+    deleteCookie('accessToken')
+    deleteCookie('refreshToken')
+    setUser(null);
+
+  };
 
   useEffect(() => {
     const storedLoginStatus = localStorage.getItem('isLoggedIn');
     if (storedLoginStatus === 'true') {
-      const accessToken = getCookie('accessToken') ?? ''; 
-      fetchUserInfo(accessToken);
+      const accessToken = getCookie('accessToken') ?? '';
+      if (accessToken) {
+        fetchUserInfo(accessToken);
+      }
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout, user }}>
+    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, login, logout, user, setUser }}>
       {children}
     </AuthContext.Provider>
   );

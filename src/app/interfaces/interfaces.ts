@@ -2,10 +2,11 @@ import { ReactNode } from "react";
 
 export interface AuthContextType {
   isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   login: () => void;
   logout: () => void;
   user: UserData | null;
-  
+  setUser : React.Dispatch<React.SetStateAction<UserData | null>>;
 }
 export interface CartItem {
   product: Product;
@@ -27,15 +28,21 @@ export interface RootLayoutProps {
     children: ReactNode;
   }
 
-export interface UserData {
+  export interface UserData {
     id?: number;
     name?: string;
     email: string;
-    password: string;
+    password?: string;
     role?: string;
+    createdAt?: string;
+    updatedAt?: string;
     accessToken?: string;
     defaultBillingAddress?: number;
+    defaultShippingAddress?: number;
+    billingAddress?: string;
+    shippingAddress?: string;
   }
+
 
 export interface UserFetch {
     success: boolean;
@@ -50,6 +57,11 @@ export interface ApiResponse {
       accessToken : string,
       refreshToken : string;
     }
+  }
+
+  export interface ApiResponseForUserModification {
+    success : boolean;
+    user : UserData;
   }
   
   export interface Product {
@@ -93,16 +105,6 @@ export interface ApiResponse {
     updatedAt: string;
   }
 
-  export interface userDetail {
-    id : number;
-    name : string;
-    email : string;
-    role : string;
-    createdAt : string;
-    updatedAt : string;
-    defaultBillingAddress : number;
-    defaultShippingAddress : number;
-  }
 
   export interface Address {
           id: number;
