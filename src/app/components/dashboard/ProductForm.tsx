@@ -25,7 +25,7 @@ export default function ProductForm({ product }: { product?: Product }) {
   const selectBackgroundMediaRef = useRef<HTMLButtonElement>(null);
   const createButtonRef = useRef<HTMLButtonElement>(null);
 
-  const [descCharCount, setDescCharCount] = useState<number>(0);
+  const [descCharCount, setDescCharCount] = useState<number>(product?.description?.length || 0);
 
   const [isFetching, setFetching] = useState<boolean>(false);
 
