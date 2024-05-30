@@ -1,15 +1,15 @@
 "use client";
 
+import CategoriesBulkDeleteModal from "@/app/components/dashboard/categories/CategoriesBulkDeleteModal";
+import CategoriesDeleteModal from "@/app/components/dashboard/categories/CategoriesDeleteModal";
+import CategoriesFiltersModal from "@/app/components/dashboard/categories/CategoriesFiltersModal";
+import CategoriesPagination from "@/app/components/dashboard/categories/CategoriesPagination";
 import CategoriesSearch from "@/app/components/dashboard/categories/CategoriesSearch";
-import { Category, CategoryFilters } from "@/app/interfaces/interfaces";
+import { Category, CategoryFilters, CategoryPagination } from "@/app/interfaces/interfaces";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import ProductsBulkDeleteModal from "../../../components/dashboard/products/ProductsBulkDeleteModal";
-import ProductsDeleteModal from "../../../components/dashboard/products/ProductsDeleteModal";
-import ProductsFiltersModal from "../../../components/dashboard/products/ProductsFiltersModal";
-import ProductsPagination from "../../../components/dashboard/products/ProductsPagination";
 
 export default function Categories() {
   const defaultItemsPerPageLimit = 20;
@@ -18,10 +18,11 @@ export default function Categories() {
   const [isFetching, setFetching] = useState(true);
 
   const [categories, setCategories] = useState<Category[]>([]);
-  const [filteredCategories, setFilteredCategories] = useState<Category[]>([]);
+  const [pagedCategories, setPagedCategories] = useState<Category[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
 
-  const [filters, setFilters] = useState<CategoryFilters>({ sort: "id", order: "asc", limit: defaultItemsPerPageLimit, page: 1 });
+  const [categoryPagination, setCategoryPagination] = useState<CategoryPagination>({ categoryCount: 0, totalPages: 0, limit: defaultItemsPerPageLimit, page: 1 });
+  const [filters, setFilters] = useState<CategoryFilters>({ sort: undefined, order: undefined, limit: defaultItemsPerPageLimit, page: 1 });
   const [areFiltersActive, setFiltersActive] = useState(false);
 
   const fetchCategories = async () => {
@@ -34,7 +35,6 @@ export default function Categories() {
       if (!data.success) throw new Error(data.message);
 
       setCategories(data.categories);
-      setFilteredCategories(data.categories);
     } catch (error) {
       console.error(error);
       toast.error(() => <span>Une erreur est survenue lors de la récupération des catégories.</span>);
@@ -42,6 +42,97 @@ export default function Categories() {
       setFetching(false);
     }
   }
+
+  const filter = (key: string) => () => {
+    const tempFilters = filters;
+
+    if (tempFilters.sort === key) {
+      if (tempFilters.order === "asc") {
+        tempFilters.order = "desc";
+      } else if (tempFilters.order === "desc") {
+        tempFilters.sort = undefined;
+        tempFilters.order = undefined;
+      }
+    } else {
+      tempFilters.sort = key as any;
+      tempFilters.order = "asc";
+    }
+
+    setFilters({ ...tempFilters, page: 1 });
+  }
+
+  const getPage = (categories: Category[], pagination: CategoryPagination) => {
+    const start = (pagination.page - 1) * pagination.limit;
+    const end = start + pagination.limit;
+    return categories.slice(start, end);
+  }
+
+  const filterCategories = () => {
+    let filtered = categories;
+
+    if (filters.search) {
+      filtered = filtered.filter((category) => category.name.toLowerCase().includes(filters.search!.toLowerCase()));
+    }
+
+    if (filters.sort && filters.order) {
+      filtered = filtered.sort((a, b) => {
+        if (filters.sort === "id") {
+          return filters.order === "asc" ? a.id - b.id : b.id - a.id;
+        }
+
+        if (filters.sort === "name") {
+          return filters.order === "asc" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+        }
+
+        if (filters.sort === "createdAt") {
+          return filters.order === "asc" ? a.createdAt.localeCompare(b.createdAt) : b.createdAt.localeCompare(a.createdAt);
+        }
+
+        if (filters.sort === "updatedAt") {
+          return filters.order === "asc" ? a.updatedAt.localeCompare(b.updatedAt) : b.updatedAt.localeCompare(a.updatedAt);
+        }
+
+        return 0;
+      });
+    }
+
+    if (filters.sort === undefined || filters.order === undefined) {
+      filtered = filtered.sort((a, b) => a.id - b.id);
+    }
+
+    return filtered;
+  }
+
+  const processPagination = (categories: Category[]) => {
+    const totalPages = Math.ceil(categories.length / filters.limit);
+    const tempCategoryPagination: CategoryPagination = { categoryCount: categories.length, limit: categoryPagination.limit, page: 1, totalPages };
+
+    if (tempCategoryPagination.limit !== filters.limit) {
+      tempCategoryPagination.limit = filters.limit;
+    }
+
+    setCategoryPagination(tempCategoryPagination);
+    setPagedCategories(getPage(categories, tempCategoryPagination));
+  };
+
+  useEffect(() => {
+    setFiltersActive(
+      filters.sort !== undefined ||
+      filters.order !== undefined ||
+      filters.search !== undefined ||
+      filters.limit !== defaultItemsPerPageLimit
+    );
+  }, [filters]);
+
+  useEffect(() => {
+    const filtered = filterCategories();
+    processPagination(filtered);
+  }, [categories, filters]);
+
+  useEffect(() => {
+    const filtered = filterCategories();
+    setPagedCategories(getPage(filtered, categoryPagination));
+  }, [categoryPagination]);
 
   useEffect(() => {
     fetchCategories();
@@ -53,16 +144,12 @@ export default function Categories() {
     { key: "actions", label: "Actions", responsive: true }
   ];
 
-  const filter = (key: string) => () => {
-    alert("Todo, filtering by " + key);
-  }
-
   return (
     <>
       <div className="mb-8 px-5 lg:px-0">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-3">
-            <h1 className="text-3xl font-semibold">Produits</h1>
+            <h1 className="text-3xl font-semibold">Catégories</h1>
 
             <button className="btn btn-outline opacity-40 btn-xs p-1" onClick={() => fetchCategories()}>
               <i className="fa-solid fa-sync"></i>
@@ -93,8 +180,8 @@ export default function Categories() {
               </ul>
             </div>
 
-            <Link href={"/dashboard/products/new"} className="btn btn-primary btn-sm">
-              <i className="fa-solid fa-plus"></i>Nouveau<span className="hidden xl:inline"> produit</span>
+            <Link href={"/dashboard/categories/new"} className="btn btn-primary btn-sm">
+              <i className="fa-solid fa-plus"></i><span>Nouvelle<span className="hidden xl:inline"> catégorie</span></span>
             </Link>
           </div>
         </div>
@@ -126,13 +213,13 @@ export default function Categories() {
                   </th>
                   {
                     tableHeaders.map((header, index) => (
-                      <th key={index} className={"whitespace-nowrap px-2 " + (header.responsive ? "hidden xl:table-cell" : "")}>
+                      <th key={index} className={"whitespace-nowrap px-2 " + (header.responsive ? "hidden lg:table-cell" : "")}>
                         {header.sortable ?
-                          <button className="btn btn-xs btn-ghost hidden xl:inline-block" onClick={filter(header.key)}>
+                          <button className="btn btn-xs btn-ghost hidden lg:inline-block" onClick={filter(header.key)}>
                             <span className="me-1">{header.label}</span>
                             {header.key === filters.sort ?
                               filters.order === "asc" ? <i className="fa-solid fa-arrow-up-short-wide"></i> : <i className="fa-solid fa-arrow-down-wide-short"></i> : ""}
-                          </button> : <span className="hidden xl:inline">{header.label}</span>
+                          </button> : <span className="hidden lg:inline">{header.label}</span>
                         }
                       </th>
                     ))
@@ -158,9 +245,6 @@ export default function Categories() {
                           </div>
                         </div>
                       </td>
-                      <td><div className="skeleton h-4 w-24"></div></td>
-                      <td><div className="skeleton h-4 w-12"></div></td>
-                      <td><div className="skeleton h-4 w-12"></div></td>
                       <td>
                         <div className="flex space-x-2">
                           <div className="skeleton h-4 w-12"></div>
@@ -170,7 +254,7 @@ export default function Categories() {
                     </tr>
                   </>
                   ) :
-                    categories.map((category) => (
+                    pagedCategories.map((category) => (
                       <tr key={category.id}>
                         <th className="whitespace-nowrap pe-0 w-12">
                           <label>
@@ -183,50 +267,48 @@ export default function Categories() {
                             }} />
                           </label>
                         </th>
-                        <td className="whitespace-nowrap hidden xl:table-cell">{category.id}</td>
+                        <td className="whitespace-nowrap hidden lg:table-cell">{category.id}</td>
                         <td className="ps-0 xl:ps-4">
                           <div className="flex items-center gap-3">
                             <div className="avatar self-start">
                               <div className="mask mask-squircle w-12 h-12">
-                                <Link href={"/dashboard/products/" + category.id}>
+                                <Link href={"/dashboard/categories/" + category.id}>
                                   <Image width="64" height="64" src={category.thumbnail ? process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + category.thumbnail.filename : "/product-placeholder.png"} alt={category.name} />
                                 </Link>
                               </div>
                             </div>
-                            <div className="w-full">
+                            <div className="flex-1">
                               <div className="font-bold"><Link href={"/dashboard/categories/" + category.id}>{category.name}<span className="ms-1 font-normal opacity-50">#{category.id}</span></Link></div>
                               <div className="text-sm">
                                 <div className="opacity-50">
                                   {category.description ? category.description.substring(0, categoryMaxDescLength) + (category.description.length > categoryMaxDescLength ? "..." : "") : "Aucune description"}
                                 </div>
-                                <div className="mt-3 xl:hidden">
-                                  <div className="flex">
-                                    <button className="self-end btn btn-xs text-white bg-red-500 border-red-500 hover:border-red-600 hover:bg-red-600" onClick={() => {
-                                      const element = document.getElementById("delete-product-" + category.id);
-                                      (element as HTMLDialogElement).showModal();
-                                    }}>
-                                      <i className="fa-solid fa-trash-can w-full 2xl:w-auto"></i>
-                                    </button>
-                                  </div>
-                                </div>
                               </div>
+                            </div>
+                            <div className="lg:hidden">
+                              <button className="self-end btn btn-xs text-white bg-red-500 border-red-500 hover:border-red-600 hover:bg-red-600" onClick={() => {
+                                const element = document.getElementById("delete-category-" + category.id);
+                                (element as HTMLDialogElement).showModal();
+                              }}>
+                                <i className="fa-solid fa-trash-can w-full 2xl:w-auto"></i>
+                              </button>
                             </div>
                           </div>
                         </td>
-                        <th className="whitespace-nowrap hidden xl:table-cell">
-                          <div className="flex flex-col 2xl:flex-row px-3 gap-1 2xl:gap-2">
-                            <Link href={"/dashboard/products/" + category.id} className="btn btn-primary btn-xs w-full 2xl:w-auto">
-                              <i className="fa-solid fa-eye"></i><span className="hidden xl:inline">Détails</span>
+                        <td className="whitespace-nowrap hidden lg:table-cell">
+                          <div className="flex flex-row gap-2">
+                            <Link href={"/dashboard/categories/" + category.id} className="btn btn-primary btn-xs w-auto">
+                              <i className="fa-solid fa-eye"></i>Détails
                             </Link>
 
                             <button className="flex-nowrap btn btn-outline btn-xs text-red-500 border-red-500 hover:text-red-50 hover:border-red-500 hover:bg-red-500" onClick={() => {
-                              const element = document.getElementById("delete-product-" + category.id);
+                              const element = document.getElementById("delete-category-" + category.id);
                               (element as HTMLDialogElement).showModal();
                             }}>
-                              <i className="fa-solid fa-trash-can w-full 2xl:w-auto"></i><span className="hidden xl:inline">Supprimer</span>
+                              <i className="fa-solid fa-trash-can w-auto"></i>Supprimer
                             </button>
                           </div>
-                        </th>
+                        </td>
                       </tr>
                     ))
                 }
@@ -237,12 +319,12 @@ export default function Categories() {
       </div>
 
       <div className="p-4 lg:p-0 lg:py-6 xl:p-0 xl:mt-6">
-        <ProductsPagination pagination={productPagination} filters={filters} setFilters={setFilters} />
+        <CategoriesPagination pagination={categoryPagination} setPagination={setCategoryPagination} filters={filters} setFilters={setFilters} />
       </div>
 
-      <ProductsFiltersModal id="products-filters" filters={filters} categories={categories} materials={materials} defaultItemsPerPageLimit={defaultItemsPerPageLimit} setFilters={setFilters} fetchProducts={fetchProducts} />
-      <ProductsBulkDeleteModal id="bulk-delete-modal" products={selectedCategories} fetchProducts={fetchProducts} />
-      {products.map((product) => <ProductsDeleteModal key={product.id} id={"delete-product-" + product.id} product={product} fetchProducts={fetchProducts} />)}
+      <CategoriesFiltersModal id="categories-filters" filters={filters} defaultItemsPerPageLimit={defaultItemsPerPageLimit} setFilters={setFilters} fetchCategories={fetchCategories} />
+      <CategoriesBulkDeleteModal id="bulk-delete-modal" categories={selectedCategories} fetchCategories={fetchCategories} />
+      {categories.map((category) => <CategoriesDeleteModal key={category.id} id={"delete-category-" + category.id} category={category} fetchCategories={fetchCategories} />)}
     </>
   )
 }

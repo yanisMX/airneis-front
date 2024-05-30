@@ -63,6 +63,13 @@ export interface ProductCreation {
     limit: number;
     page: number;
   }
+
+  export interface CategoryPagination {
+    categoryCount: number;
+    totalPages: number;
+    limit: number;
+    page: number;
+  }
   
   export interface Material {
     id: number;

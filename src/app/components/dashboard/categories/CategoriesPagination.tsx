@@ -1,7 +1,7 @@
-import { ProductPagination, ProductQuery } from "@/app/interfaces/interfaces";
+import { CategoryFilters, CategoryPagination } from "@/app/interfaces/interfaces";
 
-export default function CategoriesPagination({ pagination, filters, setFilters }: { pagination: ProductPagination, filters: ProductQuery, setFilters: (filters: ProductQuery) => void }) {
-  const changePage = (page: number) => setFilters({ ...filters, page });
+export default function CategoriesPagination({ pagination, setPagination, filters, setFilters }: { pagination: CategoryPagination, setPagination: (pagination: CategoryPagination) => void, filters: CategoryFilters, setFilters: (filters: CategoryFilters) => void }) {
+  const changePage = (page: number) => setPagination({ ...pagination, page });
 
   const renderPageButtons = () => {
     if (pagination.totalPages <= 3) {
@@ -37,8 +37,8 @@ export default function CategoriesPagination({ pagination, filters, setFilters }
 
   const renderLimitOptions = () => (
     [5, 10, 15, 20].map(limit => (
-      <li key={limit} onClick={() => setFilters({ ...filters, page: undefined, limit })} className="menu-item">
-        <button className={`btn btn-xs ${pagination.limit === limit ? "btn-primary" : "btn-ghost"}`}>{limit} produits</button>
+      <li key={limit} onClick={() => setFilters({ ...filters, page: 1, limit })} className="menu-item">
+        <button className={`btn btn-xs ${pagination.limit === limit ? "btn-primary" : "btn-ghost"}`}>{limit} catégories</button>
       </li>
     ))
   );
@@ -46,11 +46,11 @@ export default function CategoriesPagination({ pagination, filters, setFilters }
   return (
     <div className="flex items-center justify-end sm:space-x-12">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center flex-1">
-        <div className="text-sm ms-2">{pagination.productCount} produits, {pagination.totalPages} pages</div>
+        <div className="text-sm ms-2">{pagination.categoryCount} catégories, {pagination.totalPages} pages</div>
         <div className="hidden md:block">
           <div className="dropdown dropdown-top me-1">
             <div tabIndex={0} role="button" className="btn btn-xs m-1">
-              <i className="fa-solid fa-chevron-up"></i>{pagination.limit} produits
+              <i className="fa-solid fa-chevron-up"></i>{pagination.limit} catégories
             </div>
             <ul tabIndex={0} className="dropdown-content z-[1] menu menu-xs p-1 mb-2 border shadow bg-base-100 rounded-lg w-52">
               {renderLimitOptions()}
