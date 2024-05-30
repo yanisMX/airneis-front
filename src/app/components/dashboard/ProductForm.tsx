@@ -1,6 +1,7 @@
 import { Category, Material, Image as Media, Product, ProductCreation } from "@/app/interfaces/interfaces";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import MediaLibraryItem from "./MediaLibraryItem";
@@ -9,6 +10,8 @@ import ProductCategoryCreationModal from "./products/new/ProductCategoryCreation
 import ProductMaterialCreationModal from "./products/new/ProductMaterialCreationModal";
 
 export default function ProductForm({ product }: { product?: Product }) {
+  const router = useRouter();
+
   const nameRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
@@ -85,7 +88,7 @@ export default function ProductForm({ product }: { product?: Product }) {
 
     setFetching(true);
 
-    const product: ProductCreation = {
+    const rebuiltProduct: ProductCreation = {
       name: name as string,
       description,
       slug: slug!.length > 0 ? slug : undefined,
@@ -99,9 +102,9 @@ export default function ProductForm({ product }: { product?: Product }) {
     };
 
     if (product) {
-      updateProduct(product);
+      updateProduct(rebuiltProduct);
     } else {
-      createProduct(product);
+      createProduct(rebuiltProduct);
     }
   }
 
@@ -120,10 +123,10 @@ export default function ProductForm({ product }: { product?: Product }) {
       if (!data.success) throw new Error(data.message);
 
       toast.success(() => <span>Le produit <b>{data.product.name}</b> a été créé.</span>);
+      router.push("/dashboard/products/" + data.product.id);
     } catch (error) {
       console.error(error);
       toast.error(() => <span>Une erreur est survenue lors de la création du produit.</span>);
-    } finally {
       setFetching(false);
     }
   }
