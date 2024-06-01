@@ -84,6 +84,21 @@ export interface CategoryCreation {
     createdAt: string;
     updatedAt: string;
   }
+
+  export interface MaterialFilters {
+    search?: string;
+    sort?: "id" | "name" | "createdAt" | "updatedAt";
+    order?: "asc" | "desc";
+    limit: number;
+    page: number;
+  }
+
+  export interface MaterialPagination {
+    materialCount: number;
+    totalPages: number;
+    limit: number;
+    page: number;
+  }
   
   export interface Image {
     id: number;
