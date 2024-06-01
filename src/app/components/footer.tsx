@@ -19,7 +19,6 @@ const Footer = () => {
             <h6 className="footer-title">Entreprise</h6>
             <Link href="/presentation" className="link link-hover">Qui sommes-nous ?</Link>
             <Link href="/contact" className="link link-hover">Contact</Link>
-            <Link href="/apropos" className="link link-hover">À propos</Link>
           </nav>
           <nav>
             <h6 className="footer-title">Légal</h6>

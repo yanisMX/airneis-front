@@ -27,6 +27,7 @@ return updatedCart;
 };
 
 export const handleRemoveFromCart = (product: Product, shoppingCart: Cart): Cart => {
+  
   const updatedCart: Cart = { ...shoppingCart, items: [...shoppingCart.items] };
 
   updatedCart.items = updatedCart.items.filter(cartItem => {
