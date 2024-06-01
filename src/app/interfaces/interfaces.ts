@@ -145,6 +145,8 @@ export interface MediaQuery {
   type?: string;
   limit?: number;
   page?: number;
+  sort?: "id" | "name" | "type" | "size" | "createdAt";
+  order?: "asc" | "desc";
 }
 
 export interface MediaPagination {
