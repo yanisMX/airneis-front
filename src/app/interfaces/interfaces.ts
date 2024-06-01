@@ -99,6 +99,10 @@ export interface CategoryCreation {
     limit: number;
     page: number;
   }
+
+  export interface MaterialCreation {
+    name: string | null;
+  }
   
   export interface Image {
     id: number;
