@@ -155,3 +155,7 @@ export interface MediaPagination {
   limit: number;
   page: number;
 }
+
+export interface MediaDto {
+  name: string;
+}
