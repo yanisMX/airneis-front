@@ -232,14 +232,8 @@ export default function Materials() {
                       <td><div className="skeleton h-4 w-6"></div></td>
                       <td>
                         <div className="flex items-center gap-3">
-                          <div className="avatar self-start">
-                            <div className="mask mask-squircle w-12 h-12">
-                              <div className="skeleton h-12 w-12"></div>
-                            </div>
-                          </div>
                           <div>
                             <div className="mb-2"><div className="skeleton h-4 w-32"></div></div>
-                            <div className="opacity-50"><div className="skeleton h-3 w-48"></div></div>
                           </div>
                         </div>
                       </td>
