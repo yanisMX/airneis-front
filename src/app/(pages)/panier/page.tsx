@@ -1,32 +1,25 @@
 "use client";
-import { Cart, CartItem, Product, ShoppingCart } from '@/app/interfaces/interfaces';
-import React, { useEffect, useState } from 'react';
-import { useCart } from '@/app/context/CartContext'
+import React from 'react';
+import { useCart } from '@/app/context/CartContext';
 import { useAuth } from '@/app/context/AuthContext';
 import Image from 'next/image';
-import { getCallApiForUser } from '@/app/api/getCallAPI';
-import { handleRemoveFromCart } from '@/app/utils/cartUtils';
-import { calculateTotal } from '@/app/utils/cartUtils';
-
+import { calculateTotal, addQuantity, subtractQuantity } from '@/app/utils/cartUtils';
 
 const CartPage = () => {
-
   const API_TO_UPDATE_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket';
 
   const { shoppingCart, setShoppingCart } = useCart();
   const { isLoggedIn, user } = useAuth();
 
-
-
-
   const modifyQuantity = async (productId: number, quantity: number) => {
+    if (quantity < 1) return; 
     if (isLoggedIn && user?.accessToken) {
       try {
         const response = await fetch(API_TO_UPDATE_CART, {
-          method: 'PUT',
+          method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${user.accessToken}`
+            'Authorization': `Bearer ${user.accessToken}`,
           },
           body: JSON.stringify({ productId, quantity }),
         });
@@ -37,7 +30,7 @@ const CartPage = () => {
         console.error(error.message);
       }
     } else {
-      const updatedCart = shoppingCart.items.map(item => {
+      const updatedCart = shoppingCart.items.map((item) => {
         if (item.product.id === productId) {
           return { ...item, quantity };
         }
@@ -49,40 +42,41 @@ const CartPage = () => {
 
 
 
-  const deleteAllItemsFromCart = async () => {
+  const deleteItemFromCart = async (productId: number) => {
     if (isLoggedIn && user?.accessToken) {
       try {
         const response = await fetch(API_TO_UPDATE_CART, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${user.accessToken}`
+            'Authorization': `Bearer ${user.accessToken}`,
           },
+          body: JSON.stringify({ productId }),
         });
         if (!response.ok) {
-          throw new Error("Impossible de supprimer le panier de l'utilisateur");
+          throw new Error("Impossible de supprimer le produit du panier");
         }
-        setShoppingCart({ items: [], total: 0 });
+        const updatedCart = shoppingCart.items.filter((item) => item.product.id !== productId);
+        setShoppingCart({ items: updatedCart, total: calculateTotal(updatedCart) });
       } catch (error: any) {
         console.error(error.message);
       }
     } else {
-      setShoppingCart({ items: [], total: 0 });
+      const updatedCart = shoppingCart.items.filter((item) => item.product.id !== productId);
+      setShoppingCart({ items: updatedCart, total: calculateTotal(updatedCart) });
     }
-  };
+  }
+
+
 
 
   return (
     <section className='content-below-navbar min-h-screen'>
       <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-
-
         <div className="mx-auto max-w-3xl">
-
           <header className="text-center">
             <h1 className="text-xl font-bold text-gray-900 sm:text-3xl">Mon panier</h1>
           </header>
-
           <div className="mt-8">
             {shoppingCart?.items?.length > 0 ? (
               <div className="mt-8">
@@ -105,7 +99,7 @@ const CartPage = () => {
                           <button
                             type="button"
                             className="h-8 w-8 flex items-center justify-center rounded border border-gray-300 bg-gray-100 text-gray-700 hover:bg-gray-200"
-                            onClick={() => modifyQuantity(item.product.id, item.quantity - 1)}
+                            onClick={() => subtractQuantity(item.product, shoppingCart)}
                           >
                             -
                           </button>
@@ -113,6 +107,8 @@ const CartPage = () => {
                           <input
                             type="number"
                             min="1"
+                            // i want to set the value of the input to the quantity of the item
+
                             value={item.quantity}
                             id="Line3Qty"
                             className="h-8 w-12 rounded border-gray-200 bg-gray-50 p-0 text-center text-xs text-gray-600 focus:outline-none"
@@ -121,14 +117,20 @@ const CartPage = () => {
                           <button
                             type="button"
                             className="h-8 w-8 flex items-center justify-center rounded border border-gray-300 bg-gray-100 text-gray-700 hover:bg-gray-200"
-                            onClick={() => modifyQuantity(item.product.id, item.quantity + 1)}
+                            onClick={() => addQuantity(item.product, shoppingCart)}
                           >
                             +
                           </button>
                         </form>
                         <button
                           className="text-gray-600 transition hover:text-red-600"
-                          onClick={() => setShoppingCart(handleRemoveFromCart(item.product, shoppingCart))}
+                          onClick={async () => {
+                            await deleteItemFromCart(item.product.id);
+                            setShoppingCart((prevCart) => {
+                              const updatedCart = prevCart.items.filter((cartItem) => cartItem.product.id !== item.product.id);
+                              return { ...prevCart, items: updatedCart };
+                            });
+                          }}
                         >
                           <span className="sr-only">Remove item</span>
                           <svg
@@ -147,23 +149,20 @@ const CartPage = () => {
                           </svg>
                         </button>
                       </div>
-
                     </li>
                   </ul>
                 ))}
               </div>
             ) : (
-              <p className="mt-7 p-3 bg-blue-100 border border-blue-400 text-blue-700 rounded" >Votre panier est vide</p>
+              <p className="mt-7 p-3 bg-blue-100 border border-blue-400 text-blue-700 rounded">Votre panier est vide</p>
             )}
 
             <div className="mt-8 flex justify-end border-t border-gray-100 pt-8">
               <div className="w-screen max-w-lg space-y-4">
                 <dl className="space-y-0.5 text-sm text-gray-700">
-
-
                   <div className="flex justify-between !text-base font-bold">
-                    <dt>Total : </dt>
-                    <dd> {shoppingCart.total} €</dd>
+                    <dt>Total :</dt>
+                    <dd>{shoppingCart.total} €</dd>
                   </div>
                 </dl>
                 <div className="flex justify-end">
@@ -181,9 +180,6 @@ const CartPage = () => {
       </div>
     </section>
   );
-}
+};
 
 export default CartPage;
-
-
-

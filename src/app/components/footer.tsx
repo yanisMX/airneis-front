@@ -1,8 +1,7 @@
 "use client"
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
-import { useEffect } from "react";
 
 const Footer = () => {
 

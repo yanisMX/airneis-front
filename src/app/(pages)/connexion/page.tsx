@@ -5,7 +5,6 @@ import { postCallAPI } from "@/app/api/postCallAPI";
 import { UserData } from "../../interfaces/interfaces";
 import { useAuth } from '@/app/context/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useCart } from "@/app/context/CartContext";
 import { setCookie } from "@/app/utils/cookiesUtils";
 
 

@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import {getCallAPI} from '../api/getCallAPI';
 import { Product } from '../interfaces/interfaces';
 import ProductComponent from './ProductComponent';
-import { promises } from 'dns';
 
 
 const SearchBar = () => {

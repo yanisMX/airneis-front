@@ -1,4 +1,5 @@
 import { Cart, Product, CartItem } from "../interfaces/interfaces";
+import { modifyQuantity } from "../api/patchCallAPI";
 
 
 
@@ -13,7 +14,6 @@ export const handleAddToCart = (product: Product, shoppingCart: Cart): Cart => {
       found = true;
     }
   });
-
   if (!found) {
     const newItem: CartItem = {
       product,
@@ -45,3 +45,18 @@ export const handleRemoveFromCart = (product: Product, shoppingCart: Cart): Cart
 export const calculateTotal = (items: CartItem[]): number => {
   return items.reduce((total, item) => total + item.product.price * item.quantity, 0);
 };
+
+export const addQuantity = (product: Product, cart: Cart) => {
+  const currentItem = cart.items.find((item) => item.product.id === product.id);
+  if (currentItem) {
+    modifyQuantity(product.id, currentItem.quantity + 1);
+  }
+};
+
+export const subtractQuantity = (product: Product, cart: Cart) => {
+  const currentItem = cart.items.find((item) => item.product.id === product.id);
+  if (currentItem) {
+    modifyQuantity(product.id, currentItem.quantity - 1);
+  }
+};
+

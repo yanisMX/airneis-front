@@ -25,13 +25,16 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
     const addToCartForUserConnected = async () => {
         if (product && user && user.accessToken) {
             try {
-                console.log(user.accessToken);
-                const response = await postCallAPIWithToken(API_FOR_ADD_TO_CART, { productId : product.id, quantity: 1 }, user.accessToken);
-                console.log(response);
-                if (response.success) {
-                    setMessageDisplay("Produit ajouté au panier.");
+                if (shoppingCart.items.some(item => item.product.id === product.id)) {
+                    const updatedCart = handleAddToCart(product, shoppingCart);
+                    setShoppingCart(updatedCart);
                 } else {
-                    setMessageDisplay("Impossible d'ajouter le produit au panier.");
+                    const response = await postCallAPIWithToken(API_FOR_ADD_TO_CART, { productId: product.id, quantity: 1 }, user.accessToken);
+                    if (response.success) {
+                        setMessageDisplay("Produit ajouté au panier.");
+                    } else {
+                        setMessageDisplay("Impossible d'ajouter le produit au panier.");
+                    }
                 }
             } catch (error: any) {
                 console.error(error.message);

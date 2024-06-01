@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useEffect } from "react";
+import React, { useEffect } from "react";
 import { createContext, useState } from "react";
 import { ShoppingCart, RootLayoutProps, Cart, CartItem } from "../interfaces/interfaces";
 import { useAuth } from "./AuthContext";

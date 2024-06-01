@@ -1,6 +1,5 @@
 "use client";
 import SearchBar from "@/app/components/SearchBar";
-import Footer from "../../components/Footer";
 
 const SearchPage = () => {
   return (
