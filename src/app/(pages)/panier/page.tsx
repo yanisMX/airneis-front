@@ -1,79 +1,73 @@
 "use client";
-import { Product, ShoppingCart } from '@/app/interfaces/interfaces';
+import { CartItem, Product, ShoppingCart } from '@/app/interfaces/interfaces';
 import React, { useState } from 'react';
 import { useCart } from '@/app/context/CartContext';
 import { useAuth } from '@/app/context/AuthContext';
 import Image from 'next/image';
 import { calculateTotal, handleRemoveFromCart } from '@/app/utils/cartUtils';
+import { deleteCallAPIWithToken } from '@/app/api/deleteCallAPI';
+import { response } from 'express';
 
 const CartPage = () => {
   const API_TO_UPDATE_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket';
+  const API_TO_DELETE_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket/clear';
 
   const { shoppingCart, setShoppingCart } = useCart();
   const { isLoggedIn, user } = useAuth();
 
   const modifyQuantity = async (productId: number, quantity: number) => {
     if (quantity < 1) return;
-    let updatedCart;
-    if (isLoggedIn && user?.accessToken) {
-      try {
-        const response = await fetch(API_TO_UPDATE_CART, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${user.accessToken}`,
-          },
-          body: JSON.stringify({ productId, quantity }),
-        });
-        if (!response.ok) {
-          throw new Error('Impossible de modifier la quantité du produit');
-        }
-        const data = await response.json();
-        updatedCart = data.cart;
-      } catch (error: any) {
-        console.error(error.message);
+  
+    try {
+      const response = await fetch(API_TO_UPDATE_CART, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user?.accessToken}`,
+        },
+        body: JSON.stringify({ productId, quantity }), 
+      });
+  
+      if (!response.ok) {
+        throw new Error('Impossible de modifier la quantité du produit');
       }
-    } else {
-      updatedCart = shoppingCart.items.map((item) => {
+  
+      const data = await response.json();
+    } catch (error: any) {
+      console.error(error.message);
+  
+      
+      const updatedCart = shoppingCart.items.map((item) => {
         if (item.product.id === productId) {
           return { ...item, quantity };
         }
         return item;
       });
-      updatedCart = { items: updatedCart, total: calculateTotal(updatedCart) };
-    }
-    if (updatedCart) {
-      setShoppingCart(updatedCart);
+  
+      setShoppingCart({ items: updatedCart, total: calculateTotal(updatedCart) });
     }
   };
+  
+  
 
   const addQuantity = (product: Product, cart: ShoppingCart) => {
-    const currentItem = cart.items.find((item) => item.product.id === product.id);
+    const currentItem = cart.items.find((item : CartItem) => item.product.id === product.id);
     if (currentItem) {
       modifyQuantity(product.id, currentItem.quantity + 1);
     }
   };
 
   const subtractQuantity = (product: Product, cart: ShoppingCart) => {
-    const currentItem = cart.items.find((item) => item.product.id === product.id);
+    const currentItem = cart.items.find((item : CartItem) => item.product.id === product.id);
     if (currentItem) {
       modifyQuantity(product.id, currentItem.quantity - 1);
     }
-  };
+  };  
 
   const deleteAllItemsFromCart = async () => {
     if (isLoggedIn && user?.accessToken) {
       try {
-        const response = await fetch(API_TO_UPDATE_CART, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${user.accessToken}`,
-          },
-        });
-        if (!response.ok) {
-          throw new Error("Impossible de supprimer le panier de l'utilisateur");
-        }
+        deleteCallAPIWithToken(API_TO_DELETE_CART, user.accessToken);
         setShoppingCart({ items: [], total: 0 });
       } catch (error: any) {
         console.error(error.message);

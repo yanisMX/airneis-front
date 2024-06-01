@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useState } from 'react';
-import { getCallAPI} from '@/app/api/getCallAPI';
+import { getCallAPI } from '@/app/api/getCallAPI';
 import { Product } from '@/app/interfaces/interfaces';
 import { handleAddToCart } from '@/app/utils/cartUtils';
 import { useCart } from '@/app/context/CartContext';
 import Image from 'next/image';
 import { useAuth } from '@/app/context/AuthContext';
-import { postCallAPIWithToken } from '@/app/api/postCallAPI';
+import patchCallAPIWithToken from '@/app/api/patchCallAPI';
 
 
 const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
@@ -29,7 +29,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
                     const updatedCart = handleAddToCart(product, shoppingCart);
                     setShoppingCart(updatedCart);
                 } else {
-                    const response = await postCallAPIWithToken(API_FOR_ADD_TO_CART, { productId: product.id, quantity: 1 }, user.accessToken);
+                    const response = await patchCallAPIWithToken(API_FOR_ADD_TO_CART, { productId: product.id, quantity: 1 }, user.accessToken);
                     if (response.success) {
                         setMessageDisplay("Produit ajouté au panier.");
                     } else {
@@ -61,7 +61,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
 
     const fetchDataProduct = async () => {
         const response = await getCallAPI(API_FOR_PRODUCT);
-        try{
+        try {
             if (response.success) {
                 setProduct(response.product);
             } else {
@@ -118,7 +118,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
                             </div>
                         </div>
                     </section>
-                    
+
                 </>
             ) : (
                 <div className="flex justify-center items-center h-screen">

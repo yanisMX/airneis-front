@@ -12,13 +12,26 @@ const MyAccountPage = () => {
   const API_FOR_ADDRESS_DELETE = `https://c1bb0d8a5f1d.airneis.net/api/user/addresses/${user?.id}`;
   const API_FOR_PERSONAL_INFORMATION_MODIFY = 'https://c1bb0d8a5f1d.airneis.net/api/user';
 
-
+  const handleModifyPersonalInformationClick = async (newInformation: string | null, informationType: string) => {
+    if (newInformation) {
+      try {
+        const response = await postCallAPI(API_FOR_PERSONAL_INFORMATION_MODIFY, { [informationType]: newInformation });
+        if (response.success) {
+          setUser({ ...user, [informationType]: newInformation, email: user?.email || '' });
+        } else {
+          setErrorMessage('Erreur lors de la modification des informations personnelles');
+        }
+      } catch (error: any) {
+        console.error(error.message);
+      }
+    }
+  };
 
   const handleDeleteClick = async (addressType: string, addressId: string) => {
     try {
       const response = await postCallAPI(API_FOR_ADDRESS_DELETE, { addressType, addressId });
       if (response.success) {
-        setUser({ ...user, [addressType]: '' });
+        setUser({ ...user, [addressType]: '', email: user?.email || '' });
       } else {
         setErrorMessage('Erreur lors de la suppression de l\'adresse');
       }
@@ -26,11 +39,6 @@ const MyAccountPage = () => {
       console.error(error.message);
     }
   };
-
-  
-
-
-
   if (!user) {
     return (
       <div className='min-h-screen flex items-center justify-center'>
