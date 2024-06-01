@@ -273,7 +273,7 @@ export default function Categories() {
                             <div className="avatar self-start">
                               <div className="mask mask-squircle w-12 h-12">
                                 <Link href={"/dashboard/categories/" + category.id}>
-                                  <Image width="64" height="64" src={category.thumbnail ? process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + category.thumbnail.filename : "/product-placeholder.png"} alt={category.name} />
+                                  <Image width="64" height="64" src={category.thumbnail ? process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + category.thumbnail.filename : "/category-placeholder.png"} alt={category.name} />
                                 </Link>
                               </div>
                             </div>
