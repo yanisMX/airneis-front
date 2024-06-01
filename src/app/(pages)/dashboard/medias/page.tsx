@@ -284,7 +284,7 @@ export default function Materials() {
                             </Link>
 
                             <button className="flex-nowrap btn btn-outline btn-xs text-red-500 border-red-500 hover:text-red-50 hover:border-red-500 hover:bg-red-500" onClick={() => {
-                              const element = document.getElementById("delete-product-" + media.id);
+                              const element = document.getElementById("delete-media-" + media.id);
                               (element as HTMLDialogElement).showModal();
                             }}>
                               <i className="fa-solid fa-trash-can w-full 2xl:w-auto"></i><span className="hidden xl:inline">Supprimer</span>
