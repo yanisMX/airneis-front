@@ -178,7 +178,7 @@ export default function Materials() {
               </ul>
             </div>
 
-            <Link href={"/dashboard/categories/new"} className="btn btn-primary btn-sm">
+            <Link href={"/dashboard/materials/new"} className="btn btn-primary btn-sm">
               <i className="fa-solid fa-plus"></i><span>Nouveau<span className="hidden xl:inline"> matériau</span></span>
             </Link>
           </div>
