@@ -1,9 +1,9 @@
-"use client"
-import { useState, useEffect, useRef } from "react";
-import {getCallAPI} from "@/app/api/getCallAPI";
-import { Product, Category, Material } from "@/app/interfaces/interfaces";
-import FilterForProducts from "@/app/components/FilterForProducts";
-import ProductComponent from "@/app/components/ProductComponent";
+'use client';
+import { useState, useEffect, useRef } from 'react';
+import { getCallAPI } from '@/app/api/getCallAPI';
+import { Product, Category, Material } from '@/app/interfaces/interfaces';
+import FilterForProducts from '@/app/components/FilterForProducts';
+import ProductComponent from '@/app/components/ProductComponent';
 
 const ProductsPage = () => {
   const [products, setProducts] = useState<Product[] | null>(null);
@@ -13,10 +13,9 @@ const ProductsPage = () => {
   const [selectedMaterials, setSelectedMaterials] = useState<number[]>([]);
   const [isFilterVisible, setIsFilterVisible] = useState<boolean>(false);
 
-
   const API_FOR_ALL_PRODUCTS = 'https://c1bb0d8a5f1d.airneis.net/api/products';
-  const API_FOR_CATEGORIES = "https://c1bb0d8a5f1d.airneis.net/api/categories";
-  const API_FOR_MATERIALS = "https://c1bb0d8a5f1d.airneis.net/api/materials";
+  const API_FOR_CATEGORIES = 'https://c1bb0d8a5f1d.airneis.net/api/categories';
+  const API_FOR_MATERIALS = 'https://c1bb0d8a5f1d.airneis.net/api/materials';
 
   const fetchDataProducts = async () => {
     const response = await getCallAPI(API_FOR_ALL_PRODUCTS);
@@ -34,8 +33,12 @@ const ProductsPage = () => {
   };
 
   const fetchFilteredProducts = async () => {
-    const categoryQuery = selectedCategories.map(id => `categories=${id}`).join('&');
-    const materialQuery = selectedMaterials.map(id => `materials=${id}`).join('&');
+    const categoryQuery = selectedCategories
+      .map((id) => `categories=${id}`)
+      .join('&');
+    const materialQuery = selectedMaterials
+      .map((id) => `materials=${id}`)
+      .join('&');
     const query = [categoryQuery, materialQuery].filter(Boolean).join('&');
     const response = await getCallAPI(`${API_FOR_ALL_PRODUCTS}?${query}`);
     setProducts(response.products);
@@ -45,7 +48,6 @@ const ProductsPage = () => {
   const toggleFilterVisibility = () => {
     setIsFilterVisible(!isFilterVisible);
   };
-
 
   useEffect(() => {
     fetchDataProducts();
@@ -61,7 +63,10 @@ const ProductsPage = () => {
     <>
       <main className="sm:flex content-below-navbar">
         <div className="sm:hidden flex justify-center w-full">
-          <button className="pb-5 btn btn-ghost text-xl" onClick={toggleFilterVisibility}>
+          <button
+            className="pb-5 btn btn-ghost text-xl"
+            onClick={toggleFilterVisibility}
+          >
             <i className="fa-solid fa-filter sm:hidden flex "></i>
           </button>
         </div>
@@ -97,6 +102,6 @@ const ProductsPage = () => {
       </main>
     </>
   );
-}
+};
 
 export default ProductsPage;

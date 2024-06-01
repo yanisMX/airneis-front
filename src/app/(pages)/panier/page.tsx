@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { CartItem, Product, ShoppingCart } from '@/app/interfaces/interfaces';
 import React, { useState } from 'react';
 import { useCart } from '@/app/context/CartContext';
@@ -10,59 +10,64 @@ import { response } from 'express';
 
 const CartPage = () => {
   const API_TO_UPDATE_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket';
-  const API_TO_DELETE_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket/clear';
+  const API_TO_DELETE_CART =
+    'https://c1bb0d8a5f1d.airneis.net/api/user/basket/clear';
 
   const { shoppingCart, setShoppingCart } = useCart();
   const { isLoggedIn, user } = useAuth();
 
   const modifyQuantity = async (productId: number, quantity: number) => {
     if (quantity < 1) return;
-  
+
     try {
       const response = await fetch(API_TO_UPDATE_CART, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user?.accessToken}`,
+          Authorization: `Bearer ${user?.accessToken}`,
         },
-        body: JSON.stringify({ productId, quantity }), 
+        body: JSON.stringify({ productId, quantity }),
       });
-  
+
       if (!response.ok) {
         throw new Error('Impossible de modifier la quantité du produit');
       }
-  
+
       const data = await response.json();
     } catch (error: any) {
       console.error(error.message);
-  
-      
+
       const updatedCart = shoppingCart.items.map((item) => {
         if (item.product.id === productId) {
           return { ...item, quantity };
         }
         return item;
       });
-  
-      setShoppingCart({ items: updatedCart, total: calculateTotal(updatedCart) });
+
+      setShoppingCart({
+        items: updatedCart,
+        total: calculateTotal(updatedCart),
+      });
     }
   };
-  
-  
 
   const addQuantity = (product: Product, cart: ShoppingCart) => {
-    const currentItem = cart.items.find((item : CartItem) => item.product.id === product.id);
+    const currentItem = cart.items.find(
+      (item: CartItem) => item.product.id === product.id,
+    );
     if (currentItem) {
       modifyQuantity(product.id, currentItem.quantity + 1);
     }
   };
 
   const subtractQuantity = (product: Product, cart: ShoppingCart) => {
-    const currentItem = cart.items.find((item : CartItem) => item.product.id === product.id);
+    const currentItem = cart.items.find(
+      (item: CartItem) => item.product.id === product.id,
+    );
     if (currentItem) {
       modifyQuantity(product.id, currentItem.quantity - 1);
     }
-  };  
+  };
 
   const deleteAllItemsFromCart = async () => {
     if (isLoggedIn && user?.accessToken) {
@@ -78,21 +83,32 @@ const CartPage = () => {
   };
 
   return (
-    <section className='content-below-navbar min-h-screen'>
+    <section className="content-below-navbar min-h-screen">
       <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <div className="mx-auto max-w-3xl">
           <header className="text-center">
-            <h1 className="text-xl font-bold text-gray-900 sm:text-3xl">Mon panier</h1>
+            <h1 className="text-xl font-bold text-gray-900 sm:text-3xl">
+              Mon panier
+            </h1>
           </header>
           <div className="mt-8">
             {shoppingCart?.items?.length > 0 ? (
               <div className="mt-8">
                 {shoppingCart.items.map((item, itemIndex) => (
-                  <CartItemComponent key={itemIndex} item={item} shoppingCart={shoppingCart} modifyQuantity={modifyQuantity} addQuantity={addQuantity} subtractQuantity={subtractQuantity} />
+                  <CartItemComponent
+                    key={itemIndex}
+                    item={item}
+                    shoppingCart={shoppingCart}
+                    modifyQuantity={modifyQuantity}
+                    addQuantity={addQuantity}
+                    subtractQuantity={subtractQuantity}
+                  />
                 ))}
               </div>
             ) : (
-              <p className="mt-7 p-3 bg-blue-100 border border-blue-400 text-blue-700 rounded">Votre panier est vide</p>
+              <p className="mt-7 p-3 bg-blue-100 border border-blue-400 text-blue-700 rounded">
+                Votre panier est vide
+              </p>
             )}
 
             <div className="mt-8 flex justify-end border-t border-gray-100 pt-8">
@@ -104,14 +120,11 @@ const CartPage = () => {
                   </div>
                 </dl>
                 <div className="flex justify-end">
-                  <button
-                    onClick={deleteAllItemsFromCart}
-                  >
+                  <button onClick={deleteAllItemsFromCart}>
                     <a
                       href="#"
                       className="block rounded bg-red-700 px-5 py-3 text-sm text-gray-100 transition hover:bg-gray-600 mx-7"
                     >
-
                       Supprimer mon panier
                     </a>
                   </button>
@@ -131,7 +144,13 @@ const CartPage = () => {
   );
 };
 
-const CartItemComponent = ({ item, shoppingCart, modifyQuantity, addQuantity, subtractQuantity }) => {
+const CartItemComponent = ({
+  item,
+  shoppingCart,
+  modifyQuantity,
+  addQuantity,
+  subtractQuantity,
+}) => {
   const { setShoppingCart } = useCart();
   const [quantity, setQuantity] = useState(item.quantity);
 
@@ -152,7 +171,7 @@ const CartItemComponent = ({ item, shoppingCart, modifyQuantity, addQuantity, su
         />
         <div className="flex-1">
           <h3 className="text-sm text-gray-900">{item.product.name}</h3>
-          <p className='text-sm'>{item.product.price} €</p>
+          <p className="text-sm">{item.product.price} €</p>
         </div>
         <div className="flex flex-1 items-center justify-end gap-2">
           <form className="flex items-center gap-2">
@@ -163,7 +182,9 @@ const CartItemComponent = ({ item, shoppingCart, modifyQuantity, addQuantity, su
             >
               -
             </button>
-            <label htmlFor={`Line3Qty-${item.product.id}`} className="sr-only">Quantity</label>
+            <label htmlFor={`Line3Qty-${item.product.id}`} className="sr-only">
+              Quantity
+            </label>
             <input
               type="number"
               min="1"
@@ -182,7 +203,9 @@ const CartItemComponent = ({ item, shoppingCart, modifyQuantity, addQuantity, su
           </form>
           <button
             className="text-gray-600 transition hover:text-red-600"
-            onClick={() => setShoppingCart(handleRemoveFromCart(item.product, shoppingCart))}
+            onClick={() =>
+              setShoppingCart(handleRemoveFromCart(item.product, shoppingCart))
+            }
           >
             <span className="sr-only">Remove item</span>
             <svg

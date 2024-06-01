@@ -1,32 +1,33 @@
-"use client";
+'use client';
 import React, { createContext, useEffect, useState } from 'react';
-import { AuthContextType, RootLayoutProps, UserData, UserFetch } from '@/app/interfaces/interfaces';
+import {
+  AuthContextType,
+  RootLayoutProps,
+  UserData,
+  UserFetch,
+} from '@/app/interfaces/interfaces';
 import { setCookie, deleteCookie, getCookie } from '../utils/cookiesUtils';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-
 
 export const AuthProvider: React.FC<RootLayoutProps> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [user, setUser] = useState<UserData | null>(null);
   const API_FOR_USER = 'https://c1bb0d8a5f1d.airneis.net/api/user';
 
-
   const fetchUserInfo = async (accessToken: string) => {
     try {
       const response = await fetch(API_FOR_USER, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${accessToken}`
-        }
+          Authorization: `Bearer ${accessToken}`,
+        },
       });
       const userData: UserFetch = await response.json();
       if (userData.success) {
         setUser({ ...userData.user, accessToken });
         setIsLoggedIn(true);
         localStorage.setItem('isLoggedIn', 'true');
-
       } else {
         console.error('Failed to fetch user info');
       }
@@ -46,10 +47,9 @@ export const AuthProvider: React.FC<RootLayoutProps> = ({ children }) => {
     setIsLoggedIn(false);
     localStorage.removeItem('isLoggedIn');
     deleteCookie('session');
-    deleteCookie('accessToken')
-    deleteCookie('refreshToken')
+    deleteCookie('accessToken');
+    deleteCookie('refreshToken');
     setUser(null);
-
   };
 
   useEffect(() => {
@@ -63,7 +63,9 @@ export const AuthProvider: React.FC<RootLayoutProps> = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, login, logout, user, setUser }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, setIsLoggedIn, login, logout, user, setUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

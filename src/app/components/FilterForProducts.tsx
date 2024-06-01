@@ -1,20 +1,20 @@
-"use client"
-import { Category, Material } from "../interfaces/interfaces";
-import { FilterForProductsProps } from "../interfaces/interfaces";
+'use client';
+import { Category, Material } from '../interfaces/interfaces';
+import { FilterForProductsProps } from '../interfaces/interfaces';
 
-
-const FilterForProducts: React.FC<FilterForProductsProps> = ({ 
+const FilterForProducts: React.FC<FilterForProductsProps> = ({
   categories,
   materials,
   selectedCategories,
   setSelectedCategories,
   selectedMaterials,
-  setSelectedMaterials
- }) => {
-
+  setSelectedMaterials,
+}) => {
   const handleCategoryChange = (categoryId: number) => {
     if (selectedCategories.includes(categoryId)) {
-      setSelectedCategories(selectedCategories.filter((id) => id !== categoryId));
+      setSelectedCategories(
+        selectedCategories.filter((id) => id !== categoryId),
+      );
     } else {
       setSelectedCategories([...selectedCategories, categoryId]);
     }
@@ -28,15 +28,10 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
     }
   };
 
-
   return (
     <div className="space-y-4 pr-3 ml-3 ">
-      <details
-        className="overflow-hidden rounded border border-gray-300 [&_summary::-webkit-details-marker]:hidden "
-      >
-        <summary
-          className="flex cursor-pointer items-center justify-between gap-2 bg-white p-4  text-gray-900 transition"
-        >
+      <details className="overflow-hidden rounded border border-gray-300 [&_summary::-webkit-details-marker]:hidden ">
+        <summary className="flex cursor-pointer items-center justify-between gap-2 bg-white p-4  text-gray-900 transition">
           <span className="text-sm font-medium pr-9"> Catégories </span>
 
           <span className="transition group-open:-rotate-180 ">
@@ -48,30 +43,41 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
               stroke="currentColor"
               className="h-4 w-4"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+              />
             </svg>
           </span>
         </summary>
 
         <div className="border-t border-gray-200 bg-white">
           <header className="flex items-center justify-between p-4">
-            <button type="button" className="text-sm text-gray-900 underline underline-offset-4">
+            <button
+              type="button"
+              className="text-sm text-gray-900 underline underline-offset-4"
+            >
               Réinitialiser
             </button>
           </header>
 
           <ul className="space-y-1 border-t border-gray-200 p-4">
-            {categories.map((category : Category) => (
+            {categories.map((category: Category) => (
               <li key={category.id}>
                 <label className="gap-2">
                   <div className="block">
                     <input
                       type="checkbox"
                       id={`category-${category.id}`}
-                      className="size-5 rounded border-gray-300" 
+                      className="size-5 rounded border-gray-300"
                       onChange={() => handleCategoryChange(category.id)}
-                      checked={selectedCategories.includes(category.id)}/>
-                    <span className="text-sm font-medium text-gray-700"> {category.name} </span>
+                      checked={selectedCategories.includes(category.id)}
+                    />
+                    <span className="text-sm font-medium text-gray-700">
+                      {' '}
+                      {category.name}{' '}
+                    </span>
                   </div>
                 </label>
               </li>
@@ -80,14 +86,8 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
         </div>
       </details>
 
-
-
-      <details
-        className="overflow-hidden rounded border border-gray-300 [&_summary::-webkit-details-marker]:hidden"
-      >
-        <summary
-          className="flex cursor-pointer items-center justify-between gap-2 bg-white p-4 text-gray-900 transition"
-        >
+      <details className="overflow-hidden rounded border border-gray-300 [&_summary::-webkit-details-marker]:hidden">
+        <summary className="flex cursor-pointer items-center justify-between gap-2 bg-white p-4 text-gray-900 transition">
           <span className="text-sm font-medium"> Matériaux </span>
 
           <span className="transition group-open:-rotate-180">
@@ -99,14 +99,21 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
               stroke="currentColor"
               className="h-4 w-4"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+              />
             </svg>
           </span>
         </summary>
 
         <div className="border-t border-gray-200 bg-white">
           <header className="flex items-center justify-between p-4">
-            <button type="button" className="text-sm text-gray-900 underline underline-offset-4">
+            <button
+              type="button"
+              className="text-sm text-gray-900 underline underline-offset-4"
+            >
               Réinitialiser
             </button>
           </header>
@@ -123,7 +130,9 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
                       onChange={() => handleMaterialChange(material.id)}
                       checked={selectedMaterials.includes(material.id)}
                     />
-                    <span className="text-sm font-medium text-gray-700">{material.name}</span>
+                    <span className="text-sm font-medium text-gray-700">
+                      {material.name}
+                    </span>
                   </div>
                 </label>
               </li>
@@ -131,12 +140,8 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
           </ul>
         </div>
       </details>
-      <details
-        className="overflow-hidden rounded border border-gray-300 [&_summary::-webkit-details-marker]:hidden"
-      >
-        <summary
-          className="flex cursor-pointer items-center justify-between gap-2 bg-white p-4 text-gray-900 transition"
-        >
+      <details className="overflow-hidden rounded border border-gray-300 [&_summary::-webkit-details-marker]:hidden">
+        <summary className="flex cursor-pointer items-center justify-between gap-2 bg-white p-4 text-gray-900 transition">
           <span className="text-sm font-medium"> Prix </span>
 
           <span className="transition group-open:-rotate-180">
@@ -148,23 +153,35 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
               stroke="currentColor"
               className="h-4 w-4"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+              />
             </svg>
           </span>
         </summary>
 
         <div className="border-t border-gray-200 bg-white">
           <header className="flex items-center justify-between p-4">
-            <span className="text-sm text-gray-700">Le prix le plus chère est de 500€ </span>
+            <span className="text-sm text-gray-700">
+              Le prix le plus chère est de 500€{' '}
+            </span>
 
-            <button type="button" className="text-sm text-gray-900 underline underline-offset-4">
+            <button
+              type="button"
+              className="text-sm text-gray-900 underline underline-offset-4"
+            >
               Réinitialiser
             </button>
           </header>
 
           <div className="border-t border-gray-200 p-4">
             <div className="flex justify-between gap-4">
-              <label htmlFor="FilterPriceFrom" className="flex items-center gap-2">
+              <label
+                htmlFor="FilterPriceFrom"
+                className="flex items-center gap-2"
+              >
                 <span className="text-sm text-gray-600">€</span>
 
                 <input
@@ -175,7 +192,10 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
                 />
               </label>
 
-              <label htmlFor="FilterPriceTo" className="flex items-center gap-2">
+              <label
+                htmlFor="FilterPriceTo"
+                className="flex items-center gap-2"
+              >
                 <span className="text-sm text-gray-600">€</span>
 
                 <input
@@ -189,9 +209,8 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
           </div>
         </div>
       </details>
-   </div>
-)
-}
-
+    </div>
+  );
+};
 
 export default FilterForProducts;

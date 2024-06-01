@@ -1,12 +1,12 @@
-"use client";
-import SearchBar from "@/app/components/SearchBar";
+'use client';
+import SearchBar from '@/app/components/SearchBar';
 
 const SearchPage = () => {
   return (
     <div className="min-h-screen">
-      <SearchBar/>
+      <SearchBar />
     </div>
   );
-}
+};
 
 export default SearchPage;
