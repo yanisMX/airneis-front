@@ -70,6 +70,13 @@ export interface ProductCreation {
     limit: number;
     page: number;
   }
+
+export interface CategoryCreation {
+  name: string | null;
+  description?: string;
+  slug?: string;
+  thumbnailId: number | null;
+}
   
   export interface Material {
     id: number;
