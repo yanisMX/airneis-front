@@ -1,5 +1,5 @@
 import { Cart, Product, CartItem } from "../interfaces/interfaces";
-import { modifyQuantity } from "../api/patchCallAPI";
+import modifyQuantity from "../(pages)/panier/page";
 
 
 
