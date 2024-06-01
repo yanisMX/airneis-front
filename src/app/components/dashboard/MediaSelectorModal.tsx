@@ -6,7 +6,13 @@ import MediaLibrary from "./MediaLibrary";
 import MediaLibraryItem from "./MediaLibraryItem";
 
 export default function MediaSelectorModal({ id, options, onSelect }: { id: string, options?: MediaSelectorModalOptions, onSelect?: (medias: Media[]) => void }) {
-  if (!options) options = new MediaSelectorModalOptions();
+  if (!options) {
+    options = new MediaSelectorModalOptions();
+  } else {
+    if (options.multiple === undefined) options.multiple = true;
+    if (options.gallery === undefined) options.gallery = true;
+    if (options.preview === undefined) options.preview = true;
+  }
 
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -44,11 +50,13 @@ export default function MediaSelectorModal({ id, options, onSelect }: { id: stri
   }
 
   useEffect(() => {
-    fetchMedias();
+    if (options.gallery)
+      fetchMedias();
   }, [mediaQuery]);
 
   useEffect(() => {
-    fetchMedias();
+    if (options.gallery)
+      fetchMedias();
   }, []);
 
   const onConfirm = () => {
@@ -116,8 +124,14 @@ export default function MediaSelectorModal({ id, options, onSelect }: { id: stri
                 onUploadError={() => setUploading(false)}
                 onUploadComplete={(media: Media) => {
                   setUploading(false)
-                  setCreatedMedias([...createdMedias, media]);
-                  setSelectedMedias(options.multiple ? [...selectedMedias, media] : [media]);
+
+                  if (options.preview) {
+                    setCreatedMedias([...createdMedias, media]);
+                    setSelectedMedias(options.multiple ? [...selectedMedias, media] : [media]);
+                  } else {
+                    onSelect?.([media]);
+                    dialogRef.current?.close();
+                  }
                 }}
               />
             ) : (
@@ -134,30 +148,34 @@ export default function MediaSelectorModal({ id, options, onSelect }: { id: stri
 
         <div className="modal-action px-6 justify-between sm:justify-end">
           <div className="sm:flex-1">
-            <button
-              className="btn btn-sm"
-              onClick={() => {
-                if (importMode) {
-                  setMedias([]);
-                  setMediaKey(mediaKey + 1);
-                  setMediaPagination(undefined);
-                  setMediaQuery({ ...mediaQuery, page: undefined });
-                }
+            {
+              options.gallery && (
+                <button
+                  className="btn btn-sm"
+                  onClick={() => {
+                    if (importMode) {
+                      setMedias([]);
+                      setMediaKey(mediaKey + 1);
+                      setMediaPagination(undefined);
+                      setMediaQuery({ ...mediaQuery, page: undefined });
+                    }
 
-                setImportMode(!importMode);
-              }}
-              disabled={isUploading}
-            >
-              {
-                importMode ? (<>
-                  <i className="fa-solid fa-images"></i>
-                  <span>Galerie</span>
-                </>) : (<>
-                  <i className="fa-solid fa-arrow-up-from-bracket"></i>
-                  <span className="hidden md:inline-block">Importer</span>
-                </>)
-              }
-            </button>
+                    setImportMode(!importMode);
+                  }}
+                  disabled={isUploading}
+                >
+                  {
+                    importMode ? (<>
+                      <i className="fa-solid fa-images"></i>
+                      <span>Galerie</span>
+                    </>) : (<>
+                      <i className="fa-solid fa-arrow-up-from-bracket"></i>
+                      <span className="hidden md:inline-block">Importer</span>
+                    </>)
+                  }
+                </button>
+              )
+            }
           </div>
           <div>
             {
@@ -186,7 +204,7 @@ export default function MediaSelectorModal({ id, options, onSelect }: { id: stri
           </div>
           <div className="flex space-x-2">
             <button className="btn btn-sm" onClick={() => dialogRef.current?.close()} disabled={isUploading}>Annuler</button>
-            <button className="btn btn-sm btn-primary" onClick={() => onConfirm()} disabled={isUploading}>Sélectionner</button>
+            {options.preview && <button className="btn btn-sm btn-primary" onClick={() => onConfirm()} disabled={isUploading}>Sélectionner</button>}
           </div>
         </div>
       </div>
@@ -195,5 +213,19 @@ export default function MediaSelectorModal({ id, options, onSelect }: { id: stri
 }
 
 class MediaSelectorModalOptions {
+  /**
+   * Allows the user to select multiple media(s) when the previous one has been imported.
+   */
   public multiple?: boolean = true;
+
+  /**
+   * Allows the user to select media(s) from the gallery.
+   */
+  public gallery?: boolean = true;
+
+  /**
+   * Allows the user to preview and (de)select imported media(s) before confirming the selection.
+   * Otherwise, the selection is confirmed immediately after the import, and the modal is closed.
+   */
+  public preview?: boolean = true;
 }

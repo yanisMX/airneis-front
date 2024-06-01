@@ -1,5 +1,6 @@
 "use client";
 
+import MediaSelectorModal from "@/app/components/dashboard/MediaSelectorModal";
 import MediasBulkDeleteModal from "@/app/components/dashboard/medias/MediasBulkDeleteModal";
 import MediasDeleteModal from "@/app/components/dashboard/medias/MediasDeleteModal";
 import MediassPagination from "@/app/components/dashboard/medias/MediasPagination";
@@ -7,10 +8,13 @@ import { Image as Media, MediaPagination, MediaQuery } from "@/app/interfaces/in
 import { formatBytes, formatDateString } from "@/app/utils/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function Materials() {
+  const router = useRouter();
+
   const defaultItemsPerPageLimit = 20;
 
   const [isFetching, setFetching] = useState(true);
@@ -134,9 +138,15 @@ export default function Materials() {
               </ul>
             </div>
 
-            <Link href={"/dashboard/products/new"} className="btn btn-primary btn-sm">
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={() => {
+                const modal = document.getElementById("media-selector-modal") as HTMLDialogElement;
+                modal.showModal();
+              }}
+            >
               <i className="fa-solid fa-plus"></i>Nouveau<span className="hidden xl:inline"> média</span>
-            </Link>
+            </button>
           </div>
         </div>
       </div>
@@ -296,6 +306,11 @@ export default function Materials() {
 
       <MediasBulkDeleteModal id="bulk-delete-modal" medias={selectedMedias} fetchMedias={fetchMedias} />
       {medias.map((media) => <MediasDeleteModal key={media.id} id={"delete-media-" + media.id} media={media} fetchMedias={fetchMedias} />)}
+
+      <MediaSelectorModal id="media-selector-modal" options={{ multiple: false, gallery: false, preview: false }} onSelect={(medias) => {
+        const media = medias[0];
+        router.push("/dashboard/medias/" + media.id);
+      }} />
     </>
   )
 }
