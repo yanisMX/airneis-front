@@ -3,7 +3,8 @@ import React from 'react';
 import { useCart } from '@/app/context/CartContext';
 import { useAuth } from '@/app/context/AuthContext';
 import Image from 'next/image';
-import { calculateTotal, addQuantity, subtractQuantity } from '@/app/utils/cartUtils';
+import { calculateTotal } from '@/app/utils/cartUtils';
+import { Cart, Product } from '@/app/interfaces/interfaces';
 
 const CartPage = () => {
   const API_TO_UPDATE_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket';
@@ -40,6 +41,19 @@ const CartPage = () => {
     }
   };
 
+const addQuantity = (product: Product, cart: Cart) => {
+    const currentItem = cart.items.find((item) => item.product.id === product.id);
+    if (currentItem) {
+      modifyQuantity(product.id, currentItem.quantity + 1);
+    }
+  };
+  
+  const subtractQuantity = (product: Product, cart: Cart) => {
+    const currentItem = cart.items.find((item) => item.product.id === product.id);
+    if (currentItem) {
+      modifyQuantity(product.id, currentItem.quantity - 1);
+    }
+  };
 
 
   const deleteItemFromCart = async (productId: number) => {
