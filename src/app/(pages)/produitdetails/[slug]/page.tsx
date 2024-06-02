@@ -1,12 +1,12 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { getCallAPI } from '@/app/api/get';
+import { getCallApi } from '@/app/api/get';
 import { Product } from '@/app/interfaces/interfaces';
 import { handleAddToCart } from '@/app/utils/cartUtils';
 import { useCart } from '@/app/context/CartContext';
 import Image from 'next/image';
 import { useAuth } from '@/app/context/AuthContext';
-import { postCallAPIWithToken } from '@/app/api/post';
+import { postCallApi } from '@/app/api/post';
 
 const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
   const API_FOR_PRODUCT = `https://c1bb0d8a5f1d.airneis.net/api/products/slug/${params.slug}`;
@@ -25,7 +25,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
           const updatedCart = handleAddToCart(product, shoppingCart);
           setShoppingCart(updatedCart);
         } else {
-          const response = await postCallAPIWithToken(
+          const response = await postCallApi(
             API_FOR_ADD_TO_CART,
             { productId: product.id, quantity: 1 },
             user.accessToken,
@@ -62,7 +62,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
   };
 
   const fetchDataProduct = async () => {
-    const response = await getCallAPI(API_FOR_PRODUCT);
+    const response = await getCallApi(API_FOR_PRODUCT);
     try {
       if (response.success) {
         setProduct(response.product);

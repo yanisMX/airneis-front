@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { postCallAPI } from '@/app/api/post';
+import { postCallApi } from '@/app/api/post';
 import { UserData } from '@/app/interfaces/interfaces';
 
 const SignupPage = () => {
@@ -21,7 +21,7 @@ const SignupPage = () => {
       password,
     };
 
-    const result = await postCallAPI(API_FOR_REGISTER, userData);
+    const result = await postCallApi(API_FOR_REGISTER, userData);
 
     if (result.success) {
       setErrorMessage('');

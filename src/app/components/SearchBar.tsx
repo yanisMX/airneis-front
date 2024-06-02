@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { getCallAPI } from '../api/get';
+import { getCallApi } from '../api/get';
 import { Product } from '../interfaces/interfaces';
 import ProductComponent from './ProductComponent';
 
@@ -20,7 +20,7 @@ const SearchBar = () => {
   const fetchDataProducts = async () => {
     if (search.length >= 3) {
       try {
-        const response = await getCallAPI(API_FOR_SEARCH + search);
+        const response = await getCallApi(API_FOR_SEARCH + search);
         if (response.products.length > 0) {
           setProducts(response.products);
           setErrorMessage('');

@@ -5,7 +5,7 @@ import { useCart } from '@/app/context/CartContext';
 import { useAuth } from '@/app/context/AuthContext';
 import Image from 'next/image';
 import { calculateTotal, modifyQuantityLocally, handleRemoveProductFromCart } from '@/app/utils/cartUtils';
-import { postCallAPIForDeleteCart } from '@/app/api/post';
+import { postCallApi } from '@/app/api/post';
 import { access } from 'fs';
 
 const CartPage = () => {
@@ -77,7 +77,7 @@ const CartPage = () => {
   const deleteAllItemsFromCart = async () => {
     if (isLoggedIn && user?.accessToken) {
       try {
-        const response = await postCallAPIForDeleteCart(API_TO_DELETE_CART, user.accessToken);
+        const response = await postCallApi(API_TO_DELETE_CART, user.accessToken);
         console.log(response)
         setShoppingCart({ items: [], total: 0 });
       } catch (error: any) {

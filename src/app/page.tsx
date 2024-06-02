@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { getCallAPI } from './api/get';
+import { getCallApi } from './api/get';
 import { Product } from './interfaces/interfaces';
 
 export default function HomePage() {
@@ -16,8 +16,8 @@ export default function HomePage() {
   const CATEGORIES_URL = 'https://c1bb0d8a5f1d.airneis.net/api/categories';
 
   async function fetchAllData() {
-    const fetchedProducts = await getCallAPI(HIGHLANDERS_PRODUCTS_URL);
-    const fetchedCategories = await getCallAPI(CATEGORIES_URL);
+    const fetchedProducts = await getCallApi(HIGHLANDERS_PRODUCTS_URL);
+    const fetchedCategories = await getCallApi(CATEGORIES_URL);
     if (fetchedProducts && fetchedProducts.products) {
       setProducts(fetchedProducts.products);
     } else {

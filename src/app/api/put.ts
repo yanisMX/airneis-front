@@ -1,25 +1,23 @@
 import { Address } from 'cluster';
 import {
-  ApiResponseForUserModification,
   UserData,
 } from '../interfaces/interfaces';
 
-export const putCallAPIWithToken = async (
+export const putCallApi = async (
   url: string,
   data: UserData | Address,
-  accessToken: string,
+  accessToken?: string,
 ) => {
   try {
     const response = await fetch(url, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
+        ...(accessToken && {Authorization: `Bearer ${accessToken}`}),
       },
       body: JSON.stringify(data),
     });
-    const result: ApiResponseForUserModification = await response.json();
-    return result;
+    return await response.json();
   } catch (error) {
     console.error('Erreur lors de la connexion au serveur', error);
     return {

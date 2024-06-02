@@ -49,7 +49,8 @@ export interface UserFetch {
 
 export interface ApiResponse {
   success: boolean;
-  token: {
+  message?: string;
+  token?: {
     accessToken: string;
     refreshToken: string;
   };

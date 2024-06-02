@@ -1,5 +1,5 @@
 'use client';
-import { postCallAPI } from '@/app/api/post';
+import { postCallApi } from '@/app/api/post';
 import { useAuth } from '@/app/context/AuthContext';
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -17,7 +17,7 @@ const MyAccountPage = () => {
   ) => {
     if (newInformation) {
       try {
-        const response = await postCallAPI(
+        const response = await postCallApi(
           API_FOR_PERSONAL_INFORMATION_MODIFY,
           { [informationType]: newInformation },
         );
@@ -40,7 +40,7 @@ const MyAccountPage = () => {
 
   const handleDeleteClick = async (addressType: string, addressId: string) => {
     try {
-      const response = await postCallAPI(API_FOR_ADDRESS_DELETE, {
+      const response = await postCallApi(API_FOR_ADDRESS_DELETE, {
         addressType,
         addressId,
       });

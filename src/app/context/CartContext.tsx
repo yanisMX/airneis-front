@@ -3,7 +3,7 @@
 import React, { useEffect, createContext, useState, useContext } from 'react';
 import { ShoppingCart, RootLayoutProps, Cart } from '../interfaces/interfaces';
 import { useAuth } from './AuthContext';
-import { getCallApiForUser } from '../api/get';
+import { getCallApi } from '../api/get';
 import { calculateTotal } from '../utils/cartUtils';
 
 const CartContext = createContext<ShoppingCart | undefined>(undefined);
@@ -15,7 +15,7 @@ export const CartProvider: React.FC<RootLayoutProps> = ({ children }) => {
 
   const fetchUserCart = async (accessToken: string) => {
     try {
-      const result: { success: boolean; basket: any; message: string } = await getCallApiForUser(API_TO_UPDATE_CART, accessToken);
+      const result: { success: boolean; basket: any; message: string } = await getCallApi(API_TO_UPDATE_CART, accessToken);
       if (result.success) {
         const newBasket = result.basket;
         const mappedBasket: Cart = {

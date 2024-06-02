@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import React, { useState } from 'react';
-import { postCallAPI } from '@/app/api/post';
+import { postCallApi } from '@/app/api/post';
 import { UserData } from '../../interfaces/interfaces';
 import { useAuth } from '@/app/context/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -38,7 +38,7 @@ const SignInPage = () => {
   ) => {
     event.preventDefault();
 
-    const result = await postCallAPI(API_FOR_LOGIN, userData);
+    const result = await postCallApi(API_FOR_LOGIN, userData);
 
     if (result.success) {
       loginManagement(result);

@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { getCallAPI } from '@/app/api/get';
+import { getCallApi } from '@/app/api/get';
 import { Product } from '@/app/interfaces/interfaces';
 import Image from 'next/image';
 import ProductComponent from '@/app/components/ProductComponent';
@@ -16,7 +16,7 @@ const CategorieProductsPage = ({ params }: { params: { category: any } }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await getCallAPI(CATEGORY_PRODUCTS_URL);
+      const response = await getCallApi(CATEGORY_PRODUCTS_URL);
       const firstProduct = await response.products[0];
       if (firstProduct.images && firstProduct.images.length > 0) {
         setCategoryProductImage(

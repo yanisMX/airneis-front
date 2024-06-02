@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import { getCallAPI } from '@/app/api/get';
+import { getCallApi } from '@/app/api/get';
 import { Product, Category, Material } from '@/app/interfaces/interfaces';
 import FilterForProducts from '@/app/components/FilterForProducts';
 import ProductComponent from '@/app/components/ProductComponent';
@@ -18,17 +18,17 @@ const ProductsPage = () => {
   const API_FOR_MATERIALS = 'https://c1bb0d8a5f1d.airneis.net/api/materials';
 
   const fetchDataProducts = async () => {
-    const response = await getCallAPI(API_FOR_ALL_PRODUCTS);
+    const response = await getCallApi(API_FOR_ALL_PRODUCTS);
     setProducts(response.products);
   };
 
   const fetchCategories = async () => {
-    const response = await getCallAPI(API_FOR_CATEGORIES);
+    const response = await getCallApi(API_FOR_CATEGORIES);
     setCategories(response.categories);
   };
 
   const fetchMaterials = async () => {
-    const response = await getCallAPI(API_FOR_MATERIALS);
+    const response = await getCallApi(API_FOR_MATERIALS);
     setMaterials(response.materials);
   };
 
@@ -40,7 +40,7 @@ const ProductsPage = () => {
       .map((id) => `materials=${id}`)
       .join('&');
     const query = [categoryQuery, materialQuery].filter(Boolean).join('&');
-    const response = await getCallAPI(`${API_FOR_ALL_PRODUCTS}?${query}`);
+    const response = await getCallApi(`${API_FOR_ALL_PRODUCTS}?${query}`);
     setProducts(response.products);
   };
 

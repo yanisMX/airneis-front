@@ -1,10 +1,10 @@
-export const deleteCallApi = async(url : string, data : any, accessToken : string) => {
+export const deleteCallApi = async(url : string, data : any, accessToken? : string) => {
   try {
     const response = await fetch(url, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
+        ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
       },
       body: JSON.stringify(data),
     });

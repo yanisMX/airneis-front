@@ -1,14 +1,14 @@
-export const patchCallAPIWithToken = async (
+export const patchCallApi = async (
   url: string,
   data: any,
-  accessToken: string,
+  accessToken?: string,
 ) => {
   try {
     const response = await fetch(url, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
+        ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
       },
       body: JSON.stringify(data),
     });
