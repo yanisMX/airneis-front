@@ -159,3 +159,25 @@ export interface MediaPagination {
 export interface MediaDto {
   name: string;
 }
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface UserQuery {
+  search?: string;
+  limit?: number;
+  page?: number;
+}
+
+export interface UserPagination {
+  userCount: number;
+  totalPages: number;
+  limit: number;
+  page: number;
+}
