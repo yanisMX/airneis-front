@@ -14,7 +14,7 @@ const SignInPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const { login } = useAuth();
 
-  const API_FOR_LOGIN = 'https://c1bb0d8a5f1d.airneis.net/api/auth/login';
+  const API_FOR_LOGIN = '/api/auth/login';
 
   const resetForm = () => {
     setEmail('');

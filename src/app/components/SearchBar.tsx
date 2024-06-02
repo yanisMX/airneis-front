@@ -5,8 +5,7 @@ import { Product } from '../interfaces/interfaces';
 import ProductComponent from './ProductComponent';
 
 const SearchBar = () => {
-  const API_FOR_SEARCH =
-    'https://c1bb0d8a5f1d.airneis.net/api/products?search=';
+  const API_FOR_SEARCH = '/api/products?search=';
 
   const [search, setSearch] = useState('');
   const [products, setProducts] = useState<Product[] | null>(null);

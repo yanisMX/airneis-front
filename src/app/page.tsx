@@ -11,9 +11,8 @@ export default function HomePage() {
   const [categories, setCategories] = useState<any[]>([]);
   const [products, setProducts] = useState<any[]>([]);
 
-  const HIGHLANDERS_PRODUCTS_URL =
-    'https://c1bb0d8a5f1d.airneis.net/api/products';
-  const CATEGORIES_URL = 'https://c1bb0d8a5f1d.airneis.net/api/categories';
+  const HIGHLANDERS_PRODUCTS_URL = `/api/products`;
+  const CATEGORIES_URL = `/api/categories`;
 
   async function fetchAllData() {
     const fetchedProducts = await getCallApi(HIGHLANDERS_PRODUCTS_URL);

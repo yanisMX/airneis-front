@@ -8,7 +8,7 @@ import {postCallApi} from '../api/post';
 import Image from 'next/image';
 
 const Navbar = () => {
-  const API_FOR_LOGOUT = 'https://c1bb0d8a5f1d.airneis.net/api/auth/logout';
+  const API_FOR_LOGOUT = '/api/auth/logout';
   const { isLoggedIn, setIsLoggedIn, logout, user } = useAuth();
   const { shoppingCart, setShoppingCart } = useCart();
 

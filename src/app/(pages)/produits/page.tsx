@@ -13,9 +13,9 @@ const ProductsPage = () => {
   const [selectedMaterials, setSelectedMaterials] = useState<number[]>([]);
   const [isFilterVisible, setIsFilterVisible] = useState<boolean>(false);
 
-  const API_FOR_ALL_PRODUCTS = 'https://c1bb0d8a5f1d.airneis.net/api/products';
-  const API_FOR_CATEGORIES = 'https://c1bb0d8a5f1d.airneis.net/api/categories';
-  const API_FOR_MATERIALS = 'https://c1bb0d8a5f1d.airneis.net/api/materials';
+  const API_FOR_ALL_PRODUCTS = '/api/products';
+  const API_FOR_CATEGORIES = '/api/categories';
+  const API_FOR_MATERIALS = '/api/materials';
 
   const fetchDataProducts = async () => {
     const response = await getCallApi(API_FOR_ALL_PRODUCTS);

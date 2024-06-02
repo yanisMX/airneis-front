@@ -7,9 +7,9 @@ import React, { useState } from 'react';
 const MyAccountPage = () => {
   const { user, setUser } = useAuth();
   const [errorMessage, setErrorMessage] = useState('');
-  const API_FOR_ADDRESS_DELETE = `https://c1bb0d8a5f1d.airneis.net/api/user/addresses/${user?.id}`;
+  const API_FOR_ADDRESS_DELETE = `/api/user/addresses/${user?.id}`;
   const API_FOR_PERSONAL_INFORMATION_MODIFY =
-    'https://c1bb0d8a5f1d.airneis.net/api/user';
+    '/api/user';
 
   const handleModifyPersonalInformationClick = async (
     newInformation: string | null,

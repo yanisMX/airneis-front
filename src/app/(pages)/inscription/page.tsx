@@ -10,7 +10,7 @@ const SignupPage = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const API_FOR_REGISTER = 'https://c1bb0d8a5f1d.airneis.net/api/auth/register';
+  const API_FOR_REGISTER = '/api/auth/register';
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -9,8 +9,8 @@ import { postCallApi } from '@/app/api/post';
 import { access } from 'fs';
 
 const CartPage = () => {
-  const API_TO_UPDATE_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket';
-  const API_TO_DELETE_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket/clear';
+  const API_TO_UPDATE_CART = '/api/user/basket';
+  const API_TO_DELETE_CART = '/api/user/basket/clear';
 
   const { shoppingCart, setShoppingCart } = useCart();
   const { isLoggedIn, user } = useAuth();

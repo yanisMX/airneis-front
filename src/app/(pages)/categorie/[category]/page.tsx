@@ -12,7 +12,7 @@ const CategorieProductsPage = ({ params }: { params: { category: any } }) => {
   const [CategoryProductImage, setCategoryProductImage] = useState<any | null>(
     null,
   );
-  const CATEGORY_PRODUCTS_URL = `https://c1bb0d8a5f1d.airneis.net/api/products?category=${params.category.id}`;
+  const CATEGORY_PRODUCTS_URL = `/api/products?category=${params.category.id}`;
 
   useEffect(() => {
     const fetchData = async () => {

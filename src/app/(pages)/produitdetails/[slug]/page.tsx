@@ -9,8 +9,8 @@ import { useAuth } from '@/app/context/AuthContext';
 import { postCallApi } from '@/app/api/post';
 
 const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
-  const API_FOR_PRODUCT = `https://c1bb0d8a5f1d.airneis.net/api/products/slug/${params.slug}`;
-  const API_FOR_ADD_TO_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket';
+  const API_FOR_PRODUCT = `/api/products/slug/${params.slug}`;
+  const API_FOR_ADD_TO_CART = '/api/user/basket';
 
   const [product, setProduct] = useState<Product | null>(null);
   const { shoppingCart, setShoppingCart } = useCart();
