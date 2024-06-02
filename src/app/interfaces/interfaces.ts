@@ -187,3 +187,71 @@ export interface UserPagination {
   limit: number;
   page: number;
 }
+
+export interface Order {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  status: OrderStatus;
+  products: OrderProduct[];
+  billingAddress: Address;
+  shippingAddress: Address;
+  user?: User;
+}
+
+export enum OrderStatus {
+  PENDING = "pending",
+  CONFIRMED = "confirmed",
+  SHIPPED = "shipped",
+  DELIVERED = "delivered",
+  CANCELED = "canceled",
+}
+
+export const OrderStatusLabels = {
+  pending: "En attente",
+  confirmed: "Confirmée",
+  shipped: "Expédiée",
+  delivered: "Livrée",
+  canceled: "Annulée",
+}
+
+export interface OrderProduct {
+  id: number;
+  name: string;
+  price: string;
+  quantity: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Address {
+  id: number;
+  firstName: string;
+  lastName: string;
+  address1: string;
+  address2: string;
+  city: string;
+  region: string;
+  postalCode: string;
+  country: string;
+  phone: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface OrderQuery {
+  user?: number;
+  limit?: number;
+  page?: number;
+}
+
+export interface OrderPagination {
+  orderCount: number;
+  totalPages: number;
+  limit: number;
+  page: number;
+}
+
+export interface OrderDto {
+  status: OrderStatus;
+}
