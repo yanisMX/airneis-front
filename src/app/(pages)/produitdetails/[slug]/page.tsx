@@ -9,8 +9,8 @@ import { useAuth } from '@/app/context/AuthContext';
 import { postCallApi } from '@/app/api/post';
 
 const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
-  const API_FOR_PRODUCT = `/api/products/slug/${params.slug}`;
-  const API_FOR_ADD_TO_CART = '/api/user/basket';
+  const ENDPOINT_FOR_PRODUCT = `/api/products/slug/${params.slug}`;
+  const ENDPOINT_FOR_ADD_TO_CART = '/api/user/basket';
 
   const [product, setProduct] = useState<Product | null>(null);
   const { shoppingCart, setShoppingCart } = useCart();
@@ -26,7 +26,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
           setShoppingCart(updatedCart);
         } else {
           const response = await postCallApi(
-            API_FOR_ADD_TO_CART,
+            ENDPOINT_FOR_ADD_TO_CART,
             { productId: product.id, quantity: 1 },
             user.accessToken,
           );
@@ -62,7 +62,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
   };
 
   const fetchDataProduct = async () => {
-    const response = await getCallApi(API_FOR_PRODUCT);
+    const response = await getCallApi(ENDPOINT_FOR_PRODUCT);
     try {
       if (response.success) {
         setProduct(response.product);

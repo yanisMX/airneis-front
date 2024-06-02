@@ -103,25 +103,6 @@ export const modifyQuantityLocally = (
   });
 };
 
-export const patchCallAPIWithToken = async (
-  url: string,
-  data: any,
-  accessToken: string,
-) => {
-  try {
-    const response = await patchCallApi(url, data, accessToken);
-    if (response.ok) {
-      return await response.json();
-    }
-  } catch (error) {
-    console.error('Erreur lors de la connexion au serveur', error);
-    return {
-      success: false,
-      message:
-        'Problème de connexion au serveur, veuillez réessayer plus tard.',
-    };
-  }
-};
 
 export const modifyQuantity = async (
   productId: number,
@@ -139,7 +120,7 @@ export const modifyQuantity = async (
   }
 
   try {
-    const data = await patchCallAPIWithToken(API_TO_UPDATE_CART, { productId, quantity }, accessToken);
+    const data = await patchCallApi(API_TO_UPDATE_CART, { productId, quantity }, accessToken);
     if (data.success) {
       const updatedCart = shoppingCart.items.map((item) => {
         if (item.product.id === productId) {
@@ -157,3 +138,35 @@ export const modifyQuantity = async (
     console.error(error.message);
   }
 };
+
+export const removeProductFromCart = async(
+  API_TO_UPDATE_CART: string,
+  product: Product,
+  shoppingCart: Cart,
+  accessToken: string | undefined,
+  setShoppingCart: (cart: Cart) => void,
+): Promise<void> => {
+  try {
+    const response = await deleteCallApi(API_TO_UPDATE_CART, { productId: product.id }, accessToken);
+
+    if (response.ok) {
+      const updatedCart: Cart = {
+        ...shoppingCart,
+        items: shoppingCart.items.filter(
+          (cartItem) => cartItem.product.id !== product.id,
+        ),
+      };
+      
+      updatedCart.total -=
+        parseFloat(product.price) *
+        (shoppingCart.items.find((cartItem) => cartItem.product.id === product.id)
+          ?.quantity ?? 0);
+
+      setShoppingCart(updatedCart);
+    } else {
+      throw new Error('Failed to remove product from cart');
+    }
+  } catch (error: any) {
+    console.error(error.message);
+  }
+}

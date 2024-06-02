@@ -5,7 +5,7 @@ import { Product } from '../interfaces/interfaces';
 import ProductComponent from './ProductComponent';
 
 const SearchBar = () => {
-  const API_FOR_SEARCH = '/api/products?search=';
+  const ENDPOINT_FOR_SEARCH = '/api/products?search=';
 
   const [search, setSearch] = useState('');
   const [products, setProducts] = useState<Product[] | null>(null);
@@ -19,7 +19,7 @@ const SearchBar = () => {
   const fetchDataProducts = async () => {
     if (search.length >= 3) {
       try {
-        const response = await getCallApi(API_FOR_SEARCH + search);
+        const response = await getCallApi(ENDPOINT_FOR_SEARCH + search);
         if (response.products.length > 0) {
           setProducts(response.products);
           setErrorMessage('');

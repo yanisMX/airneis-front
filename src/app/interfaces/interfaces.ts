@@ -132,3 +132,4 @@ export interface FilterForProductsProps {
   selectedMaterials: number[];
   setSelectedMaterials: (materials: number[]) => void;
 }
+

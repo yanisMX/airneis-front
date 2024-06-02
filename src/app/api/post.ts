@@ -24,7 +24,6 @@ export const postCallApi = async (
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-
     return await response.json();
   } catch (error) {
     console.error('Erreur lors de la connexion au serveur', error);

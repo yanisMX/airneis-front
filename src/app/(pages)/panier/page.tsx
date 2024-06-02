@@ -4,13 +4,13 @@ import React, { useState } from 'react';
 import { useCart } from '@/app/context/CartContext';
 import { useAuth } from '@/app/context/AuthContext';
 import Image from 'next/image';
-import { calculateTotal, modifyQuantityLocally, handleRemoveProductFromCart } from '@/app/utils/cartUtils';
+import { calculateTotal, modifyQuantityLocally, handleRemoveProductFromCart, removeProductFromCart } from '@/app/utils/cartUtils';
 import { postCallApi } from '@/app/api/post';
 import { patchCallApi } from '@/app/api/patch';
 
 const CartPage = () => {
-  const API_TO_UPDATE_CART = '/api/user/basket';
-  const API_TO_DELETE_CART = '/api/user/basket/clear';
+  const ENDPOINT_TO_UPDATE_CART = '/api/user/basket';
+  const ENDPOINT_TO_DELETE_CART = '/api/user/basket/clear';
 
   const { shoppingCart, setShoppingCart } = useCart();
   const { isLoggedIn, user } = useAuth();
@@ -24,7 +24,7 @@ const CartPage = () => {
     }
 
     try {
-      const data = await patchCallApi(API_TO_UPDATE_CART, { productId, quantity }, user.accessToken);
+      const data = await patchCallApi(ENDPOINT_TO_UPDATE_CART, { productId, quantity }, user.accessToken);
       if (data.success) {
         const updatedCart = shoppingCart.items.map((item) => {
           if (item.product.id === productId) {
@@ -64,8 +64,7 @@ const CartPage = () => {
   const deleteAllItemsFromCart = async () => {
     if (isLoggedIn && user?.accessToken) {
       try {
-        const response = await postCallApi(API_TO_DELETE_CART, user.accessToken);
-        console.log(response)
+        const response = await postCallApi(ENDPOINT_TO_DELETE_CART, user.accessToken);
         setShoppingCart({ items: [], total: 0 });
       } catch (error: any) {
         console.error(error.message);
@@ -74,6 +73,8 @@ const CartPage = () => {
       setShoppingCart({ items: [], total: 0 });
     }
   };
+
+
 
   return (
     <section className="content-below-navbar min-h-screen">
@@ -92,6 +93,7 @@ const CartPage = () => {
                     key={itemIndex}
                     item={item}
                     shoppingCart={shoppingCart}
+                    setShoppingCart={setShoppingCart} // Add this line
                     modifyQuantity={modifyQuantity}
                     addQuantity={addQuantity}
                     subtractQuantity={subtractQuantity}
@@ -143,14 +145,21 @@ const CartItemComponent = ({
   modifyQuantity,
   addQuantity,
   subtractQuantity,
+} : {
+  item: CartItem;
+  shoppingCart: ShoppingCart;
+  modifyQuantity: (productId: number, quantity: number) => void;
+  addQuantity: (product: Product) => void;
+  subtractQuantity: (product: Product) => void;
 }) => {
-  const API_TO_UPDATE_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket';
+
+  const ENDPOINT_TO_UPDATE_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket';
   const { setShoppingCart } = useCart();
   const [quantity, setQuantity] = useState(item.quantity);
   const { user } = useAuth();
 
 
-  const handleChangeQuantity = (newQuantity) => {
+  const handleChangeQuantity = (newQuantity : number) => {
     setQuantity(newQuantity);
     modifyQuantity(item.product.id, newQuantity);
   };
@@ -200,7 +209,7 @@ const CartItemComponent = ({
           <button
             className="text-gray-600 transition hover:text-red-600"
             onClick={() =>
-              handleRemoveProductFromCart(API_TO_UPDATE_CART, item.product, shoppingCart, user?.accessToken || '', setShoppingCart)
+              removeProductFromCart(ENDPOINT_TO_UPDATE_CART, item.product, shoppingCart, user?.accessToken, setShoppingCart)
             }
           >
             <span className="sr-only">Remove item</span>

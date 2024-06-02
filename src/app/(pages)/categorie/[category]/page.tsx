@@ -12,11 +12,11 @@ const CategorieProductsPage = ({ params }: { params: { category: any } }) => {
   const [CategoryProductImage, setCategoryProductImage] = useState<any | null>(
     null,
   );
-  const CATEGORY_PRODUCTS_URL = `/api/products?category=${params.category.id}`;
+  const ENDPOINT_CATEGORY_PRODUCTS_URL = `/api/products?category=${params.category.id}`;
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await getCallApi(CATEGORY_PRODUCTS_URL);
+      const response = await getCallApi(ENDPOINT_CATEGORY_PRODUCTS_URL);
       const firstProduct = await response.products[0];
       if (firstProduct.images && firstProduct.images.length > 0) {
         setCategoryProductImage(
@@ -27,7 +27,7 @@ const CategorieProductsPage = ({ params }: { params: { category: any } }) => {
     };
 
     fetchData();
-  }, [CATEGORY_PRODUCTS_URL, params.category.id]);
+  }, [ENDPOINT_CATEGORY_PRODUCTS_URL, params.category.id]);
 
   return (
     <>
@@ -68,6 +68,3 @@ const CategorieProductsPage = ({ params }: { params: { category: any } }) => {
 
 export default CategorieProductsPage;
 
-/*
-
-  */

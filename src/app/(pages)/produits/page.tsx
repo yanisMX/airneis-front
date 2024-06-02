@@ -13,22 +13,22 @@ const ProductsPage = () => {
   const [selectedMaterials, setSelectedMaterials] = useState<number[]>([]);
   const [isFilterVisible, setIsFilterVisible] = useState<boolean>(false);
 
-  const API_FOR_ALL_PRODUCTS = '/api/products';
-  const API_FOR_CATEGORIES = '/api/categories';
-  const API_FOR_MATERIALS = '/api/materials';
+  const ENDPOINT_FOR_ALL_PRODUCTS = '/api/products';
+  const ENDPOINT_FOR_CATEGORIES = '/api/categories';
+  const ENDPOINT_FOR_MATERIALS = '/api/materials';
 
   const fetchDataProducts = async () => {
-    const response = await getCallApi(API_FOR_ALL_PRODUCTS);
+    const response = await getCallApi(ENDPOINT_FOR_ALL_PRODUCTS);
     setProducts(response.products);
   };
 
   const fetchCategories = async () => {
-    const response = await getCallApi(API_FOR_CATEGORIES);
+    const response = await getCallApi(ENDPOINT_FOR_CATEGORIES);
     setCategories(response.categories);
   };
 
   const fetchMaterials = async () => {
-    const response = await getCallApi(API_FOR_MATERIALS);
+    const response = await getCallApi(ENDPOINT_FOR_MATERIALS);
     setMaterials(response.materials);
   };
 
@@ -40,7 +40,7 @@ const ProductsPage = () => {
       .map((id) => `materials=${id}`)
       .join('&');
     const query = [categoryQuery, materialQuery].filter(Boolean).join('&');
-    const response = await getCallApi(`${API_FOR_ALL_PRODUCTS}?${query}`);
+    const response = await getCallApi(`${ENDPOINT_FOR_ALL_PRODUCTS}?${query}`);
     setProducts(response.products);
   };
 

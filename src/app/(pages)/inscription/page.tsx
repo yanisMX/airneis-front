@@ -10,7 +10,7 @@ const SignupPage = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const API_FOR_REGISTER = '/api/auth/register';
+  const ENDPOINT_FOR_REGISTER = '/api/auth/register';
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -21,7 +21,7 @@ const SignupPage = () => {
       password,
     };
 
-    const result = await postCallApi(API_FOR_REGISTER, userData);
+    const result = await postCallApi(ENDPOINT_FOR_REGISTER, userData);
 
     if (result.success) {
       setErrorMessage('');

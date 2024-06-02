@@ -1,63 +1,81 @@
 'use client';
-import { postCallApi } from '@/app/api/post';
+import { patchCallApi } from '@/app/api/patch';
 import { useAuth } from '@/app/context/AuthContext';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const MyAccountPage = () => {
   const { user, setUser } = useAuth();
   const [errorMessage, setErrorMessage] = useState('');
-  const API_FOR_ADDRESS_DELETE = `/api/user/addresses/${user?.id}`;
-  const API_FOR_PERSONAL_INFORMATION_MODIFY =
-    '/api/user';
+  const [successMessage, setSuccessMessage] = useState('');
+  const nameRef = useRef(null);
+  const emailRef = useRef(null);
+  const billingAddressRef = useRef(null);
+  const shippingAddressRef = useRef(null);
 
-  const handleModifyPersonalInformationClick = async (
-    newInformation: string | null,
-    informationType: string,
-  ) => {
+  const ENDPOINT_FOR_PERSONAL_INFORMATION_MODIFY = '/api/user';
+
+  const handleFocus = (ref : React.RefObject<HTMLInputElement>) => {
+    if (ref.current) {
+      ref.current.removeAttribute('readonly');
+      ref.current.focus();
+    }
+  };
+
+  const handleModifyPersonalInformationClick = async (  newInformation: string,
+    informationType: 'name' | 'email' | 'billingAddress' | 'shippingAddress',
+    ref: any) => {
     if (newInformation) {
       try {
-        const response = await postCallApi(
-          API_FOR_PERSONAL_INFORMATION_MODIFY,
+        const response = await patchCallApi(
+          ENDPOINT_FOR_PERSONAL_INFORMATION_MODIFY,
           { [informationType]: newInformation },
+          user?.accessToken,
         );
         if (response.success) {
           setUser({
             ...user,
             [informationType]: newInformation,
-            email: user?.email || '',
           });
+          setSuccessMessage('Informations personnelles mises à jour avec succès');
+          ref.current.setAttribute('readonly', true);
         } else {
-          setErrorMessage(
-            'Erreur lors de la modification des informations personnelles',
-          );
+          setErrorMessage('Erreur lors de la modification des informations personnelles');
         }
-      } catch (error: any) {
-        console.error(error.message);
+      } catch (error) {
+        console.error((error as Error).message);
+        setErrorMessage('Erreur lors de la modification des informations personnelles');
       }
     }
   };
 
-  const handleDeleteClick = async (addressType: string, addressId: string) => {
-    try {
-      const response = await postCallApi(API_FOR_ADDRESS_DELETE, {
-        addressType,
-        addressId,
-      });
-      if (response.success) {
-        setUser({ ...user, [addressType]: '', email: user?.email || '' });
-      } else {
-        setErrorMessage("Erreur lors de la suppression de l'adresse");
-      }
-    } catch (error: any) {
-      console.error(error.message);
+
+
+
+
+  useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage('');
+      }, 3000);
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
     }
-  };
+  }, [successMessage]);
+  
+  useEffect(() => {
+    if (errorMessage) {
+      const timer = setTimeout(() => {
+        setErrorMessage('');
+      }, 3000);
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
+    }
+  }, [errorMessage]);
+  
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <p className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-          Vous n&apos;êtes pas autorisé à acceder à cette page
+          Vous n&apos;êtes pas autorisé à accéder à cette page
         </p>
       </div>
     );
@@ -77,10 +95,7 @@ const MyAccountPage = () => {
               <div className="mt-10 sm:w-full sm:max-w-sm">
                 <div className="space-y-6">
                   <div>
-                    <label
-                      htmlFor="name"
-                      className="block text-sm font-medium leading-6 text-gray-900 text-left"
-                    >
+                    <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900 text-left">
                       Nom complet
                     </label>
                     <div className="mt-2 flex">
@@ -90,16 +105,16 @@ const MyAccountPage = () => {
                         type="text"
                         value={user.name}
                         readOnly
+                        ref={nameRef}
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3 text-left"
                       />
                       <button
                         className="pl-2"
-                        onClick={() =>
-                          handleModifyPersonalInformationClick(
-                            prompt('Nouveau nom:', user.name),
-                            'name',
-                          )
-                        }
+                        onClick={() => {
+                          handleFocus(nameRef);
+                          const newName : string = prompt('Nouveau nom:', user.name);
+                          handleModifyPersonalInformationClick(newName, 'name', nameRef);
+                        }}
                       >
                         <i className="fa-solid fa-pen-to-square"></i>
                       </button>
@@ -107,10 +122,7 @@ const MyAccountPage = () => {
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium leading-6 text-gray-900 text-left"
-                    >
+                    <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900 text-left">
                       Adresse e-mail
                     </label>
                     <div className="mt-2 flex">
@@ -120,31 +132,35 @@ const MyAccountPage = () => {
                         type="email"
                         value={user.email}
                         readOnly
+                        ref={emailRef}
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3 text-left"
                       />
                       <button
                         className="pl-2"
-                        onClick={() =>
-                          handleModifyPersonalInformationClick(
-                            prompt('Nouvel email:', user.email),
-                            'email',
-                          )
-                        }
+                        onClick={() => {
+                          handleFocus(emailRef);
+                          const newEmail: string = prompt('Nouvel email:', user.email) ?? '';
+                          handleModifyPersonalInformationClick(newEmail, 'email', emailRef);
+                        }}
                       >
                         <i className="fa-solid fa-pen-to-square"></i>
                       </button>
                     </div>
                   </div>
                   <div className="mt-8">
-                    <Link
-                      href="/"
-                      className="text-blue-700 text-sm font-semibold block"
-                    >
+                    <Link href="/" className="text-blue-700 text-sm font-semibold block">
                       Modifier mon mot de passe
                     </Link>
                   </div>
+                  {successMessage && (
+                    <div className="mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+                      {successMessage}
+                    </div>
+                  )}
                   {errorMessage && (
-                    <div className="text-red-500 text-sm">{errorMessage}</div>
+                    <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                      {errorMessage}
+                    </div>
                   )}
                 </div>
               </div>
@@ -159,10 +175,7 @@ const MyAccountPage = () => {
               <div className="mt-10 sm:w-full sm:max-w-sm">
                 <div className="space-y-6">
                   <div>
-                    <label
-                      htmlFor="billingAddress"
-                      className="block text-sm font-medium leading-6 text-gray-900 text-left"
-                    >
+                    <label htmlFor="billingAddress" className="block text-sm font-medium leading-6 text-gray-900 text-left">
                       Adresse de facturation
                     </label>
                     <div className="mt-2 flex">
@@ -170,28 +183,20 @@ const MyAccountPage = () => {
                         id="billingAddress"
                         name="billingAddress"
                         type="text"
-                        value={user.billingAddress}
+                        value={user.billingAddress || ''}
                         readOnly
+                        ref={billingAddressRef}
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3 text-left"
                       />
-                      <button className="px-2">
+                      <button className="px-2" onClick={() => handleFocus(billingAddressRef)}>
                         <i className="fa-solid fa-pen-to-square"></i>
                       </button>
-                      <button
-                        onClick={() =>
-                          handleDeleteClick('billing', 'billingAddressId')
-                        }
-                      >
                         <i className="fa-solid fa-trash"></i>
-                      </button>
                     </div>
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="shippingAddress"
-                      className="block text-sm font-medium leading-6 text-gray-900 text-left"
-                    >
+                    <label htmlFor="shippingAddress" className="block text-sm font-medium leading-6 text-gray-900 text-left">
                       Adresse de livraison
                     </label>
                     <div className="mt-2 flex">
@@ -199,26 +204,18 @@ const MyAccountPage = () => {
                         id="shippingAddress"
                         name="shippingAddress"
                         type="text"
-                        value={user.shippingAddress}
+                        value={user.shippingAddress || ''}
                         readOnly
+                        ref={shippingAddressRef}
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3 text-left"
                       />
-                      <button className="px-2">
+                      <button className="px-2" onClick={() => handleFocus(shippingAddressRef)}>
                         <i className="fa-solid fa-pen-to-square"></i>
                       </button>
-                      <button
-                        onClick={() =>
-                          handleDeleteClick('shipping', 'shippingAddressId')
-                        }
-                      >
                         <i className="fa-solid fa-trash"></i>
-                      </button>
                     </div>
                     <div className="mt-8">
-                      <Link
-                        href="/"
-                        className="text-blue-700 text-sm font-semibold block"
-                      >
+                      <Link href="/" className="text-blue-700 text-sm font-semibold block">
                         Ajouter une adresse de livraison
                       </Link>
                     </div>

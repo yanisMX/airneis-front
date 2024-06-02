@@ -14,7 +14,7 @@ const SignInPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const { login } = useAuth();
 
-  const API_FOR_LOGIN = '/api/auth/login';
+  const ENDPOINT_FOR_LOGIN = '/api/auth/login';
 
   const resetForm = () => {
     setEmail('');
@@ -38,12 +38,11 @@ const SignInPage = () => {
   ) => {
     event.preventDefault();
 
-    const result = await postCallApi(API_FOR_LOGIN, userData);
+    const result = await postCallApi(ENDPOINT_FOR_LOGIN, userData);
 
     if (result.success) {
       loginManagement(result);
       router.push('/');
-      //setShoppingCart(result.basket);
     } else {
       console.error('Erreur de connexion', result.message);
       setErrorMessage('Une erreur inconnue est survenue.');

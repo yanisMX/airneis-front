@@ -8,7 +8,7 @@ import {postCallApi} from '../api/post';
 import Image from 'next/image';
 
 const Navbar = () => {
-  const API_FOR_LOGOUT = '/api/auth/logout';
+  const ENDPOINT_FOR_LOGOUT = '/api/auth/logout';
   const { isLoggedIn, setIsLoggedIn, logout, user } = useAuth();
   const { shoppingCart, setShoppingCart } = useCart();
 
@@ -16,7 +16,7 @@ const Navbar = () => {
   const router = useRouter();
 
   const handleClickForLogout = async () => {
-    const result = await postCallApi(API_FOR_LOGOUT);
+    const result = await postCallApi(ENDPOINT_FOR_LOGOUT);
     if (result.success) {
       logout();
       setShoppingCart({ items: [], total: 0 });

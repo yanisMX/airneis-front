@@ -34,9 +34,7 @@ export const CartProvider: React.FC<RootLayoutProps> = ({ children }) => {
   const restoreUserCart = () => {
     if (isLoggedIn && user?.accessToken) {
       fetchUserCart(user.accessToken);
-    } else {
-      console.error('Utilisateur non connecté');
-    }
+    } 
   };
 
   useEffect(() => {

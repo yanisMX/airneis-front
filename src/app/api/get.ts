@@ -7,7 +7,6 @@ export const getCallApi = async (endpoint: string, accessToken?: string) => {
     }
 
     const url = `${baseUrl}${endpoint}`;
-    console.log('url', url)
     const response = await fetch(url, {
       method: 'GET',
       headers: {
