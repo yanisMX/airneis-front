@@ -169,6 +169,12 @@ export interface User {
   updatedAt: string;
 }
 
+export interface UserDto {
+  name: string;
+  email?: string;
+  role: "user" | "admin";
+}
+
 export interface UserQuery {
   search?: string;
   limit?: number;

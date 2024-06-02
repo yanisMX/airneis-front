@@ -119,14 +119,6 @@ export default function Users() {
                 </li>
               </ul>
             </div>
-
-            <Link href={"/dashboard/products/new"} className="btn btn-primary btn-sm">
-              <i className="fa-solid fa-plus"></i>
-              <span>
-                <span className="inline xl:hidden">Nouveau</span>
-                <span className="hidden xl:inline">Nouvel utilisateur</span>
-              </span>
-            </Link>
           </div>
         </div>
 
