@@ -12,7 +12,7 @@ const ProductComponent = ({ product, i }: ProductComponentProps) => {
         {/* Hauteur fixe ajoutée ici */}
         <figure className="relative w-60 h-32">
           <Image
-            src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/medias/serve/${product.images[0].filename}`}
+            src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${product.images[0].filename}`}
             alt={product.name}
             layout="fill"
             objectFit="cover"

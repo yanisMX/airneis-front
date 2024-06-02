@@ -11,7 +11,7 @@ const CartContext = createContext<ShoppingCart | undefined>(undefined);
 export const CartProvider: React.FC<RootLayoutProps> = ({ children }) => {
   const [shoppingCart, setShoppingCart] = useState<Cart>({ items: [], total: 0 });
   const { user, isLoggedIn } = useAuth();
-  const API_TO_UPDATE_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket';
+  const API_TO_UPDATE_CART = '/api/user/basket';
 
   const fetchUserCart = async (accessToken: string) => {
     try {

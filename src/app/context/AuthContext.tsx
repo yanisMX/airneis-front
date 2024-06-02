@@ -8,23 +8,19 @@ import {
 } from '@/app/interfaces/interfaces';
 import { setCookie, getCookie } from '../utils/cookiesUtils';
 import { clearLoginStatus } from '../utils/userUtils';
+import { getCallApi } from '../api/get';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<RootLayoutProps> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [user, setUser] = useState<UserData | null>(null);
-  const API_FOR_USER = 'https://c1bb0d8a5f1d.airneis.net/api/user';
+  const API_FOR_USER = '/api/user';
 
   const fetchUserInfo = async (accessToken: string) => {
     try {
-      const response = await fetch(API_FOR_USER, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      const userData: UserFetch = await response.json();
+      const response = await getCallApi(API_FOR_USER, accessToken);
+      const userData: UserFetch = response;
       if (userData.success) {
         setUser({ ...userData.user, accessToken });
         setIsLoggedIn(true);

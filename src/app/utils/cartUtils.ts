@@ -1,3 +1,4 @@
+import { patchCallApi } from '../api/patch';
 import { Cart, Product, CartItem } from '../interfaces/interfaces';
 import { deleteCallApi } from '@/app/api/delete';
 
@@ -108,15 +109,10 @@ export const patchCallAPIWithToken = async (
   accessToken: string,
 ) => {
   try {
-    const response = await fetch(url, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify(data),
-    });
-    return await response.json();
+    const response = await patchCallApi(url, data, accessToken);
+    if (response.ok) {
+      return await response.json();
+    }
   } catch (error) {
     console.error('Erreur lors de la connexion au serveur', error);
     return {

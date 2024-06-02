@@ -6,7 +6,7 @@ import { useAuth } from '@/app/context/AuthContext';
 import Image from 'next/image';
 import { calculateTotal, modifyQuantityLocally, handleRemoveProductFromCart } from '@/app/utils/cartUtils';
 import { postCallApi } from '@/app/api/post';
-import { access } from 'fs';
+import { patchCallApi } from '@/app/api/patch';
 
 const CartPage = () => {
   const API_TO_UPDATE_CART = '/api/user/basket';
@@ -24,20 +24,7 @@ const CartPage = () => {
     }
 
     try {
-      const response = await fetch(API_TO_UPDATE_CART, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${user.accessToken}`,
-        },
-        body: JSON.stringify({ productId, quantity }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Impossible de modifier la quantité du produit');
-      }
-
-      const data = await response.json();
+      const data = await patchCallApi(API_TO_UPDATE_CART, { productId, quantity }, user.accessToken);
       if (data.success) {
         const updatedCart = shoppingCart.items.map((item) => {
           if (item.product.id === productId) {
