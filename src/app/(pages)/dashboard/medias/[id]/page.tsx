@@ -168,6 +168,7 @@ export default function MediaPage() {
                         />
                       </label>
 
+
                       <div className="relative flex justify-center items-center aspect-video rounded-lg overflow-hidden bg-slate-200 border border-gray-300 my-2">
                         <Image
                           src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + media.filename}
@@ -177,13 +178,15 @@ export default function MediaPage() {
                           className="object-cover blur saturate-150 w-full h-full"
                         />
 
-                        <Image
-                          src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + media.filename}
-                          alt={media.name}
-                          width={1280}
-                          height={720}
-                          className="absolute top-0 left-0 object-contain w-full h-full"
-                        />
+                        <Link href={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + media.filename} target="_blank">
+                          <Image
+                            src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + media.filename}
+                            alt={media.name}
+                            width={1280}
+                            height={720}
+                            className="absolute top-0 left-0 object-contain w-full h-full"
+                          />
+                        </Link>
 
                         <button
                           className="absolute top-3 right-3 w-7 h-7 btn text-white btn-xs bg-red-500 border-red-600 hover:border-red-600 hover:bg-red-600"
