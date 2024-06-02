@@ -1,4 +1,4 @@
-const patchCallAPIWithToken = async (
+export const patchCallAPIWithToken = async (
   url: string,
   data: any,
   accessToken: string,

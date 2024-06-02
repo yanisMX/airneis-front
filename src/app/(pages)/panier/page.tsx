@@ -4,8 +4,9 @@ import React, { useState } from 'react';
 import { useCart } from '@/app/context/CartContext';
 import { useAuth } from '@/app/context/AuthContext';
 import Image from 'next/image';
-import { calculateTotal, handleRemoveFromCart } from '@/app/utils/cartUtils';
-import { postCallAPIForDeleteCart } from '@/app/api/delete';
+import { calculateTotal, modifyQuantityLocally, handleRemoveProductFromCart } from '@/app/utils/cartUtils';
+import { postCallAPIForDeleteCart } from '@/app/api/post';
+import { access } from 'fs';
 
 const CartPage = () => {
   const API_TO_UPDATE_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket';
@@ -18,7 +19,7 @@ const CartPage = () => {
     if (quantity < 1) return;
 
     if (!isLoggedIn || !user?.accessToken) {
-      console.error('Utilisateur non connecté');
+      modifyQuantityLocally(productId, quantity, shoppingCart, setShoppingCart);
       return;
     }
 
@@ -156,8 +157,11 @@ const CartItemComponent = ({
   addQuantity,
   subtractQuantity,
 }) => {
+  const API_TO_UPDATE_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket';
   const { setShoppingCart } = useCart();
   const [quantity, setQuantity] = useState(item.quantity);
+  const { user } = useAuth();
+
 
   const handleChangeQuantity = (newQuantity) => {
     setQuantity(newQuantity);
@@ -209,7 +213,7 @@ const CartItemComponent = ({
           <button
             className="text-gray-600 transition hover:text-red-600"
             onClick={() =>
-              setShoppingCart(handleRemoveFromCart(item.product, shoppingCart))
+              handleRemoveProductFromCart(API_TO_UPDATE_CART, item.product, shoppingCart, user?.accessToken || '', setShoppingCart)
             }
           >
             <span className="sr-only">Remove item</span>

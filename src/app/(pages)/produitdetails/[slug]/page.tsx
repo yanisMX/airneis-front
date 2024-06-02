@@ -6,12 +6,11 @@ import { handleAddToCart } from '@/app/utils/cartUtils';
 import { useCart } from '@/app/context/CartContext';
 import Image from 'next/image';
 import { useAuth } from '@/app/context/AuthContext';
-import {patchCallAPIWithToken} from '@/app/api/patch';
+import { postCallAPIWithToken } from '@/app/api/post';
 
 const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
   const API_FOR_PRODUCT = `https://c1bb0d8a5f1d.airneis.net/api/products/slug/${params.slug}`;
-  const API_FOR_ADD_TO_CART =
-    'https://c1bb0d8a5f1d.airneis.net/api/user/basket';
+  const API_FOR_ADD_TO_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket';
 
   const [product, setProduct] = useState<Product | null>(null);
   const { shoppingCart, setShoppingCart } = useCart();
@@ -26,13 +25,15 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
           const updatedCart = handleAddToCart(product, shoppingCart);
           setShoppingCart(updatedCart);
         } else {
-          const response = await patchCallAPIWithToken(
+          const response = await postCallAPIWithToken(
             API_FOR_ADD_TO_CART,
             { productId: product.id, quantity: 1 },
             user.accessToken,
           );
           if (response.success) {
             setMessageDisplay('Produit ajouté au panier.');
+            const updatedCart = handleAddToCart(product, shoppingCart);
+            setShoppingCart(updatedCart);
           } else {
             setMessageDisplay("Impossible d'ajouter le produit au panier.");
           }
@@ -132,10 +133,11 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
                   </p>
                   <button
                     className="mt-8 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
-                    onClick={() => addToCart()}
+                    onClick={addToCart}
                   >
                     Ajouter au panier
                   </button>
+                  <p className="mt-4 text-red-500">{messageDisplay}</p>
                 </div>
               </div>
             </div>

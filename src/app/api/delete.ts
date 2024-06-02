@@ -1,16 +1,14 @@
-export const postCallAPIForDeleteCart = async (
-  url: string,
-  accessToken: string,
-) => {
+export const deleteCallApi = async(url : string, data : any, accessToken : string) => {
   try {
     const response = await fetch(url, {
-      method: 'POST',
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
+      body: JSON.stringify(data),
     });
-    return await response.json();
+   return response.json
   } catch (error) {
     console.error('Erreur lors de la connexion au serveur', error);
     return {
