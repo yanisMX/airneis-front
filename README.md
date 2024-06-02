@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Airneis-Front
 
-## Getting Started
+Airneis est un site e-commerce proposant des meubles de qualité et de style pour votre intérieur. Découvrez notre sélection de meubles uniques et élégants. Le projet inclut également un dashboard côté administrateur.
 
-First, run the development server:
+## Technologies Utilisées
+- Next.js (14.2.1)
+- React (18)
+- TypeScript (5.4.5)
+- Tailwind CSS (3.4.3)
+- DaisyUI (4.10.1)
+- FontAwesome (6.5.2)
+- Http Proxy Middleware (3.0.0)
+- Prettier (3.2.5)
+- ESLint (8.57.0)
+- Autoprefixer (10.0.1)
+- PostCSS (8)
+
+## Prérequis
+- Node.js (version 16 ou supérieure)
+- npm (version 7 ou supérieure)
+
+## Installation
+Clonez le dépôt :
+```bash
+git clone https://github.com/votre-utilisateur/airneis-front.git
+cd airneis-front
+```
+
+### Installez les dépendances :
+
+```bash
+npm install
+```
+
+Configuration des variables d'environnement :
+
+Créez un fichier .env.local à la racine du projet et ajoutez-y les variables suivantes :
+
+```
+NEXT_PUBLIC_API_BASE_URL=https://c1bb0d8a5f1d.airneis.net
+```
+Démarrer le serveur de développement :
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts Disponibles
+npm run dev : Lance le serveur de développement.
+npm run build : Compile l'application pour la production.
+npm run start : Démarre l'application en mode production.
+npm run lint : Exécute ESLint pour l'analyse du code.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+# Structure du Projet
 
-## Learn More
+`src/api` : Contient les appels API pour les méthodes HTTP (get, post, patch, delete).
 
-To learn more about Next.js, take a look at the following resources:
+``src/components`` : Contient les composants réutilisables de l'application (Navbar, Footer, etc.).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+``src/context`` : Contient les contextes pour l'authentification et le panier.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+``src/interfaces ``: Contient les interfaces TypeScript utilisées dans le projet.
 
-## Deploy on Vercel
+``src/pages ``: Contient les pages principales de l'application.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+``src/styles ``: Contient les fichiers CSS et les configurations de Tailwind
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+``src/utils``: Contient une partie de la logique métier pour le panier, les cookies ou encore l'user

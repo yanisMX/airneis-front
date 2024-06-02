@@ -49,27 +49,14 @@ const MyAccountPage = () => {
     }
   };
 
-
-
-
-
   useEffect(() => {
-    if (successMessage) {
-      const timer = setTimeout(() => {
-        setSuccessMessage('');
-      }, 3000);
-      return () => clearTimeout(timer); // Cleanup the timer on unmount
-    }
-  }, [successMessage]);
-  
-  useEffect(() => {
-    if (errorMessage) {
+    if (errorMessage || successMessage) {
       const timer = setTimeout(() => {
         setErrorMessage('');
       }, 3000);
-      return () => clearTimeout(timer); // Cleanup the timer on unmount
+      return () => clearTimeout(timer); 
     }
-  }, [errorMessage]);
+  }, [errorMessage, successMessage]);
   
   if (!user) {
     return (
