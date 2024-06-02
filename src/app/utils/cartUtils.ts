@@ -1,5 +1,4 @@
 import { Cart, Product, CartItem } from '../interfaces/interfaces';
-import modifyQuantity from '../(pages)/panier/page';
 
 export const handleAddToCart = (product: Product, shoppingCart: Cart): Cart => {
   const updatedCart: Cart = {
@@ -52,4 +51,47 @@ export const calculateTotal = (items: CartItem[]): number => {
     (total, item) => total + item.product.price * item.quantity,
     0,
   );
+};
+
+export const modifyQuantity = async (
+  productId: number,
+  quantity: number,
+  shoppingCart: Cart,
+  setShoppingCart: (cart: Cart) => void,
+  API_TO_UPDATE_CART: string,
+  accessToken: string | undefined,
+): Promise<void> => {
+  if (quantity < 1 || !accessToken) return;
+
+  try {
+    const response = await fetch(API_TO_UPDATE_CART, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ productId, quantity }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Impossible de modifier la quantité du produit');
+    }
+
+    const data = await response.json();
+    if (data.success) {
+      const updatedCart = shoppingCart.items.map((item) => {
+        if (item.product.id === productId) {
+          return { ...item, quantity };
+        }
+        return item;
+      });
+
+      setShoppingCart({
+        items: updatedCart,
+        total: calculateTotal(updatedCart),
+      });
+    }
+  } catch (error: any) {
+    console.error(error.message);
+  }
 };

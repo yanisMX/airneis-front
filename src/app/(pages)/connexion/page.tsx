@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import React, { useState } from 'react';
-import { postCallAPI } from '@/app/api/postCallAPI';
+import { postCallAPI } from '@/app/api/post';
 import { UserData } from '../../interfaces/interfaces';
 import { useAuth } from '@/app/context/AuthContext';
 import { useRouter } from 'next/navigation';

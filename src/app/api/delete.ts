@@ -1,13 +1,16 @@
-const postCallAPILogout = async (url: string) => {
+export const postCallAPIForDeleteCart = async (
+  url: string,
+  accessToken: string,
+) => {
   try {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
       },
     });
-    const result = await response.json();
-    return result;
+    return await response.json();
   } catch (error) {
     console.error('Erreur lors de la connexion au serveur', error);
     return {
@@ -17,5 +20,3 @@ const postCallAPILogout = async (url: string) => {
     };
   }
 };
-
-export default postCallAPILogout;

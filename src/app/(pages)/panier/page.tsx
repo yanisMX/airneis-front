@@ -5,13 +5,11 @@ import { useCart } from '@/app/context/CartContext';
 import { useAuth } from '@/app/context/AuthContext';
 import Image from 'next/image';
 import { calculateTotal, handleRemoveFromCart } from '@/app/utils/cartUtils';
-import { deleteCallAPIWithToken } from '@/app/api/deleteCallAPI';
-import { response } from 'express';
+import { postCallAPIForDeleteCart } from '@/app/api/delete';
 
 const CartPage = () => {
   const API_TO_UPDATE_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket';
-  const API_TO_DELETE_CART =
-    'https://c1bb0d8a5f1d.airneis.net/api/user/basket/clear';
+  const API_TO_DELETE_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket/clear';
 
   const { shoppingCart, setShoppingCart } = useCart();
   const { isLoggedIn, user } = useAuth();
@@ -19,12 +17,17 @@ const CartPage = () => {
   const modifyQuantity = async (productId: number, quantity: number) => {
     if (quantity < 1) return;
 
+    if (!isLoggedIn || !user?.accessToken) {
+      console.error('Utilisateur non connecté');
+      return;
+    }
+
     try {
       const response = await fetch(API_TO_UPDATE_CART, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${user?.accessToken}`,
+          Authorization: `Bearer ${user.accessToken}`,
         },
         body: JSON.stringify({ productId, quantity }),
       });
@@ -34,35 +37,36 @@ const CartPage = () => {
       }
 
       const data = await response.json();
+      if (data.success) {
+        const updatedCart = shoppingCart.items.map((item) => {
+          if (item.product.id === productId) {
+            return { ...item, quantity };
+          }
+          return item;
+        });
+
+        setShoppingCart({
+          items: updatedCart,
+          total: calculateTotal(updatedCart),
+        });
+      }
     } catch (error: any) {
       console.error(error.message);
-
-      const updatedCart = shoppingCart.items.map((item) => {
-        if (item.product.id === productId) {
-          return { ...item, quantity };
-        }
-        return item;
-      });
-
-      setShoppingCart({
-        items: updatedCart,
-        total: calculateTotal(updatedCart),
-      });
     }
   };
 
-  const addQuantity = (product: Product, cart: ShoppingCart) => {
-    const currentItem = cart.items.find(
-      (item: CartItem) => item.product.id === product.id,
+  const addQuantity = (product: Product) => {
+    const currentItem = shoppingCart.items.find(
+      (item: CartItem) => item.product.id === product.id
     );
     if (currentItem) {
       modifyQuantity(product.id, currentItem.quantity + 1);
     }
   };
 
-  const subtractQuantity = (product: Product, cart: ShoppingCart) => {
-    const currentItem = cart.items.find(
-      (item: CartItem) => item.product.id === product.id,
+  const subtractQuantity = (product: Product) => {
+    const currentItem = shoppingCart.items.find(
+      (item: CartItem) => item.product.id === product.id
     );
     if (currentItem) {
       modifyQuantity(product.id, currentItem.quantity - 1);
@@ -72,7 +76,8 @@ const CartPage = () => {
   const deleteAllItemsFromCart = async () => {
     if (isLoggedIn && user?.accessToken) {
       try {
-        deleteCallAPIWithToken(API_TO_DELETE_CART, user.accessToken);
+        const response = await postCallAPIForDeleteCart(API_TO_DELETE_CART, user.accessToken);
+        console.log(response)
         setShoppingCart({ items: [], total: 0 });
       } catch (error: any) {
         console.error(error.message);

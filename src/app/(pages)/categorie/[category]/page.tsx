@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { getCallAPI } from '@/app/api/getCallAPI';
+import { getCallAPI } from '@/app/api/get';
 import { Product } from '@/app/interfaces/interfaces';
 import Image from 'next/image';
 import ProductComponent from '@/app/components/ProductComponent';

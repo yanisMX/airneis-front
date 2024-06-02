@@ -1,12 +1,12 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { getCallAPI } from '@/app/api/getCallAPI';
+import { getCallAPI } from '@/app/api/get';
 import { Product } from '@/app/interfaces/interfaces';
 import { handleAddToCart } from '@/app/utils/cartUtils';
 import { useCart } from '@/app/context/CartContext';
 import Image from 'next/image';
 import { useAuth } from '@/app/context/AuthContext';
-import patchCallAPIWithToken from '@/app/api/patchCallAPI';
+import {patchCallAPIWithToken} from '@/app/api/patch';
 
 const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
   const API_FOR_PRODUCT = `https://c1bb0d8a5f1d.airneis.net/api/products/slug/${params.slug}`;

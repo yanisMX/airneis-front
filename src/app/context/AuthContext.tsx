@@ -6,7 +6,8 @@ import {
   UserData,
   UserFetch,
 } from '@/app/interfaces/interfaces';
-import { setCookie, deleteCookie, getCookie } from '../utils/cookiesUtils';
+import { setCookie, getCookie } from '../utils/cookiesUtils';
+import { clearLoginStatus } from '../utils/userUtils';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -46,16 +47,16 @@ export const AuthProvider: React.FC<RootLayoutProps> = ({ children }) => {
   const logout = () => {
     setIsLoggedIn(false);
     localStorage.removeItem('isLoggedIn');
-    deleteCookie('session');
-    deleteCookie('accessToken');
-    deleteCookie('refreshToken');
+    clearLoginStatus()
     setUser(null);
   };
 
+  // Vérifie si l'utilisateur est déjà connecté en utilisant le localStorage
   useEffect(() => {
     const storedLoginStatus = localStorage.getItem('isLoggedIn');
     if (storedLoginStatus === 'true') {
       const accessToken = getCookie('accessToken') ?? '';
+      // Si un token d'accès est présent, on tente de récupérer les informations utilisateur
       if (accessToken) {
         fetchUserInfo(accessToken);
       }

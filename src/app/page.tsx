@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { getCallAPI } from './api/getCallAPI';
+import { getCallAPI } from './api/get';
 import { Product } from './interfaces/interfaces';
 
 export default function HomePage() {

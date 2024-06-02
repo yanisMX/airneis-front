@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/app/context/AuthContext';
 import { useCart } from '@/app/context/CartContext';
-import postCallAPILogout from '../api/postCallAPILogout';
+import {postCallAPILogout} from '../api/post';
 import Image from 'next/image';
 
 const Navbar = () => {

@@ -1,5 +1,5 @@
 'use client';
-import { postCallAPI } from '@/app/api/postCallAPI';
+import { postCallAPI } from '@/app/api/post';
 import { useAuth } from '@/app/context/AuthContext';
 import Link from 'next/link';
 import React, { useState } from 'react';

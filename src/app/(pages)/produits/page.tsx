@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import { getCallAPI } from '@/app/api/getCallAPI';
+import { getCallAPI } from '@/app/api/get';
 import { Product, Category, Material } from '@/app/interfaces/interfaces';
 import FilterForProducts from '@/app/components/FilterForProducts';
 import ProductComponent from '@/app/components/ProductComponent';
