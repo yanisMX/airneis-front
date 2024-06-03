@@ -11,7 +11,8 @@ const nextConfig = {
         protocol: 'https',
         hostname: '*.airneis.store',
         pathname: '/medias/serve/**',
-      }
+      },
+      { hostname: 'localhost' }
     ]
   }
 };
