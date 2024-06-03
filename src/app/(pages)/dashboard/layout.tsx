@@ -42,14 +42,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <Link href="/" className="btn btn-ghost h-auto flex flex-col p-4">
                   <img src="/favicon.ico" alt="Airneis" className="w-28" />
                   <p className="m-0 text-xl">Airneis</p>
-                  <div className="flex items-center justify-center w-12 py-1 bg-slate-700 text-white rounded-lg">
-                    <span className="sm:hidden">XS</span>
-                    <span className="hidden sm:inline md:hidden">SM</span>
-                    <span className="hidden md:inline lg:hidden">MD</span>
-                    <span className="hidden lg:inline xl:hidden">LG</span>
-                    <span className="hidden xl:inline 2xl:hidden">XL</span>
-                    <span className="hidden 2xl:inline">2XL</span>
-                  </div>
                 </Link>
               </div>
 
