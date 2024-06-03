@@ -110,7 +110,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
           product ? (
             <>
               <Image
-                src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + '/' + product?.backgroundImage.filename}
+                src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + '/' + product?.backgroundImage?.filename}
                 alt={product.name}
                 width={1280}
                 height={720}
@@ -119,7 +119,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
               <div className='absolute -bottom-1/3 left-0 flex justify-center xl:justify-start w-full'>
                 <div className='aspect-square w-64 h-64 rounded-2xl xl:ms-20 shadow-lg border border-gray-300 overflow-hidden'>
                   <Image
-                    src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + '/' + product?.images[0].filename}
+                    src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + '/' + product?.images[0]?.filename}
                     alt={product.name}
                     width={300}
                     height={300}
@@ -204,7 +204,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
               similarProducts.map((product, i) => (<>
                 <div className='relative w-full bg-red-50 aspect-square rounded-2xl overflow-hidden border border-gray-300 shadow-md'>
                   <Image
-                    src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + product.images[0].filename}
+                    src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + product.images[0]?.filename}
                     width={300}
                     height={300}
                     alt={product.name}
