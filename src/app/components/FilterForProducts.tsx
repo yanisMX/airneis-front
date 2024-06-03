@@ -1,6 +1,8 @@
 'use client';
+import { useRef } from 'react';
 import { Category, Material } from '../interfaces/interfaces';
 import { FilterForProductsProps } from '../interfaces/interfaces';
+import { getCallApi } from '../api/get';
 
 const FilterForProducts: React.FC<FilterForProductsProps> = ({
   categories,
@@ -9,7 +11,11 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
   setSelectedCategories,
   selectedMaterials,
   setSelectedMaterials,
+  setMinPrice,
+  setMaxPrice,
 }) => {
+  
+
   const handleCategoryChange = (categoryId: number) => {
     if (selectedCategories.includes(categoryId)) {
       setSelectedCategories(
@@ -27,6 +33,18 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
       setSelectedMaterials([...selectedMaterials, materialId]);
     }
   };
+
+  const refMinPrice = useRef<HTMLInputElement>(null);
+  const refMaxPrice = useRef<HTMLInputElement>(null);
+
+  const handlePriceChange = () => {
+    const minPriceValue = refMinPrice.current?.value || '';
+    const maxPriceValue = refMaxPrice.current?.value || '';
+    setMinPrice(minPriceValue ? parseFloat(minPriceValue) : undefined);
+    setMaxPrice(maxPriceValue ? parseFloat(maxPriceValue) : undefined);
+   
+  };
+
 
   return (
     <div className="space-y-4 pr-3 ml-3 ">
@@ -186,9 +204,10 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
 
                 <input
                   type="number"
-                  id="FilterPriceFrom"
+                  ref={refMinPrice}
                   placeholder="De"
                   className="w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
+                  onChange={handlePriceChange}
                 />
               </label>
 
@@ -200,9 +219,10 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
 
                 <input
                   type="number"
-                  id="FilterPriceTo"
+                  ref={refMaxPrice}
                   placeholder="à"
                   className="w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
+                  onChange={handlePriceChange}
                 />
               </label>
             </div>

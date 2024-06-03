@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { Dispatch, ReactNode, SetStateAction } from 'react';
 
 export interface AuthContextType {
   isLoggedIn: boolean;
@@ -230,6 +230,8 @@ export interface FilterForProductsProps {
   setSelectedCategories: (categories: number[]) => void;
   selectedMaterials: number[];
   setSelectedMaterials: (materials: number[]) => void;
+  setMinPrice: Dispatch<SetStateAction<number | undefined>>
+  setMaxPrice: Dispatch<SetStateAction<number | undefined>>
 }
 
 export interface AccountAddressInputProps {
@@ -397,3 +399,4 @@ export interface OrderPagination {
 export interface OrderDto {
   status: OrderStatus;
 }
+
