@@ -158,42 +158,75 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
           </div>
         </div>
 
-        <div>
+        <div className='mb-16'>
           <div className='text-lg mt-12'>
             {product?.description.split("\n").map((line, i) => (
               <p key={i}>{line}<br /></p>
             ))}
           </div>
         </div>
+        
+        <div className='mb-16 text-lg'>
+          <h2 className='mb-8 text-3xl font-semibold'>Informations supplémentaires</h2>
+          
+          <p>
+            <i className="fa-solid fa-tags me-2"></i>
+            <span className='font-semibold me-2'>Catégorie :</span>
 
-        <h2 className='mt-16 mb-8 text-3xl font-semibold'>Produits similaires</h2>
-        { similarProducts.length === 0 && <p className='opacity-60'>Aucun produit similaire</p> }
+            {
+              product?.category ? (
+                <span>{product.category.name}</span>
+              ) : (
+                <span className='opacity-60'>Non renseignée</span>
+              )
+            }
+          </p>
+          <p>
+            <i className="fa-solid fa-cubes me-2"></i>
+            <span className='font-semibold me-2'>Matériaux :</span>
 
-        <div className='grid grid-cols-2 md:grid-cols-4 gap-4 w-full'>
-              {
-                similarProducts.map((product, i) => (<>
-                  <div className='relative w-full bg-red-50 aspect-square rounded-2xl overflow-hidden border border-gray-300 shadow-md'>
-                    <Image
-                      src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + product.images[0].filename}
-                      width={300}
-                      height={300}
-                      alt={product.name}
-                      className='w-full h-full object-cover'
-                    />
+            {
+              product?.materials ? (
+                <span>{product.materials.map((m) => m.name).join(', ')}</span>
+              ) : (
+                <span className='opacity-60'>Non renseignés</span>
+              )
+            }
+          </p>
+        </div>
 
-                    <div className='absolute left-0 top-0 text-xl m-4 p-2 bg-black bg-opacity-40 rounded-lg text-white'>
-                      {product.name}
-                    </div>
+        <div>
+          <h2 className='mb-8 text-3xl font-semibold'>Produits similaires</h2>
+          { similarProducts.length === 0 && <p className='opacity-60'>Aucun produit similaire</p> }
 
-                    <div className='absolute left-4 bottom-4'>
-                      <Link href={`/produitdetails/${product.slug}`} className='btn btn-sm border-gray-300'>
-                        Voir le produit
-                      </Link>
-                    </div>
+          <div className='grid grid-cols-2 md:grid-cols-4 gap-4 w-full'>
+            {
+              similarProducts.map((product, i) => (<>
+                <div className='relative w-full bg-red-50 aspect-square rounded-2xl overflow-hidden border border-gray-300 shadow-md'>
+                  <Image
+                    src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + product.images[0].filename}
+                    width={300}
+                    height={300}
+                    alt={product.name}
+                    className='w-full h-full object-cover'
+                  />
+
+                  <div className='absolute left-0 top-0 text-xl m-4 p-2 bg-black bg-opacity-40 rounded-lg text-white'>
+                    {product.name}
                   </div>
-                </>))
-              }
-            </div>
+
+                  <div className='absolute left-4 bottom-4'>
+                    <Link href={`/produitdetails/${product.slug}`} className='btn btn-sm border-gray-300'>
+                      Voir le produit
+                    </Link>
+                  </div>
+                </div>
+              </>))
+            }
+          </div>
+        </div>
+
+       
       </div>
     </main>
   );
