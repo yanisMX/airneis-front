@@ -3,7 +3,6 @@ import { AccountAddressInputProps } from '@/app/interfaces/interfaces';
 import PopupForAddress from './PopupForAddress'; 
 import { useAuth } from '@/app/context/AuthContext';
 import { postCallApi } from '../api/post';
-import { on } from 'events';
 
 const AccountAddressInput: React.FC<AccountAddressInputProps> = ({
   id,

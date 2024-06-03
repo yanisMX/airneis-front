@@ -12,7 +12,7 @@ const CategorieProductsPage = ({ params }: { params: { category: any } }) => {
   const [CategoryProductImage, setCategoryProductImage] = useState<any | null>(
     null,
   );
-  const ENDPOINT_CATEGORY_PRODUCTS_URL = `/api/products?category=${params.category.id}`;
+  const ENDPOINT_CATEGORY_PRODUCTS_URL = `/products?category=${params.category.id}`;
 
   useEffect(() => {
     const fetchData = async () => {

@@ -13,9 +13,9 @@ const ProductsPage = () => {
   const [selectedMaterials, setSelectedMaterials] = useState<number[]>([]);
   const [isFilterVisible, setIsFilterVisible] = useState<boolean>(false);
 
-  const ENDPOINT_FOR_ALL_PRODUCTS = '/api/products';
-  const ENDPOINT_FOR_CATEGORIES = '/api/categories';
-  const ENDPOINT_FOR_MATERIALS = '/api/materials';
+  const ENDPOINT_FOR_ALL_PRODUCTS = '/products';
+  const ENDPOINT_FOR_CATEGORIES = '/categories';
+  const ENDPOINT_FOR_MATERIALS = '/materials';
 
   const fetchDataProducts = async () => {
     const response = await getCallApi(ENDPOINT_FOR_ALL_PRODUCTS);
