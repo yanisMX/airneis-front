@@ -1,6 +1,7 @@
 export const getCallApi = async (endpoint: string, accessToken?: string) => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    console.log('baseUrl', baseUrl);
     if (!baseUrl) {
       console.error('API_BASE_URL is not defined in .env.local');
       throw new Error('API_BASE_URL is not defined in .env.local');

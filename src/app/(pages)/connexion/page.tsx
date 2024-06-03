@@ -14,7 +14,7 @@ const SignInPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const { login } = useAuth();
 
-  const ENDPOINT_FOR_LOGIN = '/api/auth/login';
+  const ENDPOINT_FOR_LOGIN = '/auth/login';
 
   const resetForm = () => {
     setEmail('');

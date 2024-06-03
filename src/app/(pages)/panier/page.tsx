@@ -9,8 +9,8 @@ import { postCallApi } from '@/app/api/post';
 import { patchCallApi } from '@/app/api/patch';
 
 const CartPage = () => {
-  const ENDPOINT_TO_UPDATE_CART = '/api/user/basket';
-  const ENDPOINT_TO_DELETE_CART = '/api/user/basket/clear';
+  const ENDPOINT_TO_UPDATE_CART = '/user/basket';
+  const ENDPOINT_TO_DELETE_CART = '/user/basket/clear';
 
   const { shoppingCart, setShoppingCart } = useCart();
   const { isLoggedIn, user } = useAuth();
@@ -153,7 +153,7 @@ const CartItemComponent = ({
   subtractQuantity: (product: Product) => void;
 }) => {
 
-  const ENDPOINT_TO_UPDATE_CART = 'https://c1bb0d8a5f1d.airneis.net/api/user/basket';
+  const ENDPOINT_TO_UPDATE_CART = '/user/basket';
   const { setShoppingCart } = useCart();
   const [quantity, setQuantity] = useState(item.quantity);
   const { user } = useAuth();

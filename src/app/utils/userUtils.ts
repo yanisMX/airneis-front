@@ -1,6 +1,4 @@
 import { UserData } from '../interfaces/interfaces';
-import { putCallApi } from '../api/put';
-import { deleteCookie } from './cookiesUtils';
 import { patchCallApi } from '../api/patch';
 
 export const getUser = (): UserData | null => {

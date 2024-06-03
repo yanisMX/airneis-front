@@ -10,7 +10,7 @@ const SignupPage = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const ENDPOINT_FOR_REGISTER = '/api/auth/register';
+  const ENDPOINT_FOR_REGISTER = '/auth/register';
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

@@ -15,7 +15,7 @@ const MyAccountPage = () => {
   const [isChangePasswordPopupVisible, setIsChangePasswordPopupVisible] = useState(false);
 
   const ENDPOINT_FOR_PERSONAL_INFORMATION_MODIFY = '/api/user';
-  const ENDPOINT_FOR_PASSWORD_MODIFY = '/api/user/password';
+  const ENDPOINT_FOR_PASSWORD_MODIFY = '/user/password';
 
   const handleFocus = (ref: React.RefObject<HTMLInputElement>) => {
     if (ref.current) {

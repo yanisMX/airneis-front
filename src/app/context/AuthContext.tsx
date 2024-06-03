@@ -15,7 +15,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<RootLayoutProps> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [user, setUser] = useState<UserData | null>(null);
-  const API_FOR_USER = '/api/user';
+  const API_FOR_USER = '/user';
 
   const fetchUserInfo = async (accessToken: string) => {
     try {

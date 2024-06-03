@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { postCallApi } from '../api/post';
 
 const Navbar = () => {
-  const ENDPOINT_FOR_LOGOUT = '/api/auth/logout';
+  const ENDPOINT_FOR_LOGOUT = '/auth/logout';
   const { isLoggedIn, setIsLoggedIn, logout, user } = useAuth();
   const { shoppingCart, setShoppingCart } = useCart();
 

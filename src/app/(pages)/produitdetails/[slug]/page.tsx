@@ -9,8 +9,8 @@ import { useAuth } from '@/app/context/AuthContext';
 import { postCallApi } from '@/app/api/post';
 
 const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
-  const ENDPOINT_FOR_PRODUCT = `/api/products/slug/${params.slug}`;
-  const ENDPOINT_FOR_ADD_TO_CART = '/api/user/basket';
+  const ENDPOINT_FOR_PRODUCT = `/products/slug/${params.slug}`;
+  const ENDPOINT_FOR_ADD_TO_CART = '/user/basket';
 
   const [product, setProduct] = useState<Product | null>(null);
   const { shoppingCart, setShoppingCart } = useCart();
