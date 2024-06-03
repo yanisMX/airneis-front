@@ -8,6 +8,7 @@ export default function ProductsFiltersModal({ id, filters, categories, material
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
   const [selectedMaterials, setSelectedMaterials] = useState<Material[]>([]);
   const [inStock, setInStock] = useState<boolean | undefined>(filters.stock);
+  const [isFeatured, setFeatured] = useState<boolean | undefined>(filters.featured);
 
   const sortOptionsNames = {
     id: "Id",
@@ -45,6 +46,7 @@ export default function ProductsFiltersModal({ id, filters, categories, material
       minPrice,
       maxPrice,
       page: undefined,
+      featured: isFeatured,
       sort: selectedSortOption as any,
       order: selectedOrder,
       limit: selectedItemsPerPage
@@ -61,6 +63,7 @@ export default function ProductsFiltersModal({ id, filters, categories, material
     setSelectedCategories([]);
     setSelectedMaterials([]);
     setInStock(undefined);
+    setFeatured(undefined);
     if (minPriceRef.current) minPriceRef.current.value = "";
     if (maxPriceRef.current) maxPriceRef.current.value = "";
 
@@ -145,6 +148,19 @@ export default function ProductsFiltersModal({ id, filters, categories, material
           <hr className="my-6 mt-8" />
 
           <h2 className="font-bold text-xl mb-2">Filtres</h2>
+
+          <div className="form-control mb-6 flex">
+            <h3 className="font-bold mb-2">À la une (featured)</h3>
+
+            <div className="join">
+              <input className="join-item btn btn-xs border border-gray-300" type="radio" name="featured" aria-label="Non"
+                checked={isFeatured === false} onChange={() => setFeatured(false)} />
+              <input className="join-item btn btn-xs border border-gray-300" type="radio" name="featured" aria-label="Non défini"
+                checked={isFeatured === undefined} onChange={() => setFeatured(undefined)} />
+              <input className="join-item btn btn-xs border border-gray-300" type="radio" name="featured" aria-label="Oui"
+                checked={isFeatured === true} onChange={() => setFeatured(true)} />
+            </div>
+          </div>
 
           <div className="form-control mb-6 flex">
             <h3 className="font-bold mb-2">En stock</h3>

@@ -19,6 +19,7 @@ export interface ApiResponse {
   
   export interface Product {
     priority: number;
+    isFeatured: boolean;
     id: number;
     name: string;
     description: string;
@@ -40,6 +41,7 @@ export interface ProductCreation {
   price: number | null;
   stock: number | null;
   priority?: number;
+  isFeatured: boolean;
   categoryId: number | null;
   materialIds: number[];
   imageIds: number[];
@@ -127,6 +129,7 @@ export interface ProductQuery {
   minPrice?: number;
   maxPrice?: number;
   stock?: boolean;
+  featured?: boolean;
   sort?: "id" | "name" | "price" | "category" | "stock" | "createdAt";
   order?: "asc" | "desc";
   limit?: number;

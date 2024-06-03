@@ -36,6 +36,7 @@ export default function ProductForm({ product }: { product?: Product }) {
   const [selectedMaterials, setSelectedMaterials] = useState<Material[]>(product?.materials || []);
   const [selectedMedias, setSelectedMedias] = useState<Media[]>(product?.images || []);
   const [selectedBackgroundMedia, setSelectedBackgroundMedia] = useState<Media | undefined>(product?.backgroundImage || undefined);
+  const [isFeatured, setFeatured] = useState<boolean>(product?.isFeatured || false);
 
   const processProductSave = () => {
     const name = nameRef.current?.value;
@@ -95,6 +96,7 @@ export default function ProductForm({ product }: { product?: Product }) {
       price,
       stock,
       priority,
+      isFeatured,
       categoryId: selectedCategory?.id ?? null,
       materialIds: selectedMaterials.map(material => material.id),
       imageIds: selectedMedias.map(media => media.id),
@@ -338,6 +340,19 @@ export default function ProductForm({ product }: { product?: Product }) {
                       className="input input-sm input-bordered w-full pe-0"
                     />
                   </label>
+                </div>
+
+                <div>
+                  <div className="form-control mb-6 flex w-1/2">
+                    <label className="label label-text">À la une (featured)</label>
+
+                    <div className="join">
+                      <input className="join-item btn btn-xs border border-gray-300 flex-1" type="radio" name="featured" aria-label="Non"
+                        checked={isFeatured === false} onChange={() => setFeatured(false)} />
+                      <input className="join-item btn btn-xs border border-gray-300 flex-1" type="radio" name="featured" aria-label="Oui"
+                        checked={isFeatured === true} onChange={() => setFeatured(true)} />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="flex justify-between gap-2">
