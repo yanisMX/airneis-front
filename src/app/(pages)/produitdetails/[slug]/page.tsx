@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { getCallApi } from '@/app/api/get';
 import { Product } from '@/app/interfaces/interfaces';
 import { handleAddToCart } from '@/app/utils/cartUtils';
@@ -21,6 +21,8 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
   const { isLoggedIn } = useAuth();
   const [messageDisplay, setMessageDisplay] = useState('');
   const { user } = useAuth();
+
+  const carouselModalRef = useRef<HTMLDialogElement>(null);
 
   const addToCartForUserConnected = async () => {
     if (product && user && user.accessToken) {
@@ -118,18 +120,40 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
           <div className="skeleton w-full h-full"></div>
         )}
         <div className='absolute -bottom-1/3 left-0 flex justify-center xl:justify-start w-full'>
-          <div className='aspect-square w-64 h-64 rounded-2xl xl:ms-20 shadow-lg border border-gray-300 overflow-hidden'>
-            {product ? (
-              <Image
-                src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + '/' + product?.images[0]?.filename}
-                alt={product.name}
-                width={300}
-                height={300}
-                className='object-cover w-full h-full'
-              />
-            ) : (
-              <div className="skeleton w-full h-full"></div>
-            )}
+          <div className='gap-4 xl:gap-8 flex flex-col xl:flex-row xl:items-center'>
+            <div className='relative aspect-square w-64 h-64 rounded-2xl xl:ms-20 shadow-lg border border-gray-300 overflow-hidden'>
+              {product ? (
+                <>
+                  <Image
+                    src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + '/' + product?.images[0]?.filename}
+                    alt={product.name}
+                    width={300}
+                    height={300}
+                    className='object-cover w-full h-full cursor-pointer'
+                    onClick={() => carouselModalRef.current?.showModal()}
+                  />
+
+                  {
+                    product.images.length > 1 && (
+                      <div className="xl:hidden absolute right-4 bottom-4 px-2 py-1 bg-black bg-opacity-60 text-white text-sm rounded-lg">+{product.images.length}</div>
+                    )
+                  }
+                </>
+              ) : (
+                <div className='skeleton w-full h-full'></div>
+              )}
+            </div>
+
+            {
+              product && product.images.length > 1 && (
+                <div className="flex justify-center">
+                  <button className='btn btn-sm border border-gray-300 xl:mt-24' onClick={() => carouselModalRef.current?.showModal()}>
+                    <span className="xl:hidden">Voir plus</span>
+                    <span className="hidden xl:inline">Voir {product?.images.length} autres images</span>
+                  </button>
+                </div>
+              )
+            }
           </div>
         </div>
       </div>
@@ -297,6 +321,46 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
           )
         }
       </div>
+
+      <dialog ref={carouselModalRef} className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box sm:w-11/12 sm:max-w-5xl">
+          <h3 className="font-bold text-2xl mb-4">Images du produit</h3>
+          
+          <div className="modal-body">
+            <div className="flex gap-4">
+              <div className="carousel w-full h-[600px]">
+                {
+                  product && product.images.map((image, i) => (
+                    <div id={"slide" + i} className="carousel-item relative w-full">
+                      <Link href={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + image.filename} target="_blank" className="w-full h-full">
+                        <Image src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + image.filename}
+                          width={1280}
+                          height={720}
+                          alt={product.name}
+                          className="w-full h-full object-contain"
+                        />
+                      </Link>
+                      <div className="absolute left-0 bottom-0 w-full p-8 flex items-center justify-center">
+                        <div className="bg-black bg-opacity-60 px-4 py-2 rounded-xl text-white">{i + 1} / {product.images.length}</div>
+                      </div>
+                      <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                        <a href={`#slide${i === 0 ? product.images.length - 1 : i - 1}`} className="btn btn-circle bg-black bg-opacity-50 backdrop-filter backdrop-blur border-none text-white">❮</a> 
+                        <a href={`#slide${i === product.images.length - 1 ? 0 : i + 1}`} className="btn btn-circle bg-black bg-opacity-50 backdrop-filter backdrop-blur border-none text-white">❯</a>
+                      </div>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+
+          <div className="modal-action">
+            <form method="dialog" className="">
+              <button className="btn btn-sm border border-gray-300">Fermer</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </main>
   );
 };
