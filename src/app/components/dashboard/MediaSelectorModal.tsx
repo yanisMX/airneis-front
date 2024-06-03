@@ -95,7 +95,7 @@ export default function MediaSelectorModal({ id, options, onSelect }: { id: stri
           {
             importMode && createdMedias.length > 0 && (
               <div className="mb-4">
-                <div className="mb-2"><span className="text-sm text-opacity-50">Importés à l'instant</span></div>
+                <div className="mb-2"><span className="text-sm text-opacity-50">Importés à l&apos;instant</span></div>
                 <div className="grid gap-2 grid-cols-3 sm:grid-cols-6">
                   {
                     createdMedias.map(media => (

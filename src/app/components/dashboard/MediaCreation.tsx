@@ -145,7 +145,7 @@ export default function MediaCreation({ options, onUploadStart, onUploadComplete
         {uploadFailed && <div className="absolute bottom-2 p-4">
           <div role="alert" className="alert alert-error flex py-2 gap-x-2 shadow-lg">
             <i className="fa-solid fa-circle-exclamation"></i>
-            <span>L'envoi de l'image a échoué.</span>
+            <span>L&apos;envoi de l&apos;image a échoué.</span>
           </div>
         </div>}
 

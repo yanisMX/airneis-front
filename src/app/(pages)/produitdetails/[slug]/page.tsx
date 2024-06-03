@@ -331,7 +331,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
               <div className="carousel w-full h-[600px]">
                 {
                   product && product.images.map((image, i) => (
-                    <div id={"slide" + i} className="carousel-item relative w-full">
+                    <div key={i} id={"slide" + i} className="carousel-item relative w-full">
                       <Link href={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + image.filename} target="_blank" className="w-full h-full">
                         <Image src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + image.filename}
                           width={1280}

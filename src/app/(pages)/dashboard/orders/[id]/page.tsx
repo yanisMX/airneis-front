@@ -50,7 +50,7 @@ export default function OrderPage() {
       toast.success(() => <span>La commande a été mise à jour.</span>);
     } catch (error) {
       console.error(error);
-      toast.error(() => <span>Une erreur est survenue lors de la mise à jour de l'utilisateur.</span>);
+      toast.error(() => <span>Une erreur est survenue lors de la mise à jour de l&apos;utilisateur.</span>);
     } finally {
       setSaving(false);
     }

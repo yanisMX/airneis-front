@@ -179,8 +179,8 @@ export default function ProductsFiltersModal({ id, filters, categories, material
             <h3 className="font-bold mb-2">Catégories</h3>
 
             {
-              categories.map(category => (
-                <label className="label cursor-pointer justify-start space-x-2 py-0 pb-2">
+              categories.map((category, i) => (
+                <label key={i} className="label cursor-pointer justify-start space-x-2 py-0 pb-2">
                   <input type="checkbox" className="checkbox checkbox-sm checkbox-primary"
                     checked={selectedCategories.includes(category)}
                     onChange={(e) => {
@@ -199,8 +199,8 @@ export default function ProductsFiltersModal({ id, filters, categories, material
           <div className="form-control mb-4">
             <h3 className="font-bold mb-2">Matériaux</h3>
             {
-              materials.map(material => (
-                <label className="label cursor-pointer justify-start space-x-2 py-0 pb-2">
+              materials.map((material, i) => (
+                <label key={i} className="label cursor-pointer justify-start space-x-2 py-0 pb-2">
                   <input type="checkbox" className="checkbox checkbox-sm checkbox-primary"
                     checked={selectedMaterials.includes(material)}
                     onChange={(e) => {

@@ -22,7 +22,7 @@ export default function UsersBulkDeleteModal({ id, users, fetchUsers }: { id: st
     if (deletedUsers > 0) {
       toast.success(() => <span>{deletedUsers} utilisateur{deletedUsers > 1 ? "s" : ""} a{deletedUsers > 1 ? "ont" : ""} bien été supprimé{deletedUsers > 1 ? "s" : ""}.</span>);
     } else {
-      toast.error(() => <span>Aucun utilisateur n'a été supprimé.</span>);
+      toast.error(() => <span>Aucun utilisateur n&apos;a été supprimé.</span>);
     }
 
     fetchUsers();
@@ -42,7 +42,7 @@ export default function UsersBulkDeleteModal({ id, users, fetchUsers }: { id: st
       return true;
     } catch (error) {
       console.error(error);
-      toast.error(() => <span>Une erreur est survenue lors de la suppression de l'utilisateur <b>{user.name}</b> <span className="opacity-50">#{user.id}</span>.</span>);
+      toast.error(() => <span>Une erreur est survenue lors de la suppression de l&apos;utilisateur <b>{user.name}</b> <span className="opacity-50">#{user.id}</span>.</span>);
     }
 
     return false;

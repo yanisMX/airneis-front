@@ -22,7 +22,7 @@ export default function CategoriesBulkDeleteModal({ id, categories, fetchCategor
     if (deletedCategories > 0) {
       toast.success(() => <span>{deletedCategories} catégorie{deletedCategories > 1 ? "s" : ""} a{deletedCategories > 1 ? "ont" : ""} bien été supprimé{deletedCategories > 1 ? "s" : ""}.</span>);
     } else {
-      toast.error(() => <span>Aucun catégorie n'a été supprimé.</span>);
+      toast.error(() => <span>Aucun catégorie n&apos;a été supprimé.</span>);
     }
 
     fetchCategories();

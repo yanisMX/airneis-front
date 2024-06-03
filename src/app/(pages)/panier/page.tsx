@@ -1,5 +1,5 @@
 'use client';
-import { CartItem, Product, ShoppingCart } from '@/app/interfaces/interfaces';
+import { Cart, CartItem, Product, ShoppingCart } from '@/app/interfaces/interfaces';
 import React, { useState } from 'react';
 import { useCart } from '@/app/context/CartContext';
 import { useAuth } from '@/app/context/AuthContext';

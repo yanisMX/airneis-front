@@ -22,7 +22,7 @@ export default function MaterialsBulkDeleteModal({ id, materials, fetchMaterials
     if (deletedMaterials > 0) {
       toast.success(() => <span>{deletedMaterials} matériau{deletedMaterials > 1 ? "x" : ""} a{deletedMaterials > 1 ? "ont" : ""} bien été supprimé{deletedMaterials > 1 ? "s" : ""}.</span>);
     } else {
-      toast.error(() => <span>Aucun matériau n'a été supprimé.</span>);
+      toast.error(() => <span>Aucun matériau n&apos;a été supprimé.</span>);
     }
 
     fetchMaterials();

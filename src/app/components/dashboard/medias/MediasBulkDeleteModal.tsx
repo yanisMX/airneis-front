@@ -22,7 +22,7 @@ export default function MediasBulkDeleteModal({ id, medias, fetchMedias }: { id:
     if (deletedMedias > 0) {
       toast.success(() => <span>{deletedMedias} média{deletedMedias > 1 ? "s" : ""} a{deletedMedias > 1 ? "ont" : ""} bien été supprimé{deletedMedias > 1 ? "s" : ""}.</span>);
     } else {
-      toast.error(() => <span>Aucun média n'a été supprimé.</span>);
+      toast.error(() => <span>Aucun média n&apos;a été supprimé.</span>);
     }
 
     fetchMedias();

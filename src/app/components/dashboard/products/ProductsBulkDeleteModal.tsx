@@ -22,7 +22,7 @@ export default function ProductsBulkDeleteModal({ id, products, fetchProducts }:
     if (deletedProducts > 0) {
       toast.success(() => <span>{deletedProducts} produit{deletedProducts > 1 ? "s" : ""} a{deletedProducts > 1 ? "ont" : ""} bien été supprimé{deletedProducts > 1 ? "s" : ""}.</span>);
     } else {
-      toast.error(() => <span>Aucun produit n'a été supprimé.</span>);
+      toast.error(() => <span>Aucun produit n&apos;a été supprimé.</span>);
     }
 
     fetchProducts();

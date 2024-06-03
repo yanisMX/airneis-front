@@ -76,10 +76,10 @@ export default function UserPage() {
 
       if (!data.success) throw new Error(data.message);
 
-      toast.success(() => <span>L'utilisateur a été mis à jour.</span>);
+      toast.success(() => <span>L&apos;utilisateur a été mis à jour.</span>);
     } catch (error) {
       console.error(error);
-      toast.error(() => <span>Une erreur est survenue lors de la mise à jour de l'utilisateur.</span>);
+      toast.error(() => <span>Une erreur est survenue lors de la mise à jour de l&apos;utilisateur.</span>);
     } finally {
       setSaving(false);
     }
@@ -141,7 +141,7 @@ export default function UserPage() {
                   </Link>
                   <h1 className="text-3xl font-semibold">
                     <span className="sm:hidden">Édit. </span>
-                    <span className="hidden sm:inline-block">Édition de l'</span>
+                    <span className="hidden sm:inline-block">Édition de l&apos;</span>
                     <span>utilisateur</span>
                   </h1>
                 </div>
