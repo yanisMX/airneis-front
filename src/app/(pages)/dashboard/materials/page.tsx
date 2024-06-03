@@ -5,12 +5,15 @@ import MaterialsDeleteModal from "@/app/components/dashboard/materials/Materials
 import MaterialsFiltersModal from "@/app/components/dashboard/materials/MaterialsFilterModal";
 import MaterialsPagination from "@/app/components/dashboard/materials/MaterialsPagination";
 import MaterialsSearch from "@/app/components/dashboard/materials/MaterialsSearch";
+import { useAuth } from "@/app/context/AuthContext";
 import { Material, MaterialFilters, MaterialPagination } from "@/app/interfaces/interfaces";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function Materials() {
+  const { user } = useAuth();
+
   const defaultItemsPerPageLimit = 20;
 
   const [isFetching, setFetching] = useState(true);
@@ -27,7 +30,11 @@ export default function Materials() {
     setFetching(true);
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/materials");
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/materials", {
+        headers: {
+          "Authorization": `Bearer ${user?.accessToken}`
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

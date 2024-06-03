@@ -1,8 +1,10 @@
+import { useAuth } from "@/app/context/AuthContext";
 import { User } from "@/app/interfaces/interfaces";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function UsersBulkDeleteModal({ id, users, fetchUsers }: { id: string, users: User[], fetchUsers: () => void }) {
+  const { user: authUser } = useAuth();
   const [isFetching, setFetching] = useState(false);
 
   const deleteUsers = async () => {
@@ -28,7 +30,12 @@ export default function UsersBulkDeleteModal({ id, users, fetchUsers }: { id: st
 
   const deleteUserById = async (user: User): Promise<boolean> => {
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/users/" + user.id, { method: "DELETE" });
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/users/" + user.id, {
+        method: "DELETE",
+        headers: {
+          "Authorization": "Bearer " + authUser?.accessToken,
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

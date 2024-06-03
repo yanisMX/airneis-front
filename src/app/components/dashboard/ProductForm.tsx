@@ -8,8 +8,10 @@ import MediaLibraryItem from "./MediaLibraryItem";
 import MediaSelectorModal from "./MediaSelectorModal";
 import ProductCategoryCreationModal from "./products/new/ProductCategoryCreationModal";
 import ProductMaterialCreationModal from "./products/new/ProductMaterialCreationModal";
+import { useAuth } from "@/app/context/AuthContext";
 
 export default function ProductForm({ product }: { product?: Product }) {
+  const { user } = useAuth();
   const router = useRouter();
 
   const nameRef = useRef<HTMLInputElement>(null);
@@ -115,7 +117,8 @@ export default function ProductForm({ product }: { product?: Product }) {
       const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/products", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + user?.accessToken,
         },
         body: JSON.stringify(product)
       });
@@ -138,7 +141,8 @@ export default function ProductForm({ product }: { product?: Product }) {
       const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/products/" + product!.id, {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + user?.accessToken,
         },
         body: JSON.stringify(editedProduct)
       });
@@ -158,7 +162,12 @@ export default function ProductForm({ product }: { product?: Product }) {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/categories");
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/categories", {
+        headers: {
+          "Authorization": "Bearer " + user?.accessToken,
+        }
+      
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);
@@ -172,7 +181,11 @@ export default function ProductForm({ product }: { product?: Product }) {
 
   const fetchMaterials = async () => {
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/materials");
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/materials", {
+        headers: {
+          "Authorization": "Bearer " + user?.accessToken,
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

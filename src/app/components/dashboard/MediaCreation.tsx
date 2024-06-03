@@ -1,8 +1,11 @@
+import { useAuth } from "@/app/context/AuthContext";
 import { Image as Media } from "@/app/interfaces/interfaces";
 import { useEffect, useRef, useState } from "react";
 
 export default function MediaCreation({ options, onUploadStart, onUploadComplete, onUploadError }: { options?: MediaCreationOptions, onUploadStart?: () => void, onUploadComplete?: (media: Media) => void, onUploadError?: () => void }) {
   if (!options) options = new MediaCreationOptions();
+
+  const { user } = useAuth();
 
   const [fileName, setFileName] = useState<string>("");
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("");
@@ -46,6 +49,7 @@ export default function MediaCreation({ options, onUploadStart, onUploadComplete
 
     const xhr = new XMLHttpRequest();
     xhr.open("POST", process.env.NEXT_PUBLIC_API_BASE_URL + "/medias", true);
+    xhr.setRequestHeader("Authorization", "Bearer " + user?.accessToken);
 
     xhr.upload.onprogress = (event) => {
       if (event.lengthComputable) {

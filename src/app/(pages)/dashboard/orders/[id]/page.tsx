@@ -1,6 +1,7 @@
 "use client";
 
 import OrderAddress from "@/app/components/dashboard/orders/details/OrderAddress";
+import { useAuth } from "@/app/context/AuthContext";
 import { Order, OrderDto, OrderStatus, OrderStatusLabels } from "@/app/interfaces/interfaces";
 import { formatDateString } from "@/app/utils/utils";
 import Link from "next/link";
@@ -9,6 +10,7 @@ import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function OrderPage() {
+  const { user } = useAuth();
   const router = useRouter();
   const { id } = useParams();
 
@@ -35,7 +37,8 @@ export default function OrderPage() {
       const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/orders/" + order!.id, {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user?.accessToken}`
         },
         body: JSON.stringify(editedUser)
       });
@@ -69,7 +72,11 @@ export default function OrderPage() {
     setFetching(true);
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/orders/" + id);
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/orders/" + id, {
+        headers: {
+          "Authorization": `Bearer ${user?.accessToken}`
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

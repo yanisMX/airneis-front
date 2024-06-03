@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuth } from "@/app/context/AuthContext";
 import { User, UserDto } from "@/app/interfaces/interfaces";
 import { formatDateString } from "@/app/utils/utils";
 import Link from "next/link";
@@ -8,6 +9,8 @@ import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function UserPage() {
+  const { user: authUser } = useAuth();
+
   const router = useRouter();
   const { id } = useParams();
 
@@ -63,7 +66,8 @@ export default function UserPage() {
       const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/users/" + user!.id, {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${authUser?.accessToken}`
         },
         body: JSON.stringify(editedUser)
       });
@@ -97,7 +101,11 @@ export default function UserPage() {
     setFetching(true);
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/users/" + id);
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/users/" + id, {
+        headers: {
+          "Authorization": `Bearer ${authUser?.accessToken}`
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

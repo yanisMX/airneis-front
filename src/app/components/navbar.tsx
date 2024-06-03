@@ -94,6 +94,16 @@ const Navbar = () => {
                   >
                     Commandes
                   </Link>
+                  {
+                    user?.role === 'admin' && (
+                      <Link
+                        href="/dashboard"
+                        className="hover:text-gray-400 hover:font-bold"
+                      >
+                        Tableau de bord
+                      </Link>
+                    )
+                  }
                   <button onClick={handleClickForLogout}>
                     <Link
                       href="/"
@@ -194,6 +204,11 @@ const Navbar = () => {
                     <li>
                       <Link href="/mescommandes">Commandes</Link>
                     </li>
+                    {user && user.role === 'admin' && (
+                      <li>
+                        <Link href="/dashboard">Tableau de bord</Link>
+                      </li>
+                    )}
                     <li>
                       <button onClick={handleClickForLogout}>
                         <Link href="/">Se déconnecter</Link>

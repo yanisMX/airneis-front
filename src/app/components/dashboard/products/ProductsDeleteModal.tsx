@@ -1,15 +1,22 @@
+import { useAuth } from "@/app/context/AuthContext";
 import { Product } from "@/app/interfaces/interfaces";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function ProductsDeleteModal({ id, product, fetchProducts }: { id: string, product: Product, fetchProducts: () => void }) {
+  const { user } = useAuth();
   const [isFetching, setFetching] = useState(false);
 
   const deleteProduct = async () => {
     setFetching(true);
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/products/" + product.id, { method: "DELETE" });
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/products/" + product.id, {
+        method: "DELETE",
+        headers: {
+          "Authorization": "Bearer " + user?.accessToken,
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

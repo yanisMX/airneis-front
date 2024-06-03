@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import MediaCreation from "./MediaCreation";
 import MediaLibrary from "./MediaLibrary";
 import MediaLibraryItem from "./MediaLibraryItem";
+import { useAuth } from "@/app/context/AuthContext";
 
 export default function MediaSelectorModal({ id, options, onSelect }: { id: string, options?: MediaSelectorModalOptions, onSelect?: (medias: Media[]) => void }) {
   if (!options) {
@@ -13,6 +14,8 @@ export default function MediaSelectorModal({ id, options, onSelect }: { id: stri
     if (options.gallery === undefined) options.gallery = true;
     if (options.preview === undefined) options.preview = true;
   }
+
+  const { user } = useAuth();
 
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -33,8 +36,11 @@ export default function MediaSelectorModal({ id, options, onSelect }: { id: stri
     setFetching(true);
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/medias?limit=" + mediaQuery.limit
-        + (mediaQuery.page ? "&page=" + mediaQuery.page : ""));
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/medias?limit=" + mediaQuery.limit + (mediaQuery.page ? "&page=" + mediaQuery.page : ""), {
+        headers: {
+          "Authorization": "Bearer " + user?.accessToken,
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

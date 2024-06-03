@@ -1,12 +1,15 @@
 "use client";
 
 import MaterialForm from "@/app/components/dashboard/MaterialForm";
+import { useAuth } from "@/app/context/AuthContext";
 import { Material } from "@/app/interfaces/interfaces";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function MaterialPage() {
+  const { user } = useAuth();
+
   const [isFetching, setFetching] = useState<boolean>(true);
   const [material, setMaterial] = useState<Material | undefined>();
 
@@ -17,7 +20,11 @@ export default function MaterialPage() {
     setFetching(true);
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/materials/" + id);
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/materials/" + id, {
+        headers: {
+          "Authorization": `Bearer ${user?.accessToken}`
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

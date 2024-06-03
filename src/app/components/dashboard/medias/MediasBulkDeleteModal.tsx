@@ -1,8 +1,10 @@
+import { useAuth } from "@/app/context/AuthContext";
 import { Image as Media } from "@/app/interfaces/interfaces";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function MediasBulkDeleteModal({ id, medias, fetchMedias }: { id: string, medias: Media[], fetchMedias: () => void }) {
+  const { user } = useAuth();
   const [isFetching, setFetching] = useState(false);
 
   const deleteMedia = async () => {
@@ -28,7 +30,12 @@ export default function MediasBulkDeleteModal({ id, medias, fetchMedias }: { id:
 
   const deleteMediaById = async (media: Media): Promise<boolean> => {
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/medias/" + media.id, { method: "DELETE" });
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/medias/" + media.id, {
+        method: "DELETE",
+        headers: {
+          "Authorization": "Bearer " + user?.accessToken,
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

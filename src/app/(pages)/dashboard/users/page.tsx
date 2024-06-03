@@ -5,12 +5,14 @@ import UsersDeleteModal from "@/app/components/dashboard/users/UsersDeleteModal"
 import UsersFiltersModal from "@/app/components/dashboard/users/UsersFiltersModal";
 import UsersPagination from "@/app/components/dashboard/users/UsersPagination";
 import UsersSearch from "@/app/components/dashboard/users/UsersSearch";
+import { useAuth } from "@/app/context/AuthContext";
 import { ProductQuery, User, UserPagination, UserQuery } from "@/app/interfaces/interfaces";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function Users() {
+  const { user } = useAuth();
   const defaultItemsPerPageLimit = 20;
 
   const [isFetching, setFetching] = useState(true);
@@ -46,7 +48,11 @@ export default function Users() {
     setSelectedUsers([]);
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/users?" + generateQueryString(filters));
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/users?" + generateQueryString(filters), {
+        headers: {
+          "Authorization": `Bearer ${user?.accessToken}`
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

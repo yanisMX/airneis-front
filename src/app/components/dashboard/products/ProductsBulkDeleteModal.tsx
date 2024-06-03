@@ -1,8 +1,10 @@
+import { useAuth } from "@/app/context/AuthContext";
 import { Product } from "@/app/interfaces/interfaces";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function ProductsBulkDeleteModal({ id, products, fetchProducts }: { id: string, products: Product[], fetchProducts: () => void }) {
+  const { user } = useAuth();
   const [isFetching, setFetching] = useState(false);
 
   const deleteProduct = async () => {
@@ -28,7 +30,12 @@ export default function ProductsBulkDeleteModal({ id, products, fetchProducts }:
 
   const deleteProductById = async (product: Product): Promise<boolean> => {
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/products/" + product.id, { method: "DELETE" });
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/products/" + product.id, {
+        method: "DELETE",
+        headers: {
+          "Authorization": "Bearer " + user?.accessToken,
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

@@ -4,6 +4,7 @@ import MediaSelectorModal from "@/app/components/dashboard/MediaSelectorModal";
 import MediasBulkDeleteModal from "@/app/components/dashboard/medias/MediasBulkDeleteModal";
 import MediasDeleteModal from "@/app/components/dashboard/medias/MediasDeleteModal";
 import MediassPagination from "@/app/components/dashboard/medias/MediasPagination";
+import { useAuth } from "@/app/context/AuthContext";
 import { Image as Media, MediaPagination, MediaQuery } from "@/app/interfaces/interfaces";
 import { formatBytes, formatDateString } from "@/app/utils/utils";
 import Image from "next/image";
@@ -13,6 +14,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function Materials() {
+  const { user } = useAuth();
   const router = useRouter();
 
   const defaultItemsPerPageLimit = 20;
@@ -49,7 +51,11 @@ export default function Materials() {
     setSelectedMedias([]);
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/medias?" + generateQueryString(filters));
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/medias?" + generateQueryString(filters), {
+        headers: {
+          "Authorization": `Bearer ${user?.accessToken}`
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

@@ -2,8 +2,10 @@ import { Category, Image as Media } from "@/app/interfaces/interfaces";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import MediaCreation from "../../MediaCreation";
+import { useAuth } from "@/app/context/AuthContext";
 
 export default function ProductCategoryCreationModal({ id, setSelectedCategory, fetchCategories }: { id: string, setSelectedCategory: (category: Category) => void, fetchCategories: () => void }) {
+  const { user } = useAuth();
   const [key, setKey] = useState<number>(0);
 
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -29,7 +31,8 @@ export default function ProductCategoryCreationModal({ id, setSelectedCategory, 
       const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/categories", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + user?.accessToken,
         },
         body: JSON.stringify({
           name,
@@ -50,7 +53,7 @@ export default function ProductCategoryCreationModal({ id, setSelectedCategory, 
       toast.success(() => <span>La catégorie <b>{category.name}</b> a été créée.</span>);
     } catch (error) {
       console.error(error);
-      toast.error(() => <span>Une erreur est survenue lors de la création du matériau.</span>);
+      toast.error(() => <span>Une erreur est survenue lors de la création de la catégorie.</span>);
     } finally {
       dialogRef.current?.close();
     }
