@@ -8,24 +8,16 @@ import { getCallApi } from './api/get';
 import { Product } from './interfaces/interfaces';
 
 export default function HomePage() {
-  const [categories, setCategories] = useState<any[]>([]);
-  const [products, setProducts] = useState<any[]>([]);
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
 
-  const HIGHLANDERS_PRODUCTS_URL = `/products`;
-  const CATEGORIES_URL = `/categories`;
+  const HIGHLANDERS_PRODUCTS_URL = `/products?featured=1`;
 
   async function fetchAllData() {
     const fetchedProducts = await getCallApi(HIGHLANDERS_PRODUCTS_URL);
-    const fetchedCategories = await getCallApi(CATEGORIES_URL);
     if (fetchedProducts && fetchedProducts.products) {
-      setProducts(fetchedProducts.products);
+      setFeaturedProducts(fetchedProducts.products);
     } else {
       console.error('No products found');
-    }
-    if (fetchedCategories && fetchedCategories.categories) {
-      setCategories(fetchedCategories.categories);
-    } else {
-      console.error('No categories found');
     }
   }
 
@@ -44,9 +36,9 @@ export default function HomePage() {
       </Head>
 
       <div className="pb-8">
-        <div className="carousel w-full h-[500px]">
-          {products ? (
-            products.map((product: Product, i: number) => (
+        <div className="carousel w-full h-[700px]">
+          {featuredProducts ? (
+            featuredProducts.map((product: Product, i: number) => (
               <div
                 id={`slide${i}`}
                 key={i}
@@ -59,16 +51,16 @@ export default function HomePage() {
                   layout="fill"
                 />
                 <div className="absolute bottom-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent bg-opacity-40"></div>
-                <div className="absolute flex flex-col justify-end pb-16 h-full sm:mx-40">
-                  <h1 className="mx-16 sm:mx-auto text-5xl font-bold text-white mb-6  sm:block">
+                <div className="absolute flex flex-col justify-end pb-16 w-full h-full px-20 md:px-40">
+                  <h1 className="text-3xl md:text-5xl font-bold text-white mb-8 sm:block">
                     {product.name}
                   </h1>
-                  <p className="text-white w-4/6 hidden sm:block">
-                    {product.description}
+                  <p className="text-white mb-6 w-full">
+                    {product.description.split(" ").slice(0, 35).join(" ")}...
                   </p>
-                  <div className=" sm:mx-auto w-full flex justify-center">
+                  <div>
                     <Link href={`/produitdetails/${product.slug}`}>
-                      <button className="btn btn-primary">
+                      <button className="btn btn-sm btn-primary">
                         Voir le produit
                       </button>
                     </Link>
@@ -76,13 +68,13 @@ export default function HomePage() {
                 </div>
                 <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
                   <a
-                    href={`#slide${i === 0 ? products.length - 1 : i - 1}`}
+                    href={`#slide${i === 0 ? featuredProducts.length - 1 : i - 1}`}
                     className="btn btn-circle bg-black hover:bg-white bg-opacity-50 hover:bg-opacity-25 backdrop-filter backdrop-blur border-none text-white ms-4"
                   >
                     ❮
                   </a>
                   <a
-                    href={`#slide${i === products.length - 1 ? 0 : i + 1}`}
+                    href={`#slide${i === featuredProducts.length - 1 ? 0 : i + 1}`}
                     className="btn btn-circle bg-black hover:bg-white bg-opacity-50 hover:bg-opacity-25 backdrop-filter backdrop-blur border-none text-white me-4"
                   >
                     ❯
@@ -97,48 +89,37 @@ export default function HomePage() {
           )}
         </div>
 
-        <div className="container m-3 mb-12">
-          <h1 className="text-4xl font-bold text-center pb-3">
-            Venant des hautes terres d&apos;Ecosse, <br /> nos meubles sont
-            immortels 🛋️
+        <div className="container mx-auto my-12">
+          <h1 className="text-4xl font-bold text-center mb-12">
+            Venant des hautes terres d&apos;Ecosse, nos meubles sont immortels 🛋️
           </h1>
-          <div className="flex overflow-x-scroll space-x-6">
-  {categories ? (
-    categories.map((category, id: number) => (
-      <div
-        id={`category-Card${id}`}
-        className="card w-80 bg-base-100 shadow-xl image-full flex-none"
-        key={id}
-      >
-        {category.thumbnail && (
-          <figure>
-            <Image
-              src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + category.thumbnail.filename}
-              alt="Canapés"
-              className="w-full h-full"
-              layout="fill"
-            />
-          </figure>
-        )}
-        <div className="card-body">
-          <h2 className="card-title">{category.name}</h2>
-          <p>{category.description}</p>
-          <div className="card-actions justify-end pt-5">
-            <Link href={`/categorie/` + category.name}>
-              <button className="btn btn-primary ">
-                Voir nos {category.name}
-              </button>
-            </Link>
+          <div className="flex overflow-x-auto pb-4 space-x-6">
+            <div className='grid grid-cols-2 md:grid-cols-4 gap-4 w-full mx-6'>
+              {
+                featuredProducts.map((product, i) => (<>
+                  <div className='relative w-full bg-red-50 aspect-square rounded-2xl overflow-hidden border border-gray-300 shadow-md'>
+                    <Image
+                      src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + product.images[0].filename}
+                      width={300}
+                      height={300}
+                      alt={product.name}
+                      className='w-full h-full object-cover'
+                    />
+
+                    <div className='absolute left-0 top-0 text-xl m-4 p-2 bg-black bg-opacity-40 rounded-lg text-white'>
+                      {product.name}
+                    </div>
+
+                    <div className='absolute left-4 bottom-4'>
+                      <Link href={`/produitdetails/${product.slug}`} className='btn btn-sm border-gray-300'>
+                        Voir le produit
+                      </Link>
+                    </div>
+                  </div>
+                </>))
+              }
+            </div>
           </div>
-        </div>
-      </div>
-    ))
-  ) : (
-    <section className="h-full w-full p-20 flex justify-center ">
-      <progress className="progress w-56 flex"></progress>
-    </section>
-  )}
-</div>
 
         </div>
       </div>

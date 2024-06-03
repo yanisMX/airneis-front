@@ -7,12 +7,16 @@ import { useCart } from '@/app/context/CartContext';
 import Image from 'next/image';
 import { useAuth } from '@/app/context/AuthContext';
 import { postCallApi } from '@/app/api/post';
+import Link from 'next/link';
+import toast from 'react-hot-toast';
 
 const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
   const ENDPOINT_FOR_PRODUCT = `/products/slug/${params.slug}`;
   const ENDPOINT_FOR_ADD_TO_CART = '/user/basket';
 
   const [product, setProduct] = useState<Product | null>(null);
+  const [similarProducts, setSimilarProducts] = useState<Product[]>([]);
+
   const { shoppingCart, setShoppingCart } = useCart();
   const { isLoggedIn } = useAuth();
   const [messageDisplay, setMessageDisplay] = useState('');
@@ -59,6 +63,8 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
     } else if (product && !isLoggedIn) {
       addToCartForUserNotConnected();
     }
+
+    toast.success(() =>  <>Article ajouté au panier.</>);
   };
 
   const fetchDataProduct = async () => {
@@ -74,85 +80,121 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
     }
   };
 
+  useEffect(() => {
+    if (product) {
+      const fetchSimilarProducts = async () => {
+        const response = await getCallApi(`/products?categories=${product.category ?.id ?? ""}`);
+        try {
+          if (response.success) {
+            const similar: Product[] = response.products;
+            setSimilarProducts(similar.filter((p) => p.id !== product.id));
+          } else {
+            console.error('Impossible de récupérer les produits similaires');
+          }
+        } catch (error: any) {
+          console.error(error.message);
+        }
+      };
+      fetchSimilarProducts();
+    }
+  }, [product]);
+
   useEffect((): void => {
     fetchDataProduct();
   }, [params.slug]);
 
   return (
-    <main className="pt-[40px] content-below-navbar min-h-screen">
-      {product ? (
-        <>
-          <section className="py-12 sm:py-16">
-            <div className="container mx-auto px-4">
-              <div className="grid grid-cols-1 lg:grid-cols-5 gap-16">
-                <div className="lg:col-span-3">
-                  <div className="aspect-w-3 aspect-h-2">
-                    <a
-                      className="relative flex h-96 w-96 overflow-hidden rounded-lg shadow-lg"
-                      href="#"
-                    >
-                      <Image
-                        className="absolute top-0 right-0 h-full w-full object-cover"
-                        src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${product.images[0].filename}`}
-                        alt={product.name}
-                        layout="fill"
-                      />
-                      <div className="absolute bottom-0 mb-4 flex w-full justify-center space-x-4">
-                        <div className="h-3 w-3 rounded-full border-2 border-white bg-white"></div>
-                        <div className="h-3 w-3 rounded-full border-2 border-white bg-transparent"></div>
-                        <div className="h-3 w-3 rounded-full border-2 border-white bg-transparent"></div>
-                      </div>
-                      <div className="absolute -right-16 bottom-0 mr-2 mb-4 space-y-2 transition-all duration-300 hover:right-0">
-                        <button className="flex h-10 w-10 items-center justify-center bg-gray-900 text-white transition hover:bg-gray-700">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            className="h-6 w-6"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M5 12h14m-7-7v14"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                <div className="lg:col-span-2">
-                  <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-                    {product.name}
-                  </h1>
-                  <p className="mt-4 text-gray-700">{product.description}</p>
-                  <p className="mt-4 text-lg font-semibold">
-                    {product.price} €
-                  </p>
-                  <button
-                    className="mt-8 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
-                    onClick={addToCart}
-                  >
-                    Ajouter au panier
-                  </button>
-                  <p className="mt-4 text-red-500">{messageDisplay}</p>
+    <main className="min-h-screen">
+      <div className='container mx-auto relative flex flex-col w-full h-[400px]'>
+        {
+          product ? (
+            <>
+              <Image
+                src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + '/' + product?.backgroundImage.filename}
+                alt={product.name}
+                width={1280}
+                height={720}
+                className='object-cover w-full h-full shadow-lg'
+              />
+              <div className='absolute -bottom-1/3 left-0 flex justify-center xl:justify-start w-full'>
+                <div className='aspect-square w-64 h-64 rounded-2xl xl:ms-20 shadow-lg border border-gray-300 overflow-hidden'>
+                  <Image
+                    src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + '/' + product?.images[0].filename}
+                    alt={product.name}
+                    width={300}
+                    height={300}
+                    className='object-cover w-full h-full'
+                  />
                 </div>
               </div>
-            </div>
-          </section>
-        </>
-      ) : (
-        <div className="flex justify-center items-center h-screen">
-          <div
-            className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full"
-            role="status"
-          >
-            <span className="visually-hidden"></span>
+            </>
+          ) : (
+            <></>
+          )
+        }
+      </div>
+      <div className='container mx-auto px-6 my-48'>
+        <div className='flex'>
+          <div className='flex-1'>
+            <h1 className='text-4xl font-bold'>{product?.name ?? ""}</h1>
+            <p className='text-2xl mt-4'>
+              <span className='font-bold'>{product?.price ?? ""} €</span>
+              <span className='mx-4'>&bull;</span>
+              
+              {
+                product?.stock === 0 ? (
+                  <span className='text-red-500'>Rupture de stock</span>
+                ) : (
+                  <span className='text-green-500'>{product?.stock} en stock</span>
+                )
+              }
+            </p>
+          </div>
+          <div>
+            <button className='btn btn-primary' onClick={addToCart}>
+              <i className="fa-solid fa-cart-plus"></i>
+              <span className='hidden lg:inline'>Ajouter au panier</span>
+            </button>
           </div>
         </div>
-      )}
+
+        <div>
+          <div className='text-lg mt-12'>
+            {product?.description.split("\n").map((line, i) => (
+              <p key={i}>{line}<br /></p>
+            ))}
+          </div>
+        </div>
+
+        <h2 className='mt-16 mb-8 text-3xl font-semibold'>Produits similaires</h2>
+        { similarProducts.length === 0 && <p className='opacity-60'>Aucun produit similaire</p> }
+
+        <div className='grid grid-cols-2 md:grid-cols-4 gap-4 w-full'>
+              {
+                similarProducts.map((product, i) => (<>
+                  <div className='relative w-full bg-red-50 aspect-square rounded-2xl overflow-hidden border border-gray-300 shadow-md'>
+                    <Image
+                      src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + product.images[0].filename}
+                      width={300}
+                      height={300}
+                      alt={product.name}
+                      className='w-full h-full object-cover'
+                    />
+
+                    <div className='absolute left-0 top-0 text-xl m-4 p-2 bg-black bg-opacity-40 rounded-lg text-white'>
+                      {product.name}
+                    </div>
+
+                    <div className='absolute left-4 bottom-4'>
+                      <Link href={`/produitdetails/${product.slug}`} className='btn btn-sm border-gray-300'>
+                        Voir le produit
+                      </Link>
+                    </div>
+                  </div>
+                </>))
+              }
+            </div>
+      </div>
     </main>
   );
 };

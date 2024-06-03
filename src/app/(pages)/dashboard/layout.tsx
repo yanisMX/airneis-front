@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Toaster } from "react-hot-toast";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathName = usePathname();
@@ -22,8 +21,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <Toaster position="top-right" toastOptions={{ duration: 5000 }} />
-
       <div className="dashboard w-full">
         <div className="drawer xl:drawer-open">
           <div className="drawer-content h-screen flex flex-col pt-5 lg:px-10 xl:py-10 xl:ps-0 xl:pe-10 overflow-auto">

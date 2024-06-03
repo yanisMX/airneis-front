@@ -5,6 +5,7 @@ import Navbar from '@/app/components/Navbar';
 import Footer from '@/app/components/Footer';
 import { AuthProvider } from '@/app/context/AuthContext';
 import { CartProvider } from './context/CartContext';
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -28,6 +29,8 @@ export default function RootLayout({
           </CartProvider>
         </AuthProvider>
         <Footer />
+
+        <Toaster position="top-right" toastOptions={{ duration: 5000 }} />
       </body>
     </html>
   );

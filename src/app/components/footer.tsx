@@ -11,11 +11,6 @@ const Footer = () => {
       <div className="container mx-auto">
         <footer className="footer p-10 text-base-content">
           <nav>
-            <h6 className="footer-title">Catégories</h6>
-            <a className="link link-hover">Meubles multifonctions</a>
-            <a className="link link-hover">Chaises</a>
-          </nav>
-          <nav>
             <h6 className="footer-title">Entreprise</h6>
             <Link href="/presentation" className="link link-hover">
               Qui sommes-nous ?
@@ -35,7 +30,7 @@ const Footer = () => {
           </nav>
 
           <div className="flex flex-col">
-            <a
+            {/* <a
               href="#"
               className="w-full  bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 text-white rounded-lg inline-flex items-center justify-start px-4 py-2.5 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
             >
@@ -59,7 +54,7 @@ const Footer = () => {
                   App Store
                 </div>
               </div>
-            </a>
+            </a> */}
 
             <a
               href="#"

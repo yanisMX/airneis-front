@@ -55,12 +55,14 @@ const Navbar = () => {
             />
             <span>Airneis</span>
           </Link>
-          <button
-            className="sm:hidden btn btn-ghost text-xl flex-1 ml-8"
-            onClick={handleClick}
-          >
+          <div className='sm:hidden flex-1 flex justify-end'>
+            <button
+              className="btn btn-ghost text-xl"
+              onClick={handleClick}
+            >
             <i className="fa-solid fa-bars"></i>
           </button>
+            </div>
           {isOpen && (
             <div className="absolute top-full right-0 mr-8 bg-white shadow-lg rounded-lg p-4 flex flex-col items-start sm:hidden z-50">
               <Link href="/produits" className="hover:text-gray-400">
