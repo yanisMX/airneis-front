@@ -137,7 +137,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
         <div className='flex'>
           <div className='flex-1'>
             <h1 className='text-4xl font-bold'>{product?.name ?? ""}</h1>
-            <p className='text-2xl mt-4'>
+            <p className='text-xl mt-4'>
               <span className='font-bold'>{product?.price ?? ""} €</span>
               <span className='mx-4'>&bull;</span>
               
@@ -159,15 +159,15 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
         </div>
 
         <div className='mb-16'>
-          <div className='text-lg mt-12'>
+          <div className='mt-12'>
             {product?.description.split("\n").map((line, i) => (
               <p key={i}>{line}<br /></p>
             ))}
           </div>
         </div>
         
-        <div className='mb-16 text-lg'>
-          <h2 className='mb-8 text-3xl font-semibold'>Informations supplémentaires</h2>
+        <div className='mb-16'>
+          <h2 className='mb-8 text-2xl font-semibold'>Informations supplémentaires</h2>
           
           <p>
             <i className="fa-solid fa-tags me-2"></i>
@@ -196,7 +196,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
         </div>
 
         <div>
-          <h2 className='mb-8 text-3xl font-semibold'>Produits similaires</h2>
+          <h2 className='mb-8 text-2xl font-semibold'>Produits similaires</h2>
           { similarProducts.length === 0 && <p className='opacity-60'>Aucun produit similaire</p> }
 
           <div className='grid grid-cols-2 md:grid-cols-4 gap-4 w-full'>
