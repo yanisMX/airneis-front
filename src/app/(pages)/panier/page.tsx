@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { calculateTotal, modifyQuantityLocally, handleRemoveProductFromCart, removeProductFromCart } from '@/app/utils/cartUtils';
 import { postCallApi } from '@/app/api/post';
 import { patchCallApi } from '@/app/api/patch';
+import Link from "next/link";
 
 const CartPage = () => {
   const ENDPOINT_TO_UPDATE_CART = '/user/basket';
@@ -101,8 +102,9 @@ const CartPage = () => {
                 ))}
               </div>
             ) : (
-              <p className="mt-7 p-3 bg-blue-100 border border-blue-400 text-blue-700 rounded">
-                Votre panier est vide
+              <p className="mt-7 py-3 px-5 font-semibold bg-blue-100 rounded-xl text-blue-700">
+                <i className="fas fa-info-circle me-2"></i>
+                Votre panier est vide.
               </p>
             )}
 
@@ -114,21 +116,15 @@ const CartPage = () => {
                     <dd>{shoppingCart.total} €</dd>
                   </div>
                 </dl>
-                <div className="flex justify-end">
-                  <button onClick={deleteAllItemsFromCart}>
-                    <a
-                      href="#"
-                      className="block rounded bg-red-700 px-5 py-3 text-sm text-gray-100 transition hover:bg-gray-600 mx-7"
-                    >
-                      Supprimer mon panier
-                    </a>
+                <div className="flex flex-col md:flex-row justify-end gap-2 pt-10">
+                  <button onClick={deleteAllItemsFromCart} className="btn btn-md bg-red-500 hover:bg-red-600 text-white">
+                    <i className="fas fa-trash-alt me-2"></i>
+                    Supprimer mon panier
                   </button>
-                  <a
-                    href="#"
-                    className="block rounded bg-gray-700 px-5 py-3 text-sm text-gray-100 transition hover:bg-gray-600"
-                  >
-                    Valider
-                  </a>
+                  <button className="btn btn-md bg-green-600 hover:bg-green-700 text-white">
+                    <i className="fas fa-shopping-cart me-2"></i>
+                    Passer la commande
+                  </button>
                 </div>
               </div>
             </div>
@@ -167,18 +163,21 @@ const CartItemComponent = ({
   return (
     <ul className="space-y-4 mb-3">
       <li className="flex items-center gap-4">
-        <Image
-          src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${item.product.images[0].filename}`}
-          alt=""
-          className="size-16 rounded object-cover"
-          width={40}
-          height={40}
-        />
-        <div className="flex-1">
-          <h3 className="text-sm text-gray-900">{item.product.name}</h3>
-          <p className="text-sm">{item.product.price} €</p>
-        </div>
-        <div className="flex flex-1 items-center justify-end gap-2">
+        <Link href={`/produitdetails/${item.product.slug}`} className="flex items-center gap-4 flex-1">
+          <Image
+            src={item.product.images[0] ? (process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + item.product.images[0].filename) : (process.env.NEXT_PUBLIC_HOST + "/product-placeholder.png")}
+            alt=""
+            className="size-24 p-2 rounded-lg border border-gray-200 object-contain"
+            width={96}
+            height={96}
+          />
+          <div className="flex-1 flex flex-col justify-center">
+            <h3 className="font-semibold text-gray-900">{item.product.name}</h3>
+            <p className="text-sm">{item.product.price} €</p>
+          </div>
+        </Link>
+
+        <div className="flex items-center gap-2">
           <form className="flex items-center gap-2">
             <button
               type="button"
