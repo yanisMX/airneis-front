@@ -1,10 +1,10 @@
 'use client';
-import { patchCallApi } from '@/app/api/patch';
 import { useAuth } from '@/app/context/AuthContext';
 import Link from 'next/link';
 import React, { useState } from 'react';
-import AccountInformationInput from '@/app/components/AccountInformation';
+import AccountInformation from '@/app/components/AccountInformation';
 import AccountAddressInput from '@/app/components/AccountAddressInput';
+import { handleModifyPersonalInformationClick } from '@/app/utils/userUtils';
 
 const MyAccountPage = () => {
   const { user, setUser } = useAuth();
@@ -17,50 +17,6 @@ const MyAccountPage = () => {
     if (ref.current) {
       ref.current.removeAttribute('readonly');
       ref.current.focus();
-    }
-  };
-
-  const handleModifyPersonalInformationClick = async (
-    newInformation: string,
-    informationType: 'name' | 'email',
-    ref: React.RefObject<HTMLInputElement>
-  ) => {
-    if (newInformation) {
-      try {
-        const response = await patchCallApi(
-          ENDPOINT_FOR_PERSONAL_INFORMATION_MODIFY,
-          { [informationType]: newInformation },
-          user?.accessToken,
-        );
-        if (response.success) {
-          setUser({
-            ...user,
-            [informationType]: newInformation,
-            email: user?.email || '', 
-          });
-          setSuccessMessage('Informations personnelles mises à jour avec succès');
-          if (ref.current) {
-            ref.current.setAttribute('readonly', 'true');
-          }
-
-          setTimeout(() => {
-            setSuccessMessage('');
-          }, 3000);
-        } else {
-          setErrorMessage('Erreur lors de la modification des informations personnelles');
-
-          setTimeout(() => {
-            setErrorMessage('');
-          }, 3000);
-        }
-      } catch (error) {
-        console.error((error as Error).message);
-        setErrorMessage('Erreur lors de la modification des informations personnelles');
-
-        setTimeout(() => {
-          setErrorMessage('');
-        }, 3000);
-      }
     }
   };
 
@@ -87,21 +43,25 @@ const MyAccountPage = () => {
 
               <div className="mt-10 sm:w-full sm:max-w-sm">
                 <div className="space-y-6">
-                  <AccountInformationInput
+                  <AccountInformation
                     id="name"
                     label="Nom complet"
                     type="text"
                     value={user.name ?? ''}
                     handleFocus={handleFocus}
-                    handleModifyPersonalInformationClick={handleModifyPersonalInformationClick}
+                    handleModifyPersonalInformationClick={(newInformation, informationType, ref) => 
+                      handleModifyPersonalInformationClick(newInformation, informationType, ref, user, setUser, setSuccessMessage, setErrorMessage, ENDPOINT_FOR_PERSONAL_INFORMATION_MODIFY)
+                    }
                   />
-                  <AccountInformationInput
+                  <AccountInformation
                     id="email"
                     label="Adresse e-mail"
                     type="email"
                     value={user.email}
                     handleFocus={handleFocus}
-                    handleModifyPersonalInformationClick={handleModifyPersonalInformationClick}
+                    handleModifyPersonalInformationClick={(newInformation, informationType, ref) => 
+                      handleModifyPersonalInformationClick(newInformation, informationType, ref, user, setUser, setSuccessMessage, setErrorMessage, ENDPOINT_FOR_PERSONAL_INFORMATION_MODIFY)
+                    }
                   />
                   <div className="mt-8">
                     <Link href="/" className="text-blue-700 text-sm font-semibold block">

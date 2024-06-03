@@ -103,20 +103,20 @@ export interface Image {
 }
 
 export interface Address {
-  id: number;
+  id?: number;
   label: string;
   firstName: string;
   lastName: string;
   address1: string;
-  address2: string;
+  address2?: string;
   city: string;
-  region: string;
   postalCode: string;
+  region: string;
   country: string;
   phone: string;
   type: 'billing' | 'shipping';
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface ProductComponentProps {

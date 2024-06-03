@@ -13,3 +13,11 @@ export const getCookie = (name: string): string | null => {
   if (parts.length === 2) return parts.pop()!.split(';').shift() || null;
   return null;
 };
+
+
+export const clearLoginStatus = () => {
+  localStorage.removeItem('isLoggedIn');
+  deleteCookie('session');
+  deleteCookie('accessToken');
+  deleteCookie('refreshToken');
+};

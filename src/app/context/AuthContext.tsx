@@ -7,7 +7,7 @@ import {
   UserFetch,
 } from '@/app/interfaces/interfaces';
 import { setCookie, getCookie } from '../utils/cookiesUtils';
-import { clearLoginStatus } from '../utils/userUtils';
+import { clearLoginStatus } from '../utils/cookiesUtils';
 import { getCallApi } from '../api/get';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

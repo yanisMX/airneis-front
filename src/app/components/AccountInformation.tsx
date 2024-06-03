@@ -13,6 +13,8 @@ const AccountInformationInput: React.FC<AccountInformationInputProps> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
+  
+
   return (
     <div>
       <label htmlFor={id} className="block text-sm font-medium leading-6 text-gray-900 text-left">
