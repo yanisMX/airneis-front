@@ -1,9 +1,11 @@
-'use client';
-import Image from 'next/image';
-import React from 'react';
-import Link from 'next/link';
+"use client"
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Footer = () => {
+  if (usePathname().startsWith("/dashboard")) return;
+
   return (
     <div className="bg-base-200">
       <div className="container mx-auto">

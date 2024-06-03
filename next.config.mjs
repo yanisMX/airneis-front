@@ -7,8 +7,13 @@ const nextConfig = {
         hostname: 'c1bb0d8a5f1d.airneis.net',
         pathname: '/medias/serve/**',
       },
-    ],
-  },
+      {
+        protocol: 'https',
+        hostname: '*.airneis.store',
+        pathname: '/medias/serve/**',
+      }
+    ]
+  }
 };
 
 export default nextConfig;

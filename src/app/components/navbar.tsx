@@ -1,11 +1,11 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useAuth } from '@/app/context/AuthContext';
 import { useCart } from '@/app/context/CartContext';
-import {postCallApi} from '../api/post';
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { postCallApi } from '../api/post';
 
 const Navbar = () => {
   const ENDPOINT_FOR_LOGOUT = '/api/auth/logout';
@@ -38,6 +38,8 @@ const Navbar = () => {
       setIsLoggedIn(true);
     }
   }, [isLoggedIn, user]);
+
+  if (usePathname().startsWith("/dashboard")) return;
 
   return (
     <div className="fixed w-full z-10">
