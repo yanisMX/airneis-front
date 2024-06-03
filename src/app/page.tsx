@@ -45,7 +45,7 @@ export default function HomePage() {
                 className="carousel-item relative w-full"
               >
                 <Image
-                  src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + product.backgroundImage.filename}
+                  src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + product.backgroundImage?.filename}
                   alt={product.name}
                   className="w-full object-cover brightness-75"
                   layout="fill"
@@ -102,7 +102,7 @@ export default function HomePage() {
                 featuredProducts.map((product, i) => (<>
                   <div className='relative w-full bg-red-50 aspect-square rounded-2xl overflow-hidden border border-gray-300 shadow-md'>
                     <Image
-                      src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + product.images[0].filename}
+                      src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + product.images[0]?.filename}
                       width={300}
                       height={300}
                       alt={product.name}
