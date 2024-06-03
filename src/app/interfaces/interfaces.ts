@@ -133,3 +133,22 @@ export interface FilterForProductsProps {
   setSelectedMaterials: (materials: number[]) => void;
 }
 
+export interface AccountAddressInputProps {
+  id: string;
+  label: string;
+  value: string;
+  handleFocus: (ref: React.RefObject<HTMLInputElement>) => void;
+}
+
+export interface AccountInformationInputProps {
+  id: string;
+  label: string;
+  type: string;
+  value: string;
+  handleFocus: (ref: React.RefObject<HTMLInputElement>) => void;
+  handleModifyPersonalInformationClick: (
+    newInformation: string,
+    informationType: 'name' | 'email',
+    ref: React.RefObject<HTMLInputElement>
+  ) => void;
+}
