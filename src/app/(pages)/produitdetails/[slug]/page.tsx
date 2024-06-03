@@ -64,7 +64,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
       addToCartForUserNotConnected();
     }
 
-    toast.success(() =>  <>Article ajouté au panier.</>);
+    toast.success(() => <>Article ajouté au panier.</>);
   };
 
   const fetchDataProduct = async () => {
@@ -83,7 +83,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
   useEffect(() => {
     if (product) {
       const fetchSimilarProducts = async () => {
-        const response = await getCallApi(`/products?categories=${product.category ?.id ?? ""}`);
+        const response = await getCallApi(`/products?categories=${product.category?.id ?? ""}`);
         try {
           if (response.success) {
             const similar: Product[] = response.products;
@@ -106,127 +106,196 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
   return (
     <main className="min-h-screen">
       <div className='container mx-auto relative flex flex-col w-full h-[400px]'>
-        {
-          product ? (
-            <>
+        {product ? (
+          <Image
+            src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + '/' + product?.backgroundImage?.filename}
+            alt={product?.name ?? ""}
+            width={1280}
+            height={720}
+            className='object-cover w-full h-full shadow-lg'
+          />
+        ) : (
+          <div className="skeleton w-full h-full"></div>
+        )}
+        <div className='absolute -bottom-1/3 left-0 flex justify-center xl:justify-start w-full'>
+          <div className='aspect-square w-64 h-64 rounded-2xl xl:ms-20 shadow-lg border border-gray-300 overflow-hidden'>
+            {product ? (
               <Image
-                src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + '/' + product?.backgroundImage?.filename}
+                src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + '/' + product?.images[0]?.filename}
                 alt={product.name}
-                width={1280}
-                height={720}
-                className='object-cover w-full h-full shadow-lg'
+                width={300}
+                height={300}
+                className='object-cover w-full h-full'
               />
-              <div className='absolute -bottom-1/3 left-0 flex justify-center xl:justify-start w-full'>
-                <div className='aspect-square w-64 h-64 rounded-2xl xl:ms-20 shadow-lg border border-gray-300 overflow-hidden'>
-                  <Image
-                    src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + '/' + product?.images[0]?.filename}
-                    alt={product.name}
-                    width={300}
-                    height={300}
-                    className='object-cover w-full h-full'
-                  />
-                </div>
-              </div>
-            </>
-          ) : (
-            <></>
-          )
-        }
+            ) : (
+              <div className="skeleton w-full h-full"></div>
+            )}
+          </div>
+        </div>
       </div>
       <div className='container mx-auto px-6 my-48'>
         <div className='flex'>
           <div className='flex-1'>
-            <h1 className='text-4xl font-bold'>{product?.name ?? ""}</h1>
-            <p className='text-xl mt-4'>
-              <span className='font-bold'>{product?.price ?? ""} €</span>
-              <span className='mx-4'>&bull;</span>
-              
-              {
-                product?.stock === 0 ? (
-                  <span className='text-red-500'>Rupture de stock</span>
-                ) : (
-                  <span className='text-green-500'>{product?.stock} en stock</span>
-                )
-              }
-            </p>
+
+            {product ? (
+              <>
+                <h1 className='text-4xl font-bold'>{product.name}</h1>
+
+                <p className='text-xl mt-4'>
+                  <span className='font-bold'>{product.price} €</span>
+                  <span className='mx-4'>&bull;</span>
+
+                  {
+                    product?.stock === 0 ? (
+                      <span className='text-red-500'>Rupture de stock</span>
+                    ) : (
+                      <span className='text-green-500'>{product?.stock} en stock</span>
+                    )
+                  }
+                </p>
+              </>
+            ) : (
+              <div className="flex flex-col gap-4">
+                <div className="flex gap-4">
+                  <div className="skeleton h-10 w-48"></div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="skeleton h-8 w-20"></div>
+                  <div className="skeleton h-4 w-4"></div>
+                  <div className="skeleton h-8 w-28"></div>
+                </div>
+              </div>
+            )}
           </div>
+
           <div>
-            <button className='btn btn-primary' onClick={addToCart}>
-              <i className="fa-solid fa-cart-plus"></i>
-              <span className='hidden lg:inline'>Ajouter au panier</span>
-            </button>
+            {product ? (
+              <button className='btn btn-primary' onClick={addToCart}>
+                <i className="fa-solid fa-cart-plus"></i>
+                <span className='hidden lg:inline'>Ajouter au panier</span>
+              </button>
+            ) : (
+              <div className="skeleton h-12 w-12 lg:w-44"></div>
+            )}
           </div>
         </div>
 
         <div className='mb-16'>
           <div className='mt-12'>
-            {product?.description.split("\n").map((line, i) => (
-              <p key={i}>{line}<br /></p>
-            ))}
+            {
+              product ? (
+                product.description.split("\n").map((line, i) => (
+                  <p key={i}>{line}<br /></p>
+                ))
+              ) : (
+                <div className="flex flex-col gap-4">
+                  <div className="skeleton h-4 w-1/3"></div>
+                  <div className="skeleton h-4 w-1/2"></div>
+                  <div className="skeleton h-4 w-2/5"></div>
+                  <div className="skeleton h-4 w-4/5"></div>
+                  <div className="skeleton h-4 w-4/6"></div>
+                  <div className="skeleton h-4 w-2/5"></div>
+                  <div className="skeleton h-4 w-1/2"></div>
+                  <div className="skeleton h-4 w-4/5"></div>
+                  <div className="skeleton h-4 w-1/3"></div>
+                  <div className="skeleton h-4 w-4/6"></div>
+                </div>
+              )
+            }
           </div>
         </div>
-        
+
         <div className='mb-16'>
-          <h2 className='mb-8 text-2xl font-semibold'>Informations supplémentaires</h2>
-          
-          <p>
-            <i className="fa-solid fa-tags me-2"></i>
-            <span className='font-semibold me-2'>Catégorie :</span>
+          {
+            product ? (
+              <>
+                <h2 className='mb-8 text-2xl font-semibold'>Informations supplémentaires</h2>
 
-            {
-              product?.category ? (
-                <span>{product.category.name}</span>
-              ) : (
-                <span className='opacity-60'>Non renseignée</span>
-              )
-            }
-          </p>
-          <p>
-            <i className="fa-solid fa-cubes me-2"></i>
-            <span className='font-semibold me-2'>Matériaux :</span>
+                <p>
+                  <i className="fa-solid fa-tags me-2"></i>
+                  <span className='font-semibold me-2'>Catégorie :</span>
 
-            {
-              product?.materials ? (
-                <span>{product.materials.map((m) => m.name).join(', ')}</span>
-              ) : (
-                <span className='opacity-60'>Non renseignés</span>
-              )
-            }
-          </p>
-        </div>
+                  {
+                    product?.category ? (
+                      <span>{product.category.name}</span>
+                    ) : (
+                      <span className='opacity-60'>Non renseignée</span>
+                    )
+                  }
+                </p>
 
-        <div>
-          <h2 className='mb-8 text-2xl font-semibold'>Produits similaires</h2>
-          { similarProducts.length === 0 && <p className='opacity-60'>Aucun produit similaire</p> }
+                <p>
+                  <i className="fa-solid fa-cubes me-2"></i>
+                  <span className='font-semibold me-2'>Matériaux :</span>
 
-          <div className='grid grid-cols-2 md:grid-cols-4 gap-4 w-full'>
-            {
-              similarProducts.map((product, i) => (<>
-                <div className='relative w-full bg-red-50 aspect-square rounded-2xl overflow-hidden border border-gray-300 shadow-md'>
-                  <Image
-                    src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + product.images[0]?.filename}
-                    width={300}
-                    height={300}
-                    alt={product.name}
-                    className='w-full h-full object-cover'
-                  />
-
-                  <div className='absolute left-0 top-0 text-xl m-4 p-2 bg-black bg-opacity-40 rounded-lg text-white'>
-                    {product.name}
+                  {
+                    product?.materials ? (
+                      <span>{product.materials.map((m) => m.name).join(', ')}</span>
+                    ) : (
+                      <span className='opacity-60'>Non renseignés</span>
+                    )
+                  }
+                </p>
+              </>
+            ) : (
+              <>
+                <div>
+                  <div className="flex gap-2 mb-10">
+                    <div className="skeleton h-6 w-36"></div>
+                    <div className="skeleton h-6 w-48"></div>
                   </div>
-
-                  <div className='absolute left-4 bottom-4'>
-                    <Link href={`/produitdetails/${product.slug}`} className='btn btn-sm border-gray-300'>
-                      Voir le produit
-                    </Link>
+                  <div className="flex gap-2 mb-2">
+                    <div className="skeleton h-4 w-4"></div>
+                    <div className="skeleton h-4 w-24"></div>
+                    <div className="skeleton h-4 w-48"></div>
+                  </div>
+                  <div className="flex gap-2">
+                    <div className="skeleton h-4 w-4"></div>
+                    <div className="skeleton h-4 w-20"></div>
+                    <div className="skeleton h-4 w-16"></div>
+                    <div className="skeleton h-4 w-24"></div>
+                    <div className="skeleton h-4 w-20"></div>
                   </div>
                 </div>
-              </>))
-            }
-          </div>
+              </>
+            )
+          }
         </div>
 
-       
+        {
+          product && (
+            <div>
+              <h2 className='mb-8 text-2xl font-semibold'>Produits similaires</h2>
+              {similarProducts.length === 0 && <p className='opacity-60'>Aucun produit similaire</p>}
+
+              <div className='grid grid-cols-2 md:grid-cols-4 gap-4 w-full'>
+                {
+                  similarProducts.map((product, i) => (<>
+                    <div className='relative w-full bg-red-50 aspect-square rounded-2xl overflow-hidden border border-gray-300 shadow-md'>
+                      <Image
+                        src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + product.images[0]?.filename}
+                        width={300}
+                        height={300}
+                        alt={product.name}
+                        className='w-full h-full object-cover'
+                      />
+
+                      <div className='absolute left-0 top-0 text-xl m-4 p-2 bg-black bg-opacity-40 rounded-lg text-white'>
+                        {product.name}
+                      </div>
+
+                      <div className='absolute left-4 bottom-4'>
+                        <Link href={`/produitdetails/${product.slug}`} className='btn btn-sm border-gray-300'>
+                          Voir le produit
+                        </Link>
+                      </div>
+                    </div>
+                  </>))
+                }
+              </div>
+            </div>
+          )
+        }
       </div>
     </main>
   );
