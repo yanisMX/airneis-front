@@ -89,10 +89,13 @@ export default function HomePage() {
           )}
         </div>
 
-        <div className="container mx-auto my-12">
-          <h1 className="text-4xl font-bold text-center mb-12">
+        <div className="container mx-auto my-24">
+          <div className='mb-16 text-center flex flex-col gap-4'>
+          <h1 className="text-4xl font-bold">
             Venant des hautes terres d&apos;Ecosse, nos meubles sont immortels 🛋️
           </h1>
+          <p className='text-lg'>Voici nos produits à la une :</p>
+          </div>
           <div className="flex overflow-x-auto pb-4 space-x-6">
             <div className='grid grid-cols-2 md:grid-cols-4 gap-4 w-full mx-6'>
               {
