@@ -53,7 +53,7 @@ export default function HomePage() {
                 className="carousel-item relative w-full"
               >
                 <Image
-                  src={product.images[0] ? (process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + product.images[0].filename) : (process.env.NEXT_PUBLIC_HOST + "/product-placeholder.png")}
+                  src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + product.backgroundImage.filename}
                   alt={product.name}
                   className="w-full object-cover brightness-75"
                   layout="fill"
@@ -113,7 +113,7 @@ export default function HomePage() {
         {category.thumbnail && (
           <figure>
             <Image
-              src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${category.thumbnail.filename}`}
+              src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + category.thumbnail.filename}
               alt="Canapés"
               className="w-full h-full"
               layout="fill"
