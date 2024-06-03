@@ -5,7 +5,7 @@ import { Product } from '../interfaces/interfaces';
 import ProductComponent from './ProductComponent';
 
 const SearchBar = () => {
-  const ENDPOINT_FOR_SEARCH = '/api/products?search=';
+  const ENDPOINT_FOR_SEARCH = '/products?search=';
 
   const [search, setSearch] = useState('');
   const [products, setProducts] = useState<Product[] | null>(null);
