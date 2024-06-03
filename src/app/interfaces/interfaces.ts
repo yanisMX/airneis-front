@@ -154,6 +154,12 @@ export interface AccountInformationInputProps {
 }
 
 
+export interface ChangePasswordPopupProps {
+  visible: boolean;
+  onClose: () => void;
+  onSubmit: (oldPassword: string, newPassword: string) => void;
+}
+
 export interface PopupProps {
   visible: boolean;
   onClose: () => void;
