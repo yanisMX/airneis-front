@@ -102,43 +102,44 @@ export default function HomePage() {
             Venant des hautes terres d&apos;Ecosse, <br /> nos meubles sont
             immortels 🛋️
           </h1>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {categories ? (
-              categories.map((category, id: number) => (
-                <div
-                  id={`category-Card${id}`}
-                  className="card w-80 bg-base-100 shadow-xl image-full"
-                  key={id}
-                >
-                  {category.thumbnail && (
-                    <figure>
-                      <Image
-                        src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${category.thumbnail.filename}`}
-                        alt="Canapés"
-                        className="w-full h-full"
-                        layout="fill"
-                      />
-                    </figure>
-                  )}
-                  <div className="card-body">
-                    <h2 className="card-title">{category.name}</h2>
-                    <p>{category.description}</p>
-                    <div className="card-actions justify-end pt-5">
-                      <Link href={`/categorie/` + category.name}>
-                        <button className="btn btn-primary ">
-                          Voir nos {category.name}
-                        </button>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <section className="h-full w-full p-20 flex justify-center ">
-                <progress className="progress w-56 flex"></progress>
-              </section>
-            )}
+          <div className="flex overflow-x-scroll space-x-6">
+  {categories ? (
+    categories.map((category, id: number) => (
+      <div
+        id={`category-Card${id}`}
+        className="card w-80 bg-base-100 shadow-xl image-full flex-none"
+        key={id}
+      >
+        {category.thumbnail && (
+          <figure>
+            <Image
+              src={`https://c1bb0d8a5f1d.airneis.net/medias/serve/${category.thumbnail.filename}`}
+              alt="Canapés"
+              className="w-full h-full"
+              layout="fill"
+            />
+          </figure>
+        )}
+        <div className="card-body">
+          <h2 className="card-title">{category.name}</h2>
+          <p>{category.description}</p>
+          <div className="card-actions justify-end pt-5">
+            <Link href={`/categorie/` + category.name}>
+              <button className="btn btn-primary ">
+                Voir nos {category.name}
+              </button>
+            </Link>
           </div>
+        </div>
+      </div>
+    ))
+  ) : (
+    <section className="h-full w-full p-20 flex justify-center ">
+      <progress className="progress w-56 flex"></progress>
+    </section>
+  )}
+</div>
+
         </div>
       </div>
     </>

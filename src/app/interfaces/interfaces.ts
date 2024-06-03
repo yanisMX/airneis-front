@@ -152,3 +152,22 @@ export interface AccountInformationInputProps {
     ref: React.RefObject<HTMLInputElement>
   ) => void;
 }
+
+
+export interface PopupProps {
+  visible: boolean;
+  onClose: () => void;
+  onSubmit: (address: {
+    label: string;
+    firstName: string;
+    lastName: string;
+    address1: string;
+    address2?: string;
+    city: string;
+    postalCode: string;
+    region: string;
+    country: string;
+    phone: string;
+    type: 'billing' | 'shipping';
+  }) => void;
+}
