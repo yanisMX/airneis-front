@@ -45,6 +45,18 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
    
   };
 
+  const handleResetPrice = () => {
+    refMinPrice.current!.value = '';
+    refMaxPrice.current!.value = '';
+  }
+
+  const handleResetCategories = () => {
+    setSelectedCategories([]);
+  }
+
+  const handleResetMaterials = () => {
+    setSelectedMaterials([]);
+  }
 
   return (
     <div className="space-y-4 pr-3 ml-3 ">
@@ -75,6 +87,7 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
             <button
               type="button"
               className="text-sm text-gray-900 underline underline-offset-4"
+              onClick={handleResetCategories}
             >
               Réinitialiser
             </button>
@@ -88,7 +101,7 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
                     <input
                       type="checkbox"
                       id={`category-${category.id}`}
-                      className="size-5 rounded border-gray-300"
+                      className="size-5 rounded border-gray-300 mr-2"
                       onChange={() => handleCategoryChange(category.id)}
                       checked={selectedCategories.includes(category.id)}
                     />
@@ -131,6 +144,7 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
             <button
               type="button"
               className="text-sm text-gray-900 underline underline-offset-4"
+              onClick={handleResetMaterials}
             >
               Réinitialiser
             </button>
@@ -144,7 +158,7 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
                     <input
                       type="checkbox"
                       id={`material-${material.id}`}
-                      className="size-5 rounded border-gray-300"
+                      className="size-5 rounded border-gray-300 mr-4"
                       onChange={() => handleMaterialChange(material.id)}
                       checked={selectedMaterials.includes(material.id)}
                     />
@@ -179,6 +193,13 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
             </svg>
           </span>
         </summary>
+        <button
+              type="button"
+              className="text-sm text-gray-900 underline underline-offset-4 pl-5"
+              onClick={handleResetPrice}
+            >
+              Réinitialiser
+            </button>
 
         <div className="border-t border-gray-200 bg-white">
           <header className="flex items-center justify-between p-4">
@@ -186,12 +207,7 @@ const FilterForProducts: React.FC<FilterForProductsProps> = ({
               Le prix le plus chère est de 500€{' '}
             </span>
 
-            <button
-              type="button"
-              className="text-sm text-gray-900 underline underline-offset-4"
-            >
-              Réinitialiser
-            </button>
+           
           </header>
 
           <div className="border-t border-gray-200 p-4">
