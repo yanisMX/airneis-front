@@ -12,7 +12,12 @@ const nextConfig = {
         hostname: '*.airneis.store',
         pathname: '/medias/serve/**',
       },
-      { hostname: 'localhost' }
+      { hostname: 'localhost' },
+      {
+        protocol: 'https',
+        hostname: 'readymadeui.com',
+        
+      }
     ]
   }
 };

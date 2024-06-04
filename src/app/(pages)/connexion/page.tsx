@@ -42,6 +42,7 @@ const SignInPage = () => {
 
     if (result.success) {
       loginManagement(result);
+
       router.push('/');
     } else {
       console.error('Erreur de connexion', result.message);

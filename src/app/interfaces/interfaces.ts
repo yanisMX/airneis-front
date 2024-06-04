@@ -8,6 +8,8 @@ export interface AuthContextType {
   user: UserData | null;
   setUser: React.Dispatch<React.SetStateAction<UserData | null>>;
 }
+
+
 export interface CartItem {
   product: Product;
   quantity: number;
@@ -398,5 +400,10 @@ export interface OrderPagination {
 
 export interface OrderDto {
   status: OrderStatus;
+}
+
+export interface PaymentFormProps {
+visible: boolean;
+onClose: () => void;
 }
 
