@@ -9,6 +9,8 @@ const ProductsPage = () => {
   const [products, setProducts] = useState<Product[] | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [materials, setMaterials] = useState<Material[]>([]);
+  const [minPrice, setMinPrice] = useState<number | undefined>(undefined);
+  const [maxPrice, setMaxPrice] = useState<number | undefined>(undefined);
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [selectedMaterials, setSelectedMaterials] = useState<number[]>([]);
   const [isFilterVisible, setIsFilterVisible] = useState<boolean>(false);
@@ -33,16 +35,18 @@ const ProductsPage = () => {
   };
 
   const fetchFilteredProducts = async () => {
-    const categoryQuery = selectedCategories
-      .map((id) => `categories=${id}`)
-      .join('&');
-    const materialQuery = selectedMaterials
-      .map((id) => `materials=${id}`)
-      .join('&');
-    const query = [categoryQuery, materialQuery].filter(Boolean).join('&');
+    const categoryQuery = selectedCategories.map((id) => `categories=${id}`).join('&');
+    const materialQuery = selectedMaterials.map((id) => `materials=${id}`).join('&');
+    const priceQuery = [
+      minPrice !== undefined ? `minPrice=${minPrice}` : '',
+      maxPrice !== undefined ? `maxPrice=${maxPrice}` : ''
+    ].filter(Boolean).join('&');
+    const query = [categoryQuery, materialQuery, priceQuery].filter(Boolean).join('&');
     const response = await getCallApi(`${ENDPOINT_FOR_ALL_PRODUCTS}?${query}`);
     setProducts(response.products);
+    console.log(`${ENDPOINT_FOR_ALL_PRODUCTS}?${query}`)
   };
+  
 
   const filterDivRef = useRef<HTMLDivElement>(null);
   const toggleFilterVisibility = () => {
@@ -57,7 +61,8 @@ const ProductsPage = () => {
 
   useEffect(() => {
     fetchFilteredProducts();
-  }, [selectedCategories, selectedMaterials]);
+  }, [selectedCategories, selectedMaterials, minPrice, maxPrice]);
+
 
   return (
     <>
@@ -81,6 +86,8 @@ const ProductsPage = () => {
             setSelectedCategories={setSelectedCategories}
             selectedMaterials={selectedMaterials}
             setSelectedMaterials={setSelectedMaterials}
+            setMinPrice={setMinPrice}
+            setMaxPrice={setMaxPrice}
           />
         </div>
         <div className="sm:flex flex flex-col  sm:flex-row flex-wrap items-center">

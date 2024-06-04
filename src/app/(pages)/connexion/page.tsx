@@ -43,6 +43,7 @@ const SignInPage = () => {
 
     if (result.success) {
       loginManagement(result);
+
       router.push('/');
 
       toast.success(() => <>Connexion réussie.</>);

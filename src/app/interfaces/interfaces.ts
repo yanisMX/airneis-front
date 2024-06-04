@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { Dispatch, ReactNode, SetStateAction } from 'react';
 
 export interface AuthContextType {
   isLoggedIn: boolean;
@@ -8,6 +8,8 @@ export interface AuthContextType {
   user: UserData | null;
   setUser: React.Dispatch<React.SetStateAction<UserData | null>>;
 }
+
+
 export interface CartItem {
   product: Product;
   quantity: number;
@@ -36,10 +38,7 @@ export interface UserData {
   createdAt?: string;
   updatedAt?: string;
   accessToken?: string;
-  defaultBillingAddress?: number;
-  defaultShippingAddress?: number;
-  billingAddress?: string;
-  shippingAddress?: string;
+  addresse?: Address[];
 }
 
 export interface UserFetch {
@@ -230,6 +229,8 @@ export interface FilterForProductsProps {
   setSelectedCategories: (categories: number[]) => void;
   selectedMaterials: number[];
   setSelectedMaterials: (materials: number[]) => void;
+  setMinPrice: Dispatch<SetStateAction<number | undefined>>
+  setMaxPrice: Dispatch<SetStateAction<number | undefined>>
 }
 
 export interface AccountAddressInputProps {
@@ -397,3 +398,9 @@ export interface OrderPagination {
 export interface OrderDto {
   status: OrderStatus;
 }
+
+export interface PaymentFormProps {
+visible: boolean;
+onClose: () => void;
+}
+
