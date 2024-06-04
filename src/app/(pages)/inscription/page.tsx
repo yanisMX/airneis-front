@@ -3,8 +3,12 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { postCallApi } from '@/app/api/post';
 import { UserData } from '@/app/interfaces/interfaces';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 const SignupPage = () => {
+  const router = useRouter();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,8 +29,11 @@ const SignupPage = () => {
 
     if (result.success) {
       setErrorMessage('');
+      toast.success(() => <>Inscription réussie.</>);
+      router.push('/connexion');
     } else {
       setErrorMessage('Une erreur inconnue est survenue.');
+      toast.error(() => <>Erreur lors de l'inscription.<br/>Vérifiez vos informations.</>);
     }
   };
 

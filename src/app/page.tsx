@@ -68,7 +68,8 @@ export default function HomePage() {
                   src={process.env.NEXT_PUBLIC_MEDIA_BASE_URL + "/" + product.backgroundImage?.filename}
                   alt={product.name}
                   className="w-full object-cover brightness-75"
-                  layout="fill"
+                  width={1920}
+                  height={1080}
                 />
 
                 <div className="absolute bottom-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent bg-opacity-40"></div>
