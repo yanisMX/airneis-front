@@ -5,6 +5,7 @@ import { useAuth } from '@/app/context/AuthContext';
 import { postCallApi } from '../api/post';
 import { getCallApi } from '../api/get';
 import { Address } from 'cluster';
+import { deleteCallApi } from '../api/delete';
 
 
 const AccountAddressInput: React.FC<AccountAddressInputProps> = ({
@@ -71,6 +72,7 @@ const AccountAddressInput: React.FC<AccountAddressInputProps> = ({
       console.error('Erreur lors de la récupération de l\'adresse:', error);
     }
   }
+
 
   
   useEffect(() => {

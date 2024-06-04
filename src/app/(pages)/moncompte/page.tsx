@@ -7,6 +7,8 @@ import AccountAddressInput from '@/app/components/AccountAddressInput';
 import { handleModifyPersonalInformationClick } from '@/app/utils/userUtils';
 import ChangePasswordPopup from '@/app/components/PopupForPassword';
 import { postCallApi } from '@/app/api/post';
+import { Address } from '@/app/interfaces/interfaces';
+import { deleteCallApi } from '@/app/api/delete';
 
 const MyAccountPage = () => {
   const { user, setUser } = useAuth();
@@ -42,6 +44,7 @@ const MyAccountPage = () => {
       }, 3000);
     }
   };
+
 
   if (!user) {
     return (
@@ -124,6 +127,7 @@ const MyAccountPage = () => {
                     label="Adresse de livraison"
                     value={(user.addresse?.[0]?.address1 || '')}
                     handleFocus={handleFocus}
+                    
                   />
                   <div className="mt-8">
                     <Link href="/" className="text-blue-700 text-sm font-semibold block">
