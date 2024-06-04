@@ -20,7 +20,7 @@ export const CartProvider: React.FC<RootLayoutProps> = ({ children }) => {
         const newBasket = result.basket;
         const mappedBasket: Cart = {
           items: newBasket.map((item: any) => ({ product: item.product, quantity: item.quantity })),
-          total: calculateTotal(newBasket),
+          total: parseFloat(calculateTotal(newBasket).toFixed(2)), 
         };
         setShoppingCart(mappedBasket);
       } else {

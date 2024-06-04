@@ -86,6 +86,12 @@ const CartPage = () => {
 
   return (
     <section className="content-below-navbar min-h-screen">
+        <div className={`fixed inset-0 bg-gray-800 bg-opacity-75 z-50 ${isBillingProcessVisible ? 'flex' : 'hidden'} justify-center items-center`}>
+        <PaymentForm
+          visible={isBillingProcessVisible}
+          onClose={() => setIsBillingProcessVisible(false)}
+        />
+      </div>
       <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <div className="mx-auto max-w-3xl">
           <header className="text-center">
@@ -144,10 +150,7 @@ const CartPage = () => {
           </div>
         </div>
       </div>
-      <PaymentForm
-      visible={isBillingProcessVisible}
-      onClose={() => setIsBillingProcessVisible(false)}
-      />
+      
     </section>
   );
 };
