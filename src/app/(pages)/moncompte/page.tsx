@@ -116,13 +116,13 @@ const MyAccountPage = () => {
                   <AccountAddressInput
                     id="billingAddress"
                     label="Adresse de facturation"
-                    value={user.billingAddress || ''}
+                    value={(user.addresse?.[0]?.address1 || '')}
                     handleFocus={handleFocus}
                   />
                   <AccountAddressInput
                     id="shippingAddress"
                     label="Adresse de livraison"
-                    value={user.shippingAddress || ''}
+                    value={(user.addresse?.[0]?.address1 || '')}
                     handleFocus={handleFocus}
                   />
                   <div className="mt-8">

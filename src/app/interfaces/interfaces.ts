@@ -38,10 +38,7 @@ export interface UserData {
   createdAt?: string;
   updatedAt?: string;
   accessToken?: string;
-  defaultBillingAddress?: number;
-  defaultShippingAddress?: number;
-  billingAddress?: string;
-  shippingAddress?: string;
+  addresse?: Address[];
 }
 
 export interface UserFetch {
