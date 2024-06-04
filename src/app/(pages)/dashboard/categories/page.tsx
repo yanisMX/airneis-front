@@ -5,6 +5,7 @@ import CategoriesDeleteModal from "@/app/components/dashboard/categories/Categor
 import CategoriesFiltersModal from "@/app/components/dashboard/categories/CategoriesFiltersModal";
 import CategoriesPagination from "@/app/components/dashboard/categories/CategoriesPagination";
 import CategoriesSearch from "@/app/components/dashboard/categories/CategoriesSearch";
+import { useAuth } from "@/app/context/AuthContext";
 import { Category, CategoryFilters, CategoryPagination } from "@/app/interfaces/interfaces";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,6 +13,8 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function Categories() {
+  const { user } = useAuth();
+
   const defaultItemsPerPageLimit = 20;
   const categoryMaxDescLength = 150;
 
@@ -29,7 +32,11 @@ export default function Categories() {
     setFetching(true);
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/categories");
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/categories", {
+        headers: {
+          "Authorization": "Bearer " + user?.accessToken
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

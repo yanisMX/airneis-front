@@ -1,25 +1,32 @@
+import { useAuth } from "@/app/context/AuthContext";
 import { User } from "@/app/interfaces/interfaces";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function UsersDeleteModal({ id, user, fetchUsers }: { id: string, user: User, fetchUsers: () => void }) {
+  const { user: authUser } = useAuth();
   const [isFetching, setFetching] = useState(false);
 
   const deleteUser = async () => {
     setFetching(true);
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/users/" + user.id, { method: "DELETE" });
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/users/" + user.id, {
+        method: "DELETE",
+        headers: {
+          "Authorization": "Bearer " + authUser?.accessToken,
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);
 
       fetchUsers();
-      toast.success(() => <span>L'utilisateur <b>{user.name}</b> <span className="opacity-50">#{user.id}</span> a bien été supprimé.</span>);
+      toast.success(() => <span>L&apos;utilisateur <b>{user.name}</b> <span className="opacity-50">#{user.id}</span> a bien été supprimé.</span>);
     } catch (error) {
       console.error(error);
 
-      toast.error(() => <span>Une erreur est survenue lors de la suppression de l'utilisateur <b>{user.name}</b> <span className="opacity-50">#{user.id}</span>.</span>);
+      toast.error(() => <span>Une erreur est survenue lors de la suppression de l&apos;utilisateur <b>{user.name}</b> <span className="opacity-50">#{user.id}</span>.</span>);
     } finally {
       closeDialog();
       setFetching(false);

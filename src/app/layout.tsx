@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import Navbar from '@/app/components/Navbar';
-import Footer from '@/app/components/Footer';
+import Navbar from '@/app/components/navbar';
+import Footer from '@/app/components/footer';
 import { AuthProvider } from '@/app/context/AuthContext';
 import { CartProvider } from './context/CartContext';
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -28,6 +29,8 @@ export default function RootLayout({
           </CartProvider>
         </AuthProvider>
         <Footer />
+
+        <Toaster position="top-right" toastOptions={{ duration: 5000 }} />
       </body>
     </html>
   );

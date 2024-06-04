@@ -1,6 +1,7 @@
 "use client";
 
 import MediasDeleteModal from "@/app/components/dashboard/medias/MediasDeleteModal";
+import { useAuth } from "@/app/context/AuthContext";
 import { Image as Media, MediaDto } from "@/app/interfaces/interfaces";
 import { formatBytes, formatDateString } from "@/app/utils/utils";
 import Image from "next/image";
@@ -10,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function MediaPage() {
+  const { user } = useAuth();
   const router = useRouter();
   const { id } = useParams();
 
@@ -55,7 +57,8 @@ export default function MediaPage() {
       const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/medias/" + media!.id, {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user?.accessToken}`
         },
         body: JSON.stringify(editedMedia)
       });
@@ -89,7 +92,11 @@ export default function MediaPage() {
     setFetching(true);
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/medias/" + id);
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/medias/" + id, {
+        headers: {
+          "Authorization": `Bearer ${user?.accessToken}`
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

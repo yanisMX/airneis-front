@@ -43,7 +43,7 @@ const Navbar = () => {
 
   return (
     <div className="fixed w-full z-10">
-      <div className="navbar bg-base-100 shadow rounded-2xl mt-8 w-5/6 md:w-4/6 lg:w-3/5 mx-auto">
+      <div className="navbar border border-gray-300 bg-base-100 shadow rounded-2xl mt-8 w-5/6 md:w-4/6 lg:w-3/5 mx-auto">
         <div className="flex-1">
           <Link href="/" className="btn btn-ghost text-xl flex items-center">
             <Image
@@ -55,12 +55,14 @@ const Navbar = () => {
             />
             <span>Airneis</span>
           </Link>
-          <button
-            className="sm:hidden btn btn-ghost text-xl flex-1 ml-8"
-            onClick={handleClick}
-          >
+          <div className='sm:hidden flex-1 flex justify-end'>
+            <button
+              className="btn btn-ghost text-xl"
+              onClick={handleClick}
+            >
             <i className="fa-solid fa-bars"></i>
           </button>
+            </div>
           {isOpen && (
             <div className="absolute top-full right-0 mr-8 bg-white shadow-lg rounded-lg p-4 flex flex-col items-start sm:hidden z-50">
               <Link href="/produits" className="hover:text-gray-400">
@@ -92,6 +94,16 @@ const Navbar = () => {
                   >
                     Commandes
                   </Link>
+                  {
+                    user?.role === 'admin' && (
+                      <Link
+                        href="/dashboard"
+                        className="hover:text-gray-400 hover:font-bold"
+                      >
+                        Tableau de bord
+                      </Link>
+                    )
+                  }
                   <button onClick={handleClickForLogout}>
                     <Link
                       href="/"
@@ -151,7 +163,7 @@ const Navbar = () => {
               </div>
               <div
                 tabIndex={0}
-                className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
+                className="mt-6 z-[1] border border-gray-300 card card-compact dropdown-content w-52 bg-base-100 shadow"
               >
                 <div className="card-body">
                   <span className="font-bold text-lg">
@@ -182,7 +194,7 @@ const Navbar = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+                className="menu menu-sm border border-gray-300 dropdown-content mt-6 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
               >
                 {isLoggedIn && user ? (
                   <>
@@ -192,6 +204,11 @@ const Navbar = () => {
                     <li>
                       <Link href="/mescommandes">Commandes</Link>
                     </li>
+                    {user && user.role === 'admin' && (
+                      <li>
+                        <Link href="/dashboard">Tableau de bord</Link>
+                      </li>
+                    )}
                     <li>
                       <button onClick={handleClickForLogout}>
                         <Link href="/">Se déconnecter</Link>

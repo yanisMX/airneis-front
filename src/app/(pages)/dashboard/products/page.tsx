@@ -1,6 +1,7 @@
 "use client";
 
 import ProductsSearch from "@/app/components/dashboard/products/ProductsSearch";
+import { useAuth } from "@/app/context/AuthContext";
 import { Category, Material, Product, ProductPagination, ProductQuery } from "@/app/interfaces/interfaces";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,6 +13,8 @@ import ProductsFiltersModal from "../../../components/dashboard/products/Product
 import ProductsPagination from "../../../components/dashboard/products/ProductsPagination";
 
 export default function Products() {
+  const { user } = useAuth();
+
   const defaultItemsPerPageLimit = 20;
   const productMaxDescLength = 150;
 
@@ -49,7 +52,11 @@ export default function Products() {
     setSelectedProducts([]);
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/products?" + generateQueryString(filters));
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/products?" + generateQueryString(filters), {
+        headers: {
+          "Authorization": `Bearer ${user?.accessToken}`
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);
@@ -64,7 +71,11 @@ export default function Products() {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/categories");
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/categories", {
+        headers: {
+          "Authorization": `Bearer ${user?.accessToken}`
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);
@@ -78,7 +89,11 @@ export default function Products() {
 
   const fetchMaterials = async () => {
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/materials");
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/materials", {
+        headers: {
+          "Authorization": `Bearer ${user?.accessToken}`
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

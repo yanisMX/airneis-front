@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import MediaCreation from "./MediaCreation";
 import MediaLibrary from "./MediaLibrary";
 import MediaLibraryItem from "./MediaLibraryItem";
+import { useAuth } from "@/app/context/AuthContext";
 
 export default function MediaSelectorModal({ id, options, onSelect }: { id: string, options?: MediaSelectorModalOptions, onSelect?: (medias: Media[]) => void }) {
   if (!options) {
@@ -13,6 +14,8 @@ export default function MediaSelectorModal({ id, options, onSelect }: { id: stri
     if (options.gallery === undefined) options.gallery = true;
     if (options.preview === undefined) options.preview = true;
   }
+
+  const { user } = useAuth();
 
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -33,8 +36,11 @@ export default function MediaSelectorModal({ id, options, onSelect }: { id: stri
     setFetching(true);
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/medias?limit=" + mediaQuery.limit
-        + (mediaQuery.page ? "&page=" + mediaQuery.page : ""));
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/medias?limit=" + mediaQuery.limit + (mediaQuery.page ? "&page=" + mediaQuery.page : ""), {
+        headers: {
+          "Authorization": "Bearer " + user?.accessToken,
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);
@@ -89,7 +95,7 @@ export default function MediaSelectorModal({ id, options, onSelect }: { id: stri
           {
             importMode && createdMedias.length > 0 && (
               <div className="mb-4">
-                <div className="mb-2"><span className="text-sm text-opacity-50">Importés à l'instant</span></div>
+                <div className="mb-2"><span className="text-sm text-opacity-50">Importés à l&apos;instant</span></div>
                 <div className="grid gap-2 grid-cols-3 sm:grid-cols-6">
                   {
                     createdMedias.map(media => (

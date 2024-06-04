@@ -1,8 +1,10 @@
+import { useAuth } from "@/app/context/AuthContext";
 import { Material } from "@/app/interfaces/interfaces";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function MaterialsBulkDeleteModal({ id, materials, fetchMaterials }: { id: string, materials: Material[], fetchMaterials: () => void }) {
+  const { user } = useAuth();
   const [isFetching, setFetching] = useState(false);
 
   const deleteMaterials = async () => {
@@ -20,7 +22,7 @@ export default function MaterialsBulkDeleteModal({ id, materials, fetchMaterials
     if (deletedMaterials > 0) {
       toast.success(() => <span>{deletedMaterials} matériau{deletedMaterials > 1 ? "x" : ""} a{deletedMaterials > 1 ? "ont" : ""} bien été supprimé{deletedMaterials > 1 ? "s" : ""}.</span>);
     } else {
-      toast.error(() => <span>Aucun matériau n'a été supprimé.</span>);
+      toast.error(() => <span>Aucun matériau n&apos;a été supprimé.</span>);
     }
 
     fetchMaterials();
@@ -28,7 +30,12 @@ export default function MaterialsBulkDeleteModal({ id, materials, fetchMaterials
 
   const deleteMaterialById = async (material: Material): Promise<boolean> => {
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/materials/" + material.id, { method: "DELETE" });
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/materials/" + material.id, {
+        method: "DELETE",
+        headers: {
+          "Authorization": "Bearer " + user?.accessToken,
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

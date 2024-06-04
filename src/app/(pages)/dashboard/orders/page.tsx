@@ -1,15 +1,15 @@
 "use client";
 
 import OrdersPagination from "@/app/components/dashboard/orders/OrdersPagination";
+import { useAuth } from "@/app/context/AuthContext";
 import { MediaQuery, Order, OrderPagination, OrderQuery, OrderStatusLabels } from "@/app/interfaces/interfaces";
 import { formatDateString } from "@/app/utils/utils";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function Orders() {
-  const router = useRouter();
+  const { user } = useAuth();
 
   const defaultItemsPerPageLimit = 20;
 
@@ -43,7 +43,11 @@ export default function Orders() {
     setFetching(true);
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/orders?" + generateQueryString(filters));
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/orders?" + generateQueryString(filters), {
+        headers: {
+          "Authorization": `Bearer ${user?.accessToken}`
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

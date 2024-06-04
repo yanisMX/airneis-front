@@ -1,12 +1,14 @@
 "use client";
 
 import ProductForm from "@/app/components/dashboard/ProductForm";
+import { useAuth } from "@/app/context/AuthContext";
 import { Product } from "@/app/interfaces/interfaces";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function ProductPage() {
+  const { user } = useAuth();
   const [isFetching, setFetching] = useState<boolean>(true);
   const [product, setProduct] = useState<Product | undefined>();
 
@@ -17,7 +19,11 @@ export default function ProductPage() {
     setFetching(true);
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/products/" + id);
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/products/" + id, {
+        headers: {
+          "Authorization": `Bearer ${user?.accessToken}`
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

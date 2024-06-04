@@ -1,8 +1,11 @@
+import { useAuth } from "@/app/context/AuthContext";
 import { Material } from "@/app/interfaces/interfaces";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function ProductMaterialCreationModal({ id, selectedMaterials, setSelectedMaterials, fetchMaterials }: { id: string, selectedMaterials: Material[], setSelectedMaterials: (materials: Material[]) => void, fetchMaterials: () => void }) {
+  const { user } = useAuth();
+
   const dialogRef = useRef<HTMLDialogElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
 
@@ -22,7 +25,8 @@ export default function ProductMaterialCreationModal({ id, selectedMaterials, se
       const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/materials", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + user?.accessToken,
         },
         body: JSON.stringify({ name })
       });

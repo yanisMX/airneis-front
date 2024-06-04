@@ -1,8 +1,11 @@
+import { useAuth } from "@/app/context/AuthContext";
 import { Image as Media } from "@/app/interfaces/interfaces";
 import { useEffect, useRef, useState } from "react";
 
 export default function MediaCreation({ options, onUploadStart, onUploadComplete, onUploadError }: { options?: MediaCreationOptions, onUploadStart?: () => void, onUploadComplete?: (media: Media) => void, onUploadError?: () => void }) {
   if (!options) options = new MediaCreationOptions();
+
+  const { user } = useAuth();
 
   const [fileName, setFileName] = useState<string>("");
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string>("");
@@ -46,6 +49,7 @@ export default function MediaCreation({ options, onUploadStart, onUploadComplete
 
     const xhr = new XMLHttpRequest();
     xhr.open("POST", process.env.NEXT_PUBLIC_API_BASE_URL + "/medias", true);
+    xhr.setRequestHeader("Authorization", "Bearer " + user?.accessToken);
 
     xhr.upload.onprogress = (event) => {
       if (event.lengthComputable) {
@@ -141,7 +145,7 @@ export default function MediaCreation({ options, onUploadStart, onUploadComplete
         {uploadFailed && <div className="absolute bottom-2 p-4">
           <div role="alert" className="alert alert-error flex py-2 gap-x-2 shadow-lg">
             <i className="fa-solid fa-circle-exclamation"></i>
-            <span>L'envoi de l'image a échoué.</span>
+            <span>L&apos;envoi de l&apos;image a échoué.</span>
           </div>
         </div>}
 

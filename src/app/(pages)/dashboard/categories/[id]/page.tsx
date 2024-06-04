@@ -1,12 +1,15 @@
 "use client";
 
 import CategoryForm from "@/app/components/dashboard/CategoryForm";
+import { useAuth } from "@/app/context/AuthContext";
 import { Category } from "@/app/interfaces/interfaces";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function CategoryPage() {
+  const { user } = useAuth();
+
   const [isFetching, setFetching] = useState<boolean>(true);
   const [category, setCategory] = useState<Category | undefined>();
 
@@ -17,7 +20,11 @@ export default function CategoryPage() {
     setFetching(true);
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/categories/" + id);
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/categories/" + id, {
+        headers: {
+          "Authorization": `Bearer ${user?.accessToken}`
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

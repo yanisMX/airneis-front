@@ -6,6 +6,7 @@ import { UserData } from '../../interfaces/interfaces';
 import { useAuth } from '@/app/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { setCookie } from '@/app/utils/cookiesUtils';
+import toast from 'react-hot-toast';
 
 const SignInPage = () => {
   const router = useRouter();
@@ -43,9 +44,13 @@ const SignInPage = () => {
     if (result.success) {
       loginManagement(result);
       router.push('/');
+
+      toast.success(() => <>Connexion réussie.</>);
     } else {
       console.error('Erreur de connexion', result.message);
       setErrorMessage('Une erreur inconnue est survenue.');
+
+      toast.error(() => <>Erreur lors de la connexion.<br/>Vérifiez vos informations.</>);
     }
     resetForm();
   };

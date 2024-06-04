@@ -1,15 +1,22 @@
+import { useAuth } from "@/app/context/AuthContext";
 import { Category } from "@/app/interfaces/interfaces";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function CategoriesDeleteModal({ id, category, fetchCategories }: { id: string, category: Category, fetchCategories: () => void }) {
+  const { user } = useAuth();
   const [isFetching, setFetching] = useState(false);
 
   const deleteCategory = async () => {
     setFetching(true);
 
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/categories/" + category.id, { method: "DELETE" });
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/categories/" + category.id, {
+        method: "DELETE",
+        headers: {
+          "Authorization": "Bearer " + user?.accessToken,
+        }
+      });
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

@@ -1,3 +1,4 @@
+import { useAuth } from "@/app/context/AuthContext";
 import { Material, MaterialCreation } from "@/app/interfaces/interfaces";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -5,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function MaterialForm({ material }: { material?: Material }) {
+  const { user } = useAuth();
   const router = useRouter();
 
   const nameRef = useRef<HTMLInputElement>(null);
@@ -50,7 +52,8 @@ export default function MaterialForm({ material }: { material?: Material }) {
       const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/materials", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user?.accessToken}`
         },
         body: JSON.stringify(material)
       });
@@ -73,7 +76,8 @@ export default function MaterialForm({ material }: { material?: Material }) {
       const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/materials/" + material!.id, {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user?.accessToken}`
         },
         body: JSON.stringify(editedMaterial)
       });

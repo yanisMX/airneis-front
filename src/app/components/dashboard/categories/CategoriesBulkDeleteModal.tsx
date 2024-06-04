@@ -1,8 +1,10 @@
+import { useAuth } from "@/app/context/AuthContext";
 import { Category } from "@/app/interfaces/interfaces";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
 export default function CategoriesBulkDeleteModal({ id, categories, fetchCategories }: { id: string, categories: Category[], fetchCategories: () => void }) {
+  const { user } = useAuth();
   const [isFetching, setFetching] = useState(false);
 
   const deleteCategories = async () => {
@@ -20,7 +22,7 @@ export default function CategoriesBulkDeleteModal({ id, categories, fetchCategor
     if (deletedCategories > 0) {
       toast.success(() => <span>{deletedCategories} catégorie{deletedCategories > 1 ? "s" : ""} a{deletedCategories > 1 ? "ont" : ""} bien été supprimé{deletedCategories > 1 ? "s" : ""}.</span>);
     } else {
-      toast.error(() => <span>Aucun catégorie n'a été supprimé.</span>);
+      toast.error(() => <span>Aucun catégorie n&apos;a été supprimé.</span>);
     }
 
     fetchCategories();
@@ -28,7 +30,13 @@ export default function CategoriesBulkDeleteModal({ id, categories, fetchCategor
 
   const deleteCategoryById = async (category: Category): Promise<boolean> => {
     try {
-      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/categories/" + category.id, { method: "DELETE" });
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/categories/" + category.id, {
+        method: "DELETE",
+        headers: {
+          "Authorization": "Bearer " + user?.accessToken,
+        }
+      });
+
       const data = await res.json();
 
       if (!data.success) throw new Error(data.message);

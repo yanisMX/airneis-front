@@ -5,8 +5,11 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import MediaSelectorModal from "./MediaSelectorModal";
+import { useAuth } from "@/app/context/AuthContext";
 
 export default function CategoryForm({ category }: { category?: Category }) {
+  const { user } = useAuth();
+
   const router = useRouter();
 
   const nameRef = useRef<HTMLInputElement>(null);
@@ -64,7 +67,8 @@ export default function CategoryForm({ category }: { category?: Category }) {
       const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/categories", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user?.accessToken}`
         },
         body: JSON.stringify(category)
       });
@@ -87,7 +91,8 @@ export default function CategoryForm({ category }: { category?: Category }) {
       const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/categories/" + category!.id, {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${user?.accessToken}`
         },
         body: JSON.stringify(editedCategory)
       });
